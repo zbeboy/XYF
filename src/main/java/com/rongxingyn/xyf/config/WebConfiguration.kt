@@ -5,12 +5,12 @@ import org.springframework.boot.web.embedded.undertow.UndertowServletWebServerFa
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.core.env.Environment
-import org.springframework.web.reactive.config.WebFluxConfigurer
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer
 import java.io.File
 import javax.inject.Inject
 
 @Configuration
-open class WebConfiguration : WebFluxConfigurer {
+open class WebConfiguration : WebMvcConfigurer {
 
     @Inject
     open lateinit var env: Environment

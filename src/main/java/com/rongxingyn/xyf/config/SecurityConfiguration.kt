@@ -1,5 +1,6 @@
 package com.rongxingyn.xyf.config
 
+import com.rongxingyn.xyf.filter.SecurityLoginFilter
 import com.rongxingyn.xyf.security.AjaxAuthenticationFailureHandler
 import com.rongxingyn.xyf.security.AjaxAuthenticationSuccessHandler
 import org.springframework.beans.factory.annotation.Autowired
@@ -16,7 +17,6 @@ import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter
 import org.springframework.security.web.authentication.rememberme.JdbcTokenRepositoryImpl
-import com.rongxingyn.xyf.filter.SecurityLoginFilter
 import javax.inject.Inject
 import javax.sql.DataSource
 
