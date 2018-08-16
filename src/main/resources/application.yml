@@ -1,0 +1,24 @@
+# spring setting
+spring:
+      profiles:
+        active: secret,dev
+      servlet:
+              multipart:
+                max-request-size: 100MB
+                max-file-size: 100MB
+      thymeleaf:
+        mode: HTML
+      cache:
+        caffeine:
+          spec: maximumSize=1000,expireAfterAccess=1800s
+
+# logging setting
+logging:
+  file: xyf.log
+  path: logs
+
+# server setting
+server:
+  compression:
+    enabled: true
+    min-response-size: 1
