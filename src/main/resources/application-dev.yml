@@ -1,3 +1,7 @@
+xyf:
+  constants:
+    document-root:
+
 spring:
   devtools:
     livereload:

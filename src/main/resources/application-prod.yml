@@ -1,11 +1,19 @@
+xyf:
+  constants:
+    document-root: root
+
 spring:
   devtools:
     livereload:
-      enabled: true
+      enabled: false
     restart:
-      enabled: true
+      enabled: false
   jooq:
       sql-dialect: mysql_8_0
 
 server:
-  port: 8080
+  port: 9734
+  undertow:
+      accesslog:
+        dir: logs
+        enabled: true

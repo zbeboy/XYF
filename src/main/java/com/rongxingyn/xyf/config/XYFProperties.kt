@@ -11,4 +11,19 @@ import org.springframework.boot.context.properties.ConfigurationProperties
  */
 @ConfigurationProperties(prefix = "xyf", ignoreUnknownFields = false)
 class XYFProperties {
+
+    private val constants = Constants()
+
+    fun getConstants(): Constants {
+        return constants
+    }
+
+    /**
+     * 通用初始化参数
+     */
+    class Constants {
+
+        var documentRoot: String? = null
+    }
+
 }
