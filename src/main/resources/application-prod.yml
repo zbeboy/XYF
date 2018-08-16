@@ -4,5 +4,8 @@ spring:
       enabled: true
     restart:
       enabled: true
+  jooq:
+      sql-dialect: mysql_8_0
+
 server:
   port: 8080
