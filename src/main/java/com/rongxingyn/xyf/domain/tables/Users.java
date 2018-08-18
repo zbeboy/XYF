@@ -38,7 +38,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Users extends TableImpl<UsersRecord> {
 
-    private static final long serialVersionUID = 1820108533;
+    private static final long serialVersionUID = -943726578;
 
     /**
      * The reference instance of <code>xyf.users</code>
@@ -64,9 +64,24 @@ public class Users extends TableImpl<UsersRecord> {
     public final TableField<UsersRecord, String> PASSWORD = createField("password", org.jooq.impl.SQLDataType.VARCHAR(300).nullable(false), this, "");
 
     /**
-     * The column <code>xyf.users.enabled</code>.
+     * The column <code>xyf.users.disabled</code>.
      */
-    public final TableField<UsersRecord, Byte> ENABLED = createField("enabled", org.jooq.impl.SQLDataType.TINYINT.nullable(false), this, "");
+    public final TableField<UsersRecord, Byte> DISABLED = createField("disabled", org.jooq.impl.SQLDataType.TINYINT.defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.TINYINT)), this, "");
+
+    /**
+     * The column <code>xyf.users.account_expired</code>.
+     */
+    public final TableField<UsersRecord, Byte> ACCOUNT_EXPIRED = createField("account_expired", org.jooq.impl.SQLDataType.TINYINT.defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.TINYINT)), this, "");
+
+    /**
+     * The column <code>xyf.users.account_locked</code>.
+     */
+    public final TableField<UsersRecord, Byte> ACCOUNT_LOCKED = createField("account_locked", org.jooq.impl.SQLDataType.TINYINT.defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.TINYINT)), this, "");
+
+    /**
+     * The column <code>xyf.users.credentials_expired</code>.
+     */
+    public final TableField<UsersRecord, Byte> CREDENTIALS_EXPIRED = createField("credentials_expired", org.jooq.impl.SQLDataType.TINYINT.defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.TINYINT)), this, "");
 
     /**
      * Create a <code>xyf.users</code> table reference

@@ -28,9 +28,6 @@ import javax.sql.DataSource
  * @version 1.1
  * @since 1.0
  */
-@Configuration
-@EnableWebSecurity
-@EnableGlobalMethodSecurity(prePostEnabled = true, securedEnabled = true)
 open class SecurityConfiguration : WebSecurityConfigurerAdapter() {
 
     @Qualifier("dataSource")

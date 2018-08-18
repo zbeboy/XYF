@@ -44,7 +44,7 @@ class SecurityLoginFilter : Filter {
                 return
             }
 
-            if (ObjectUtils.isEmpty(users!!.enabled) || users.enabled <= 0) {// 用户是否已被注销
+            if (ObjectUtils.isEmpty(users!!.disabled) || users.disabled == 1.toByte()) {// 用户是否已被注销
                 response.writer.print(AjaxAuthenticationCode.USERNAME_IS_ENABLES)
                 return
             }

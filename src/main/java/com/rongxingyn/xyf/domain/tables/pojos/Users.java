@@ -24,28 +24,40 @@ import javax.validation.constraints.Size;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Users implements Serializable {
 
-    private static final long serialVersionUID = -260108066;
+    private static final long serialVersionUID = -866517887;
 
     private String username;
     private String password;
-    private Byte   enabled;
+    private Byte   disabled;
+    private Byte   accountExpired;
+    private Byte   accountLocked;
+    private Byte   credentialsExpired;
 
     public Users() {}
 
     public Users(Users value) {
         this.username = value.username;
         this.password = value.password;
-        this.enabled = value.enabled;
+        this.disabled = value.disabled;
+        this.accountExpired = value.accountExpired;
+        this.accountLocked = value.accountLocked;
+        this.credentialsExpired = value.credentialsExpired;
     }
 
     public Users(
         String username,
         String password,
-        Byte   enabled
+        Byte   disabled,
+        Byte   accountExpired,
+        Byte   accountLocked,
+        Byte   credentialsExpired
     ) {
         this.username = username;
         this.password = password;
-        this.enabled = enabled;
+        this.disabled = disabled;
+        this.accountExpired = accountExpired;
+        this.accountLocked = accountLocked;
+        this.credentialsExpired = credentialsExpired;
     }
 
     @NotNull
@@ -68,13 +80,36 @@ public class Users implements Serializable {
         this.password = password;
     }
 
-    @NotNull
-    public Byte getEnabled() {
-        return this.enabled;
+    public Byte getDisabled() {
+        return this.disabled;
     }
 
-    public void setEnabled(Byte enabled) {
-        this.enabled = enabled;
+    public void setDisabled(Byte disabled) {
+        this.disabled = disabled;
+    }
+
+    public Byte getAccountExpired() {
+        return this.accountExpired;
+    }
+
+    public void setAccountExpired(Byte accountExpired) {
+        this.accountExpired = accountExpired;
+    }
+
+    public Byte getAccountLocked() {
+        return this.accountLocked;
+    }
+
+    public void setAccountLocked(Byte accountLocked) {
+        this.accountLocked = accountLocked;
+    }
+
+    public Byte getCredentialsExpired() {
+        return this.credentialsExpired;
+    }
+
+    public void setCredentialsExpired(Byte credentialsExpired) {
+        this.credentialsExpired = credentialsExpired;
     }
 
     @Override
@@ -83,7 +118,10 @@ public class Users implements Serializable {
 
         sb.append(username);
         sb.append(", ").append(password);
-        sb.append(", ").append(enabled);
+        sb.append(", ").append(disabled);
+        sb.append(", ").append(accountExpired);
+        sb.append(", ").append(accountLocked);
+        sb.append(", ").append(credentialsExpired);
 
         sb.append(")");
         return sb.toString();

@@ -76,9 +76,30 @@ public class UsersDao extends DAOImpl<UsersRecord, com.rongxingyn.xyf.domain.tab
     }
 
     /**
-     * Fetch records that have <code>enabled IN (values)</code>
+     * Fetch records that have <code>disabled IN (values)</code>
      */
-    public List<com.rongxingyn.xyf.domain.tables.pojos.Users> fetchByEnabled(Byte... values) {
-        return fetch(Users.USERS.ENABLED, values);
+    public List<com.rongxingyn.xyf.domain.tables.pojos.Users> fetchByDisabled(Byte... values) {
+        return fetch(Users.USERS.DISABLED, values);
+    }
+
+    /**
+     * Fetch records that have <code>account_expired IN (values)</code>
+     */
+    public List<com.rongxingyn.xyf.domain.tables.pojos.Users> fetchByAccountExpired(Byte... values) {
+        return fetch(Users.USERS.ACCOUNT_EXPIRED, values);
+    }
+
+    /**
+     * Fetch records that have <code>account_locked IN (values)</code>
+     */
+    public List<com.rongxingyn.xyf.domain.tables.pojos.Users> fetchByAccountLocked(Byte... values) {
+        return fetch(Users.USERS.ACCOUNT_LOCKED, values);
+    }
+
+    /**
+     * Fetch records that have <code>credentials_expired IN (values)</code>
+     */
+    public List<com.rongxingyn.xyf.domain.tables.pojos.Users> fetchByCredentialsExpired(Byte... values) {
+        return fetch(Users.USERS.CREDENTIALS_EXPIRED, values);
     }
 }

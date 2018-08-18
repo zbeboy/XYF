@@ -1,7 +1,10 @@
 CREATE TABLE users (
   username VARCHAR(64) PRIMARY KEY,
   password VARCHAR(300) NOT NULL,
-  enabled  BOOLEAN      NOT NULL
+  disabled  BOOLEAN DEFAULT 0,
+  account_expired BOOLEAN DEFAULT 0,
+  account_locked BOOLEAN DEFAULT 0,
+  credentials_expired BOOLEAN DEFAULT 0
 );
 
 CREATE TABLE authorities (
@@ -17,3 +20,7 @@ CREATE TABLE persistent_logins (
   token     VARCHAR(64) NOT NULL,
   last_used TIMESTAMP   NOT NULL
 );
+
+INSERT INTO users (username, password)
+VALUES ('govern', '$2a$10$wICea4jxjGeqeL99vXQBnO5dKtvT4Q2EbELrRoNZWCwuXJiLGNgE.');
+INSERT INTO authorities (username, authority) VALUES ('govern', 'ROLE_ADMIN');
