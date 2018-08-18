@@ -27,7 +27,7 @@ open class MyReactiveUserDetailsServiceImpl : ReactiveUserDetailsService {
     @Autowired
     private lateinit var authoritiesService: AuthoritiesService
 
-    override fun findByUsername(s: String?): Mono<UserDetails> {
+    override fun findByUsername(s: String): Mono<UserDetails> {
         log.debug("Username is : {}", s)
         val username = StringUtils.trim(s)
         val users = usersService.findByUsername(username)

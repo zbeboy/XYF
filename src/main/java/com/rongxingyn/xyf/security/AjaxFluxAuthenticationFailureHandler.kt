@@ -9,9 +9,9 @@ import reactor.core.publisher.Mono
 
 @Component
 class AjaxFluxAuthenticationFailureHandler : ServerAuthenticationFailureHandler {
-    override fun onAuthenticationFailure(webFilterExchange: WebFilterExchange?, authenticationException: AuthenticationException?): Mono<Void> {
-        val response = webFilterExchange!!.exchange.response
-        val buffer = response.bufferFactory().allocateBuffer().write(AjaxAuthenticationCode.AU_ERROR_CODE.toString().toByteArray())
+    override fun onAuthenticationFailure(webFilterExchange: WebFilterExchange, authenticationException: AuthenticationException): Mono<Void> {
+        val response = webFilterExchange.exchange.response
+        val buffer = response.bufferFactory().allocateBuffer().write(authenticationException.message!!.toByteArray())
         return response.writeAndFlushWith(Flux.just(Flux.just(buffer)))
     }
 }

@@ -1,5 +1,6 @@
 package com.rongxingyn.xyf.security
 
+import org.springframework.http.HttpStatus
 import org.springframework.security.core.Authentication
 import org.springframework.security.web.server.WebFilterExchange
 import org.springframework.security.web.server.authentication.ServerAuthenticationSuccessHandler
@@ -12,7 +13,7 @@ import reactor.core.publisher.Mono
 class AjaxFluxAuthenticationSuccessHandler : ServerAuthenticationSuccessHandler {
     override fun onAuthenticationSuccess(webFilterExchange: WebFilterExchange?, authentication: Authentication?): Mono<Void> {
         val response = webFilterExchange!!.exchange.response
-        val buffer = response.bufferFactory().allocateBuffer().write(AjaxAuthenticationCode.OK_CODE.toString().toByteArray())
+        val buffer = response.bufferFactory().allocateBuffer().write(HttpStatus.OK.toString().toByteArray())
         return response.writeAndFlushWith(Flux.just(Flux.just(buffer)))
     }
 }
