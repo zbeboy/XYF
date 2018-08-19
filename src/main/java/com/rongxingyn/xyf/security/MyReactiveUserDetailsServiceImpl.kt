@@ -11,9 +11,8 @@ import org.springframework.security.core.authority.SimpleGrantedAuthority
 import org.springframework.security.core.userdetails.ReactiveUserDetailsService
 import org.springframework.security.core.userdetails.User
 import org.springframework.security.core.userdetails.UserDetails
-import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
-import org.springframework.security.crypto.factory.PasswordEncoderFactories
 import org.springframework.stereotype.Service
+import org.springframework.util.ObjectUtils
 import reactor.core.publisher.Mono
 
 @Service("myReactiveUserDetailsService")
@@ -28,26 +27,30 @@ open class MyReactiveUserDetailsServiceImpl : ReactiveUserDetailsService {
     private lateinit var authoritiesService: AuthoritiesService
 
     override fun findByUsername(s: String): Mono<UserDetails> {
-        log.debug("Username is : {}", s)
+        log.debug("username is : {}", s)
         val username = StringUtils.trim(s)
         val users = usersService.findByUsername(username)
-        val authoritiesRecords = authoritiesService.findByUsername(username)
-        val authorities = buildUserAuthority(authoritiesRecords)
-        return Mono.justOrEmpty(User.builder()
-                .username(s)
-                .password(users!!.password)
-                .authorities(authorities)
-                .accountExpired(users.accountExpired == 1.toByte())
-                .accountLocked(users.accountLocked == 1.toByte())
-                .credentialsExpired(users.credentialsExpired == 1.toByte())
-                .disabled(users.disabled == 1.toByte())
-                .build())
+        return if (ObjectUtils.isEmpty(users)) {
+            Mono.empty()
+        } else {
+            val authoritiesRecords = authoritiesService.findByUsername(username)
+            val authorities = buildUserAuthority(authoritiesRecords)
+            Mono.just(User.builder()
+                    .username(s)
+                    .password(users!!.password)
+                    .authorities(authorities)
+                    .accountExpired(users.accountExpired == 1.toByte())
+                    .accountLocked(users.accountLocked == 1.toByte())
+                    .credentialsExpired(users.credentialsExpired == 1.toByte())
+                    .disabled(users.disabled == 1.toByte())
+                    .build())
+        }
     }
 
     /**
      * 返回验证角色
      *
-     * @param authoritiesRecords 权限
+     * @param authorities 权限
      * @return 组装
      */
     private fun buildUserAuthority(authorities: List<Authorities>): List<GrantedAuthority> {

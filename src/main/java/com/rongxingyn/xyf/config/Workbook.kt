@@ -25,5 +25,10 @@ open class Workbook {
          目录分隔符
         */
         const val DIRECTORY_SPLIT = "/"
+
+        // Spring security 配置
+        const val USERNAME_PARAMETER = "username"
+        const val PASSWORD_PARAMETER = "password"
+        const val LOGIN_PAGE = "/login"
     }
 }

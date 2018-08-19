@@ -1,5 +1,6 @@
 package com.rongxingyn.xyf.config
 
+import com.rongxingyn.xyf.filter.SecurityFluxLoginFilter
 import com.rongxingyn.xyf.security.AjaxFluxAuthenticationFailureHandler
 import com.rongxingyn.xyf.security.AjaxFluxAuthenticationSuccessHandler
 import com.rongxingyn.xyf.security.AjaxFluxLogoutSuccessHandler
@@ -7,15 +8,20 @@ import com.rongxingyn.xyf.security.MyReactiveUserDetailsServiceImpl
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.autoconfigure.security.reactive.PathRequest
 import org.springframework.context.annotation.Bean
+import org.springframework.http.HttpMethod
+import org.springframework.security.config.annotation.method.configuration.EnableReactiveMethodSecurity
 import org.springframework.security.config.annotation.web.reactive.EnableWebFluxSecurity
+import org.springframework.security.config.web.server.SecurityWebFiltersOrder
 import org.springframework.security.config.web.server.ServerHttpSecurity
 import org.springframework.security.core.userdetails.ReactiveUserDetailsService
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder
 import org.springframework.security.crypto.password.PasswordEncoder
 import org.springframework.security.web.server.SecurityWebFilterChain
+import org.springframework.security.web.server.util.matcher.ServerWebExchangeMatchers
 import javax.inject.Inject
 
 @EnableWebFluxSecurity
+@EnableReactiveMethodSecurity
 open class SecurityFluxConfiguration {
 
     @Inject
@@ -43,12 +49,12 @@ open class SecurityFluxConfiguration {
         return http
                 .authorizeExchange()
                 .matchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
-                .pathMatchers("/", "/login").permitAll()
+                .pathMatchers("/", Workbook.LOGIN_PAGE).permitAll()
                 .and()
                 .httpBasic()
                 .and()
-//                .addFilterAt(SecurityFluxLoginFilter(), SecurityWebFiltersOrder.REACTOR_CONTEXT) /*暂时因获取不到用户数据，先不用*/
-                .formLogin().loginPage("/login")
+                .addFilterAt(SecurityFluxLoginFilter(), SecurityWebFiltersOrder.FORM_LOGIN) /*暂时因获取不到用户数据，先不用*/
+                .formLogin().loginPage(Workbook.LOGIN_PAGE)
                 .authenticationSuccessHandler(ajaxFluxAuthenticationSuccessHandler)
                 .authenticationFailureHandler(ajaxFluxAuthenticationFailureHandler)
                 .and()
