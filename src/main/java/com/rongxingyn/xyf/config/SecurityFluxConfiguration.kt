@@ -47,7 +47,7 @@ open class SecurityFluxConfiguration {
         return http
                 .authorizeExchange()
                 .matchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
-                .pathMatchers("/", Workbook.LOGIN_PAGE).permitAll()
+                .pathMatchers("/", "/plugin/**", Workbook.LOGIN_PAGE).permitAll()
                 .and()
                 .httpBasic()
                 .and()
