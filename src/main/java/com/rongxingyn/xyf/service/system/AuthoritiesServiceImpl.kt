@@ -2,8 +2,6 @@ package com.rongxingyn.xyf.service.system
 
 import com.rongxingyn.xyf.domain.tables.daos.AuthoritiesDao
 import com.rongxingyn.xyf.domain.tables.pojos.Authorities
-import org.jooq.DSLContext
-import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.security.authentication.AuthenticationTrustResolverImpl
 import org.springframework.security.core.context.SecurityContextHolder
 import org.springframework.stereotype.Service
@@ -20,10 +18,10 @@ import javax.annotation.Resource
 open class AuthoritiesServiceImpl : AuthoritiesService {
 
     @Resource
-    open lateinit var authoritiesDao:AuthoritiesDao
+    open lateinit var authoritiesDao: AuthoritiesDao
 
     override fun findByUsername(username: String): List<Authorities> {
-       return authoritiesDao.fetchByUsername(username)
+        return authoritiesDao.fetchByUsername(username)
     }
 
     override fun isAnonymousAuthenticated(): Boolean {

@@ -1,6 +1,5 @@
 package com.rongxingyn.xyf.config
 
-import com.rongxingyn.xyf.config.SpringTransactionProvider
 import com.rongxingyn.xyf.exception.ExceptionTranslator
 import org.jooq.*
 import org.jooq.impl.DataSourceConnectionProvider

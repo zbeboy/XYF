@@ -9,7 +9,7 @@ import reactor.core.publisher.Flux
 import reactor.core.publisher.Mono
 
 @Component
-class AjaxFluxLogoutSuccessHandler: ServerLogoutSuccessHandler {
+class AjaxFluxLogoutSuccessHandler : ServerLogoutSuccessHandler {
     override fun onLogoutSuccess(webFilterExchange: WebFilterExchange?, authentication: Authentication?): Mono<Void> {
         val response = webFilterExchange!!.exchange.response
         val buffer = response.bufferFactory().allocateBuffer().write(HttpStatus.OK.toString().toByteArray())

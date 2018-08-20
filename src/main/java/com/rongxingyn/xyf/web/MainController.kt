@@ -3,8 +3,7 @@ package com.rongxingyn.xyf.web
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestMethod
-import javax.servlet.http.HttpServletRequest
+import reactor.core.publisher.Mono
 
 @Controller
 open class MainController {
@@ -15,8 +14,8 @@ open class MainController {
      * @return main page
      */
     @RequestMapping("/")
-    fun root(): String {
-        return "index"
+    fun root(): Mono<String> {
+        return Mono.just("index")
     }
 
     /**
@@ -25,8 +24,8 @@ open class MainController {
      * @return home page
      */
     @RequestMapping("/index")
-    fun index(): String {
-        return "index"
+    fun index(): Mono<String> {
+        return Mono.just("index")
     }
 
     /**
@@ -35,7 +34,7 @@ open class MainController {
      * @return 登录页.
      */
     @GetMapping("/login")
-    fun login(error:String?): String {
-        return  "login"
+    fun login(): Mono<String> {
+        return Mono.just("login")
     }
 }
