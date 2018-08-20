@@ -14,13 +14,6 @@ CREATE TABLE authorities (
   PRIMARY KEY (username, authority)
 );
 
-CREATE TABLE persistent_logins (
-  username  VARCHAR(64) NOT NULL,
-  series    VARCHAR(64) PRIMARY KEY,
-  token     VARCHAR(64) NOT NULL,
-  last_used TIMESTAMP   NOT NULL
-);
-
 INSERT INTO users (username, password)
 VALUES ('govern', '$2a$10$wICea4jxjGeqeL99vXQBnO5dKtvT4Q2EbELrRoNZWCwuXJiLGNgE.');
 INSERT INTO authorities (username, authority) VALUES ('govern', 'ROLE_ADMIN');
