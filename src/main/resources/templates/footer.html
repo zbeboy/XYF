@@ -1,0 +1,16 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8"/>
+    <title>Footer</title>
+</head>
+<body>
+<!-- Footer -->
+<footer class="py-5 bg-dark" th:fragment="receptionFooter">
+    <div class="container">
+        <p class="m-0 text-center text-white">Copyright &copy; <span th:text="#{web.footer.info}"></span> <span th:text="${#calendars.format(#dates.createToday(), 'yyyy')}"></span></p>
+    </div>
+    <!-- /.container -->
+</footer>
+</body>
+</html>
