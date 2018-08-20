@@ -1,0 +1,24 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head th:include="header :: no-metas-header(~{::title},~{::link})">
+    <title>Error</title>
+    <!-- Custom CSS-->
+    <link rel="stylesheet" href="css/error.css" th:href="@{/css/error.css}"/>
+</head>
+<body>
+<!-- Begin page content 参考类 DefaultErrorAttributes -->
+<main role="main" class="container">
+    <h1 class="mt-5" th:text="${status}"></h1>
+    <p class="lead" th:text="${timestamp}"></p>
+    <p class="lead" th:text="${path}"></p>
+    <p class="lead" th:text="${error}"></p>
+    <p class="lead" th:text="${message}"></p>
+</main>
+
+<footer class="footer">
+    <div class="container">
+        <span class="text-muted">Copyright &copy; <span th:text="#{web.footer.info}"></span> <span th:text="${#calendars.format(#dates.createToday(), 'yyyy')}"></span></span>
+    </div>
+</footer>
+</body>
+</html>
