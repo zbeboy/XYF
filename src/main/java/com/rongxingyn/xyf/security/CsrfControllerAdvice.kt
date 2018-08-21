@@ -13,6 +13,8 @@ class CsrfControllerAdvice {
 
     @ModelAttribute
     fun csrfToken(exchange: ServerWebExchange): Mono<CsrfToken> {
+        val request = exchange.request
+        exchange.attributes["webPath"] = request.uri.scheme + "://" + request.uri.host + ":" + request.uri.port + request.path.contextPath().value()
         val csrfToken = exchange.getAttribute<Mono<CsrfToken>>(CsrfToken::class.java.name)
         return csrfToken!!.doOnSuccess { token -> exchange.attributes[DEFAULT_CSRF_ATTR_NAME] = token }
     }

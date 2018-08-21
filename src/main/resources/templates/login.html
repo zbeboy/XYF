@@ -29,7 +29,7 @@
 </div>
 <!-- Bootstrap core JavaScript-->
 <script th:inline="javascript">
-    var web_path = /*[[${#httpServletRequest.getScheme()+'://'+#httpServletRequest.getServerName()+':'+#httpServletRequest.getServerPort()+#httpServletRequest.getContextPath()}]]*/ '';
+    var web_path = /*[[${webPath}]]*/ '';
 </script>
 <script src="vendor/jquery/jquery.min.js" th:src="@{/webjars/jquery/jquery.min.js}"></script>
 <script src="vendor/bootstrap/js/bootstrap.bundle.min.js" th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}"></script>
