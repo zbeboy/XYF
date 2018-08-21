@@ -43,14 +43,6 @@
     };
 
     /*
-    检验id
-    */
-    var validId = {
-        username: '#valid_username',
-        password: '#valid_password'
-    };
-
-    /*
      错误消息id
      */
     var errorMsgId = {
@@ -72,8 +64,8 @@
      * @param errorMsgId
      */
     function validSuccessDom(validId, errorMsgId) {
-        $(validId).removeClass('has-error');
-        $(errorMsgId).addClass('hidden').text('');
+        $(validId).removeClass('is-invalid');
+        $(errorMsgId).text('');
     }
 
     /**
@@ -83,8 +75,8 @@
      * @param msg
      */
     function validErrorDom(validId, errorMsgId, msg) {
-        $(validId).addClass('has-error');
-        $(errorMsgId).removeClass('hidden').text(msg);
+        $(validId).addClass('is-invalid');
+        $(errorMsgId).text(msg);
     }
 
     /**
@@ -105,7 +97,7 @@
         initParam();
         var password = param.password;
         if (valid_regex.password_regex.test(password)) {
-            validSuccessDom(validId.password, errorMsgId.password);
+            validSuccessDom(paramId.password, errorMsgId.password);
         }
     });
 
@@ -129,9 +121,10 @@
         initParam();
         var username = param.username;
         if (username === '') {
-            validErrorDom(validId.username, errorMsgId.username, msg.username);
+            console.log('hahahah')
+            validErrorDom(paramId.username, errorMsgId.username, msg.username);
         } else {
-            validSuccessDom(validId.username, errorMsgId.username);
+            validSuccessDom(paramId.username, errorMsgId.username);
             validPassword();
         }
     }
@@ -140,9 +133,9 @@
         initParam();
         var password = param.password;
         if (!valid_regex.password_regex.test(password)) {
-            validErrorDom(validId.password, errorMsgId.password, msg.password);
+            validErrorDom(paramId.password, errorMsgId.password, msg.password);
         } else {
-            validSuccessDom(validId.password, errorMsgId.password);
+            validSuccessDom(paramId.password, errorMsgId.password);
             sendLoginAjax();
         }
     }
@@ -168,7 +161,7 @@
             var p_error_msg = $('#error_msg');
             switch (data) {
                 case error_code.AU_ERROR_CODE:
-                    p_error_msg.removeClass('hidden').text('密码错误');
+                    p_error_msg.prop('hidden',false).text('密码错误');
                     // 去除遮罩
                     endLoading();
                     break;
@@ -176,37 +169,37 @@
                     window.location.href = web_path + ajax_url.backstage;
                     break;
                 case error_code.PASSWORD_IS_BLANK:
-                    p_error_msg.removeClass('hidden').text('请填写密码');
+                    p_error_msg.prop('hidden',false).text('请填写密码');
                     // 去除遮罩
                     endLoading();
                     break;
                 case error_code.USERNAME_IS_BLANK:
-                    p_error_msg.removeClass('hidden').text('请填写账号');
+                    p_error_msg.prop('hidden',false).text('请填写账号');
                     // 去除遮罩
                     endLoading();
                     break;
                 case error_code.USERNAME_IS_ENABLES:
-                    p_error_msg.removeClass('hidden').text('您的账号已被注销，请联系管理员');
+                    p_error_msg.prop('hidden',false).text('您的账号已被注销，请联系管理员');
                     // 去除遮罩
                     endLoading();
                     break;
                 case error_code.USERNAME_IS_EXPIRED:
-                    p_error_msg.removeClass('hidden').text('您的账号已过期，请联系管理员');
+                    p_error_msg.prop('hidden',false).text('您的账号已过期，请联系管理员');
                     // 去除遮罩
                     endLoading();
                     break;
                 case error_code.USERNAME_IS_LOCKED:
-                    p_error_msg.removeClass('hidden').text('您的账号已锁，请联系管理员');
+                    p_error_msg.prop('hidden',false).text('您的账号已锁，请联系管理员');
                     // 去除遮罩
                     endLoading();
                     break;
                 case error_code.CREDENTIALS_EXPIRED:
-                    p_error_msg.removeClass('hidden').text('您的账号凭证已过期，请联系管理员');
+                    p_error_msg.prop('hidden',false).text('您的账号凭证已过期，请联系管理员');
                     // 去除遮罩
                     endLoading();
                     break;
                 default:
-                    p_error_msg.removeClass('hidden').text('您的账号不存在或验证异常');
+                    p_error_msg.prop('hidden',false).text('登录失败');
                     // 去除遮罩
                     endLoading();
             }

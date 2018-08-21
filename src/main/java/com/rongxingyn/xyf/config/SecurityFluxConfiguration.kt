@@ -48,6 +48,7 @@ open class SecurityFluxConfiguration {
                 .authorizeExchange()
                 .matchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                 .pathMatchers("/", "/plugin/**", Workbook.LOGIN_PAGE).permitAll()
+                .pathMatchers("/web/**").hasRole("ADMIN")
                 .and()
                 .httpBasic()
                 .and()
