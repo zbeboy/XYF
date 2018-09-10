@@ -45,7 +45,7 @@ open class MainController {
      *
      * @return 后台欢迎页
      */
-    @RequestMapping(value = ["/web/backstage"], method = [(RequestMethod.GET)])
+    @GetMapping("/web/backstage")
     open fun backstage(): Mono<String> {
         return Mono.just("backstage")
     }
