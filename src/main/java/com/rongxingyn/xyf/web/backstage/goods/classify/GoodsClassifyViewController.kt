@@ -2,9 +2,11 @@ package com.rongxingyn.xyf.web.backstage.goods.classify
 
 import org.springframework.stereotype.Controller
 import org.springframework.web.bind.annotation.GetMapping
+import org.springframework.web.bind.annotation.RequestMapping
 import reactor.core.publisher.Mono
 
 @Controller
+@RequestMapping("/web/goods")
 open class GoodsClassifyViewController {
 
     /**
@@ -12,7 +14,7 @@ open class GoodsClassifyViewController {
      *
      * @return list page
      */
-    @GetMapping("/web/goods/classify/list")
+    @GetMapping("/classify/list")
     fun root(): Mono<String> {
         return Mono.just("backstage/goods/classify/classify_list")
     }
