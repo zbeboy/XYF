@@ -5,13 +5,26 @@ package com.rongxingyn.xyf.domain;
 
 
 import com.rongxingyn.xyf.domain.tables.Authorities;
+import com.rongxingyn.xyf.domain.tables.Classify;
+import com.rongxingyn.xyf.domain.tables.DataInfo;
+import com.rongxingyn.xyf.domain.tables.Feedback;
+import com.rongxingyn.xyf.domain.tables.Goods;
+import com.rongxingyn.xyf.domain.tables.GoodsPics;
+import com.rongxingyn.xyf.domain.tables.ShopInfo;
 import com.rongxingyn.xyf.domain.tables.Users;
 import com.rongxingyn.xyf.domain.tables.records.AuthoritiesRecord;
+import com.rongxingyn.xyf.domain.tables.records.ClassifyRecord;
+import com.rongxingyn.xyf.domain.tables.records.DataInfoRecord;
+import com.rongxingyn.xyf.domain.tables.records.FeedbackRecord;
+import com.rongxingyn.xyf.domain.tables.records.GoodsPicsRecord;
+import com.rongxingyn.xyf.domain.tables.records.GoodsRecord;
+import com.rongxingyn.xyf.domain.tables.records.ShopInfoRecord;
 import com.rongxingyn.xyf.domain.tables.records.UsersRecord;
 
 import javax.annotation.Generated;
 
 import org.jooq.ForeignKey;
+import org.jooq.Identity;
 import org.jooq.UniqueKey;
 import org.jooq.impl.Internal;
 
@@ -34,12 +47,24 @@ public class Keys {
     // IDENTITY definitions
     // -------------------------------------------------------------------------
 
+    public static final Identity<ClassifyRecord, Integer> IDENTITY_CLASSIFY = Identities0.IDENTITY_CLASSIFY;
+    public static final Identity<FeedbackRecord, Integer> IDENTITY_FEEDBACK = Identities0.IDENTITY_FEEDBACK;
+    public static final Identity<GoodsPicsRecord, Integer> IDENTITY_GOODS_PICS = Identities0.IDENTITY_GOODS_PICS;
+    public static final Identity<ShopInfoRecord, Integer> IDENTITY_SHOP_INFO = Identities0.IDENTITY_SHOP_INFO;
 
     // -------------------------------------------------------------------------
     // UNIQUE and PRIMARY KEY definitions
     // -------------------------------------------------------------------------
 
     public static final UniqueKey<AuthoritiesRecord> KEY_AUTHORITIES_PRIMARY = UniqueKeys0.KEY_AUTHORITIES_PRIMARY;
+    public static final UniqueKey<ClassifyRecord> KEY_CLASSIFY_PRIMARY = UniqueKeys0.KEY_CLASSIFY_PRIMARY;
+    public static final UniqueKey<ClassifyRecord> KEY_CLASSIFY_CLASSIFY_NAME = UniqueKeys0.KEY_CLASSIFY_CLASSIFY_NAME;
+    public static final UniqueKey<DataInfoRecord> KEY_DATA_INFO_PRIMARY = UniqueKeys0.KEY_DATA_INFO_PRIMARY;
+    public static final UniqueKey<FeedbackRecord> KEY_FEEDBACK_PRIMARY = UniqueKeys0.KEY_FEEDBACK_PRIMARY;
+    public static final UniqueKey<GoodsRecord> KEY_GOODS_PRIMARY = UniqueKeys0.KEY_GOODS_PRIMARY;
+    public static final UniqueKey<GoodsRecord> KEY_GOODS_GOODS_NAME = UniqueKeys0.KEY_GOODS_GOODS_NAME;
+    public static final UniqueKey<GoodsPicsRecord> KEY_GOODS_PICS_PRIMARY = UniqueKeys0.KEY_GOODS_PICS_PRIMARY;
+    public static final UniqueKey<ShopInfoRecord> KEY_SHOP_INFO_PRIMARY = UniqueKeys0.KEY_SHOP_INFO_PRIMARY;
     public static final UniqueKey<UsersRecord> KEY_USERS_PRIMARY = UniqueKeys0.KEY_USERS_PRIMARY;
 
     // -------------------------------------------------------------------------
@@ -47,17 +72,36 @@ public class Keys {
     // -------------------------------------------------------------------------
 
     public static final ForeignKey<AuthoritiesRecord, UsersRecord> AUTHORITIES_IBFK_1 = ForeignKeys0.AUTHORITIES_IBFK_1;
+    public static final ForeignKey<GoodsRecord, ClassifyRecord> GOODS_IBFK_1 = ForeignKeys0.GOODS_IBFK_1;
+    public static final ForeignKey<GoodsPicsRecord, GoodsRecord> GOODS_PICS_IBFK_1 = ForeignKeys0.GOODS_PICS_IBFK_1;
 
     // -------------------------------------------------------------------------
     // [#1459] distribute members to avoid static initialisers > 64kb
     // -------------------------------------------------------------------------
 
+    private static class Identities0 {
+        public static Identity<ClassifyRecord, Integer> IDENTITY_CLASSIFY = Internal.createIdentity(Classify.CLASSIFY, Classify.CLASSIFY.CLASSIFY_ID);
+        public static Identity<FeedbackRecord, Integer> IDENTITY_FEEDBACK = Internal.createIdentity(Feedback.FEEDBACK, Feedback.FEEDBACK.FEEDBACK_ID);
+        public static Identity<GoodsPicsRecord, Integer> IDENTITY_GOODS_PICS = Internal.createIdentity(GoodsPics.GOODS_PICS, GoodsPics.GOODS_PICS.PIC_ID);
+        public static Identity<ShopInfoRecord, Integer> IDENTITY_SHOP_INFO = Internal.createIdentity(ShopInfo.SHOP_INFO, ShopInfo.SHOP_INFO.SHOP_ID);
+    }
+
     private static class UniqueKeys0 {
         public static final UniqueKey<AuthoritiesRecord> KEY_AUTHORITIES_PRIMARY = Internal.createUniqueKey(Authorities.AUTHORITIES, "KEY_authorities_PRIMARY", Authorities.AUTHORITIES.USERNAME, Authorities.AUTHORITIES.AUTHORITY);
+        public static final UniqueKey<ClassifyRecord> KEY_CLASSIFY_PRIMARY = Internal.createUniqueKey(Classify.CLASSIFY, "KEY_classify_PRIMARY", Classify.CLASSIFY.CLASSIFY_ID);
+        public static final UniqueKey<ClassifyRecord> KEY_CLASSIFY_CLASSIFY_NAME = Internal.createUniqueKey(Classify.CLASSIFY, "KEY_classify_classify_name", Classify.CLASSIFY.CLASSIFY_NAME);
+        public static final UniqueKey<DataInfoRecord> KEY_DATA_INFO_PRIMARY = Internal.createUniqueKey(DataInfo.DATA_INFO, "KEY_data_info_PRIMARY", DataInfo.DATA_INFO.DATA_KEY);
+        public static final UniqueKey<FeedbackRecord> KEY_FEEDBACK_PRIMARY = Internal.createUniqueKey(Feedback.FEEDBACK, "KEY_feedback_PRIMARY", Feedback.FEEDBACK.FEEDBACK_ID);
+        public static final UniqueKey<GoodsRecord> KEY_GOODS_PRIMARY = Internal.createUniqueKey(Goods.GOODS, "KEY_goods_PRIMARY", Goods.GOODS.GOODS_ID);
+        public static final UniqueKey<GoodsRecord> KEY_GOODS_GOODS_NAME = Internal.createUniqueKey(Goods.GOODS, "KEY_goods_goods_name", Goods.GOODS.GOODS_NAME);
+        public static final UniqueKey<GoodsPicsRecord> KEY_GOODS_PICS_PRIMARY = Internal.createUniqueKey(GoodsPics.GOODS_PICS, "KEY_goods_pics_PRIMARY", GoodsPics.GOODS_PICS.PIC_ID);
+        public static final UniqueKey<ShopInfoRecord> KEY_SHOP_INFO_PRIMARY = Internal.createUniqueKey(ShopInfo.SHOP_INFO, "KEY_shop_info_PRIMARY", ShopInfo.SHOP_INFO.SHOP_ID);
         public static final UniqueKey<UsersRecord> KEY_USERS_PRIMARY = Internal.createUniqueKey(Users.USERS, "KEY_users_PRIMARY", Users.USERS.USERNAME);
     }
 
     private static class ForeignKeys0 {
         public static final ForeignKey<AuthoritiesRecord, UsersRecord> AUTHORITIES_IBFK_1 = Internal.createForeignKey(com.rongxingyn.xyf.domain.Keys.KEY_USERS_PRIMARY, Authorities.AUTHORITIES, "authorities_ibfk_1", Authorities.AUTHORITIES.USERNAME);
+        public static final ForeignKey<GoodsRecord, ClassifyRecord> GOODS_IBFK_1 = Internal.createForeignKey(com.rongxingyn.xyf.domain.Keys.KEY_CLASSIFY_PRIMARY, Goods.GOODS, "goods_ibfk_1", Goods.GOODS.CLASSIFY_ID);
+        public static final ForeignKey<GoodsPicsRecord, GoodsRecord> GOODS_PICS_IBFK_1 = Internal.createForeignKey(com.rongxingyn.xyf.domain.Keys.KEY_GOODS_PRIMARY, GoodsPics.GOODS_PICS, "goods_pics_ibfk_1", GoodsPics.GOODS_PICS.GOODS_ID);
     }
 }

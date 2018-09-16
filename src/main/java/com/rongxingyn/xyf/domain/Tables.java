@@ -5,6 +5,12 @@ package com.rongxingyn.xyf.domain;
 
 
 import com.rongxingyn.xyf.domain.tables.Authorities;
+import com.rongxingyn.xyf.domain.tables.Classify;
+import com.rongxingyn.xyf.domain.tables.DataInfo;
+import com.rongxingyn.xyf.domain.tables.Feedback;
+import com.rongxingyn.xyf.domain.tables.Goods;
+import com.rongxingyn.xyf.domain.tables.GoodsPics;
+import com.rongxingyn.xyf.domain.tables.ShopInfo;
 import com.rongxingyn.xyf.domain.tables.Users;
 
 import javax.annotation.Generated;
@@ -27,6 +33,36 @@ public class Tables {
      * The table <code>xyf.authorities</code>.
      */
     public static final Authorities AUTHORITIES = com.rongxingyn.xyf.domain.tables.Authorities.AUTHORITIES;
+
+    /**
+     * The table <code>xyf.classify</code>.
+     */
+    public static final Classify CLASSIFY = com.rongxingyn.xyf.domain.tables.Classify.CLASSIFY;
+
+    /**
+     * The table <code>xyf.data_info</code>.
+     */
+    public static final DataInfo DATA_INFO = com.rongxingyn.xyf.domain.tables.DataInfo.DATA_INFO;
+
+    /**
+     * The table <code>xyf.feedback</code>.
+     */
+    public static final Feedback FEEDBACK = com.rongxingyn.xyf.domain.tables.Feedback.FEEDBACK;
+
+    /**
+     * The table <code>xyf.goods</code>.
+     */
+    public static final Goods GOODS = com.rongxingyn.xyf.domain.tables.Goods.GOODS;
+
+    /**
+     * The table <code>xyf.goods_pics</code>.
+     */
+    public static final GoodsPics GOODS_PICS = com.rongxingyn.xyf.domain.tables.GoodsPics.GOODS_PICS;
+
+    /**
+     * The table <code>xyf.shop_info</code>.
+     */
+    public static final ShopInfo SHOP_INFO = com.rongxingyn.xyf.domain.tables.ShopInfo.SHOP_INFO;
 
     /**
      * The table <code>xyf.users</code>.

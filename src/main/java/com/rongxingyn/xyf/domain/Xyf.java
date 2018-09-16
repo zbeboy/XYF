@@ -5,6 +5,12 @@ package com.rongxingyn.xyf.domain;
 
 
 import com.rongxingyn.xyf.domain.tables.Authorities;
+import com.rongxingyn.xyf.domain.tables.Classify;
+import com.rongxingyn.xyf.domain.tables.DataInfo;
+import com.rongxingyn.xyf.domain.tables.Feedback;
+import com.rongxingyn.xyf.domain.tables.Goods;
+import com.rongxingyn.xyf.domain.tables.GoodsPics;
+import com.rongxingyn.xyf.domain.tables.ShopInfo;
 import com.rongxingyn.xyf.domain.tables.Users;
 
 import java.util.ArrayList;
@@ -31,7 +37,7 @@ import org.jooq.impl.SchemaImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Xyf extends SchemaImpl {
 
-    private static final long serialVersionUID = 1945086399;
+    private static final long serialVersionUID = -614895717;
 
     /**
      * The reference instance of <code>xyf</code>
@@ -42,6 +48,36 @@ public class Xyf extends SchemaImpl {
      * The table <code>xyf.authorities</code>.
      */
     public final Authorities AUTHORITIES = com.rongxingyn.xyf.domain.tables.Authorities.AUTHORITIES;
+
+    /**
+     * The table <code>xyf.classify</code>.
+     */
+    public final Classify CLASSIFY = com.rongxingyn.xyf.domain.tables.Classify.CLASSIFY;
+
+    /**
+     * The table <code>xyf.data_info</code>.
+     */
+    public final DataInfo DATA_INFO = com.rongxingyn.xyf.domain.tables.DataInfo.DATA_INFO;
+
+    /**
+     * The table <code>xyf.feedback</code>.
+     */
+    public final Feedback FEEDBACK = com.rongxingyn.xyf.domain.tables.Feedback.FEEDBACK;
+
+    /**
+     * The table <code>xyf.goods</code>.
+     */
+    public final Goods GOODS = com.rongxingyn.xyf.domain.tables.Goods.GOODS;
+
+    /**
+     * The table <code>xyf.goods_pics</code>.
+     */
+    public final GoodsPics GOODS_PICS = com.rongxingyn.xyf.domain.tables.GoodsPics.GOODS_PICS;
+
+    /**
+     * The table <code>xyf.shop_info</code>.
+     */
+    public final ShopInfo SHOP_INFO = com.rongxingyn.xyf.domain.tables.ShopInfo.SHOP_INFO;
 
     /**
      * The table <code>xyf.users</code>.
@@ -74,6 +110,12 @@ public class Xyf extends SchemaImpl {
     private final List<Table<?>> getTables0() {
         return Arrays.<Table<?>>asList(
             Authorities.AUTHORITIES,
+            Classify.CLASSIFY,
+            DataInfo.DATA_INFO,
+            Feedback.FEEDBACK,
+            Goods.GOODS,
+            GoodsPics.GOODS_PICS,
+            ShopInfo.SHOP_INFO,
             Users.USERS);
     }
 }
