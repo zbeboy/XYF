@@ -81,4 +81,11 @@ public class ClassifyDao extends DAOImpl<ClassifyRecord, com.rongxingyn.xyf.doma
     public com.rongxingyn.xyf.domain.tables.pojos.Classify fetchOneByClassifyName(String value) {
         return fetchOne(Classify.CLASSIFY.CLASSIFY_NAME, value);
     }
+
+    /**
+     * Fetch records that have <code>is_del_classify IN (values)</code>
+     */
+    public List<com.rongxingyn.xyf.domain.tables.pojos.Classify> fetchByIsDelClassify(Byte... values) {
+        return fetch(Classify.CLASSIFY.IS_DEL_CLASSIFY, values);
+    }
 }

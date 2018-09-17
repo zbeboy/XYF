@@ -39,7 +39,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Classify extends TableImpl<ClassifyRecord> {
 
-    private static final long serialVersionUID = -202881435;
+    private static final long serialVersionUID = 1596900228;
 
     /**
      * The reference instance of <code>xyf.classify</code>
@@ -63,6 +63,11 @@ public class Classify extends TableImpl<ClassifyRecord> {
      * The column <code>xyf.classify.classify_name</code>.
      */
     public final TableField<ClassifyRecord, String> CLASSIFY_NAME = createField("classify_name", org.jooq.impl.SQLDataType.VARCHAR(30).nullable(false), this, "");
+
+    /**
+     * The column <code>xyf.classify.is_del_classify</code>.
+     */
+    public final TableField<ClassifyRecord, Byte> IS_DEL_CLASSIFY = createField("is_del_classify", org.jooq.impl.SQLDataType.TINYINT.nullable(false).defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.TINYINT)), this, "");
 
     /**
      * Create a <code>xyf.classify</code> table reference

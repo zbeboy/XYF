@@ -5,12 +5,14 @@ package com.rongxingyn.xyf.domain;
 
 
 import com.rongxingyn.xyf.domain.tables.Authorities;
+import com.rongxingyn.xyf.domain.tables.Banner;
 import com.rongxingyn.xyf.domain.tables.Classify;
 import com.rongxingyn.xyf.domain.tables.DataInfo;
 import com.rongxingyn.xyf.domain.tables.Feedback;
 import com.rongxingyn.xyf.domain.tables.Goods;
 import com.rongxingyn.xyf.domain.tables.GoodsPics;
 import com.rongxingyn.xyf.domain.tables.ShopInfo;
+import com.rongxingyn.xyf.domain.tables.TableTime;
 import com.rongxingyn.xyf.domain.tables.Users;
 
 import javax.annotation.Generated;
@@ -33,6 +35,11 @@ public class Tables {
      * The table <code>xyf.authorities</code>.
      */
     public static final Authorities AUTHORITIES = com.rongxingyn.xyf.domain.tables.Authorities.AUTHORITIES;
+
+    /**
+     * The table <code>xyf.banner</code>.
+     */
+    public static final Banner BANNER = com.rongxingyn.xyf.domain.tables.Banner.BANNER;
 
     /**
      * The table <code>xyf.classify</code>.
@@ -63,6 +70,11 @@ public class Tables {
      * The table <code>xyf.shop_info</code>.
      */
     public static final ShopInfo SHOP_INFO = com.rongxingyn.xyf.domain.tables.ShopInfo.SHOP_INFO;
+
+    /**
+     * The table <code>xyf.table_time</code>.
+     */
+    public static final TableTime TABLE_TIME = com.rongxingyn.xyf.domain.tables.TableTime.TABLE_TIME;
 
     /**
      * The table <code>xyf.users</code>.

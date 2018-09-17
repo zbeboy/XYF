@@ -1,4 +1,4 @@
-$(document).ready(function() {
+$(document).ready(function () {
 
     /*
     参数
@@ -46,25 +46,30 @@ $(document).ready(function() {
 
     var tableElement = $('#dataTable');
 
-    var myTable = tableElement.DataTable( {
+    var myTable = tableElement.DataTable({
         responsive: {
             details: {
-                display: $.fn.dataTable.Responsive.display.modal( {
-                    header: function ( row ) {
+                display: $.fn.dataTable.Responsive.display.modal({
+                    header: function (row) {
                         var data = row.data();
-                        return '详情 '+data[0]+' '+data[1];
+                        return '详情 ' + data[0] + ' ' + data[1];
                     }
-                } ),
-                renderer: $.fn.dataTable.Responsive.renderer.tableAll( {
+                }),
+                renderer: $.fn.dataTable.Responsive.renderer.tableAll({
                     tableClass: 'table'
-                } )
+                })
             }
+        },
+        drawCallback: function (oSettings) {
+            $('#checkall').prop('checked', false);
+            // 调用全选插件
+            $.fn.check({checkall_name: "checkall", checkbox_name: "check"});
         },
         autoWidth: false,
         searching: false,
         "processing": true, // 打开数据加载时的等待效果
         "serverSide": true,// 打开后台分页
-        "aaSorting": [[0, 'desc']],// 排序
+        "aaSorting": [[1, 'desc']],// 排序
         "ajax": {
             "url": web_path + getAjaxUrl().classifies,
             "dataSrc": "data",
@@ -75,9 +80,83 @@ $(document).ready(function() {
             }
         },
         "columns": [
+            {"data": null},
             {"data": "classifyId"},
             {"data": "classifyName"},
+            {"data": "isDelClassify"},
             {"data": null}
+        ],
+        columnDefs: [
+            {
+                targets: 0,
+                orderable: false,
+                render: function (a, b, c, d) {
+                    return '<input type="checkbox" value="' + c.classifyId + '" name="check"/>';
+                }
+            },
+            {
+                targets: 4,
+                orderable: false,
+                render: function (a, b, c, d) {
+
+                    var context = null;
+
+                    if (c.isDelClassify === 0 || c.isDelClassify == null) {
+                        context =
+                            {
+                                func: [
+                                    {
+                                        "name": "编辑",
+                                        "css": "edit",
+                                        "type": "primary",
+                                        "id": c.classifyId,
+                                        "classify": c.classifyName
+                                    },
+                                    {
+                                        "name": "删除",
+                                        "css": "del",
+                                        "type": "danger",
+                                        "id": c.classifyId,
+                                        "classify": c.classifyName
+                                    }
+                                ]
+                            };
+                    } else {
+                        context =
+                            {
+                                func: [
+                                    {
+                                        "name": "编辑",
+                                        "css": "edit",
+                                        "type": "primary",
+                                        "id": c.classifyId,
+                                        "classify": c.classifyName
+                                    },
+                                    {
+                                        "name": "恢复",
+                                        "css": "recovery",
+                                        "type": "warning",
+                                        "id": c.classifyId,
+                                        "classify": c.classifyName
+                                    }
+                                ]
+                            };
+                    }
+
+                    return template(context);
+                }
+            },
+            {
+                targets: 3,
+                render: function (a, b, c, d) {
+                    if (c.isDelClassify === 0 || c.isDelClassify == null) {
+                        return "<span class='text-info'>正常</span>";
+                    } else {
+                        return "<span class='text-danger'>已删除</span>";
+                    }
+                }
+            }
+
         ],
         "language": {
             "sProcessing": "处理中...",
@@ -103,11 +182,27 @@ $(document).ready(function() {
                 "sSortDescending": ": 以降序排列此列"
             }
         },
-        "dom": "<'row'<'col-sm-2'l><'#global_button.col-sm-4'>r>" +
+        "dom": "<'row'<'col-sm-2'l><'#global_button.col-sm-4'><'col-sm-6'<'#mytoolbox'>>r>" +
         "t" +
         "<'row'<'col-sm-5'i><'col-sm-7'p>>",
         initComplete: function () {
 
         }
-    } );
-} );
+    });
+
+    var html = '<div class="input-group">' +
+        '<input type="text" id="search_classify" class="form-control form-control-sm" placeholder="类别" />' +
+        '<div class="input-group-append">' +
+        '<button type="button" id="search" class="btn btn-outline btn-default btn-sm"><i class="fa fa-search"></i>搜索</button>' +
+        '<button type="button" id="reset_search" class="btn btn-outline btn-default btn-sm"><i class="fa fa-repeat"></i>重置</button>' +
+        '</div>' +
+        '</div>';
+    $('#mytoolbox').append(html);
+
+    var global_button = '<button type="button" id="classify_add" class="btn btn-outline btn-primary btn-sm"><i class="fa fa-plus"></i>添加</button>' +
+        '  <button type="button" id="classify_dels" class="btn btn-outline btn-danger btn-sm"><i class="fa fa-trash-o"></i>批量注销</button>' +
+        '  <button type="button" id="classify_recoveries" class="btn btn-outline btn-warning btn-sm"><i class="fa fa-reply-all"></i>批量恢复</button>' +
+        '  <button type="button" id="refresh" class="btn btn-outline btn-default btn-sm"><i class="fa fa-refresh"></i>刷新</button>';
+    $('#global_button').append(global_button);
+
+});

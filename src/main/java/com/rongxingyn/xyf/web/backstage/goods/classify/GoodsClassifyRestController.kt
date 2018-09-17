@@ -26,8 +26,10 @@ open class GoodsClassifyRestController {
     fun data(serverWebExchange: ServerWebExchange): Mono<DataTablesUtils<ClassifyBean>> {
         // 前台数据标题 注：要和前台标题顺序一致，获取order用
         val headers = ArrayList<String>()
+        headers.add("select")
         headers.add("classify_id")
         headers.add("classify_name")
+        headers.add("is_del_classify")
         headers.add("operator")
         val dataTablesUtils = DataTablesUtils<ClassifyBean>(serverWebExchange.request, headers)
         val records = goodsClassifyService.findAllByPage(dataTablesUtils)

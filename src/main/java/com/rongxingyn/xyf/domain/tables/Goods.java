@@ -9,6 +9,7 @@ import com.rongxingyn.xyf.domain.Keys;
 import com.rongxingyn.xyf.domain.Xyf;
 import com.rongxingyn.xyf.domain.tables.records.GoodsRecord;
 
+import java.sql.Timestamp;
 import java.util.Arrays;
 import java.util.List;
 
@@ -39,7 +40,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Goods extends TableImpl<GoodsRecord> {
 
-    private static final long serialVersionUID = 878958639;
+    private static final long serialVersionUID = -1570187934;
 
     /**
      * The reference instance of <code>xyf.goods</code>
@@ -80,19 +81,14 @@ public class Goods extends TableImpl<GoodsRecord> {
     public final TableField<GoodsRecord, Integer> GOODS_RECOMMEND = createField("goods_recommend", org.jooq.impl.SQLDataType.INTEGER.nullable(false).defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.INTEGER)), this, "");
 
     /**
-     * The column <code>xyf.goods.is_stick</code>.
+     * The column <code>xyf.goods.update_time</code>.
      */
-    public final TableField<GoodsRecord, Byte> IS_STICK = createField("is_stick", org.jooq.impl.SQLDataType.TINYINT.nullable(false).defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.TINYINT)), this, "");
+    public final TableField<GoodsRecord, Timestamp> UPDATE_TIME = createField("update_time", org.jooq.impl.SQLDataType.TIMESTAMP.nullable(false), this, "");
 
     /**
-     * The column <code>xyf.goods.stick_serial</code>.
+     * The column <code>xyf.goods.is_del_goods</code>.
      */
-    public final TableField<GoodsRecord, Integer> STICK_SERIAL = createField("stick_serial", org.jooq.impl.SQLDataType.INTEGER.nullable(false).defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.INTEGER)), this, "");
-
-    /**
-     * The column <code>xyf.goods.goods_serial</code>.
-     */
-    public final TableField<GoodsRecord, Integer> GOODS_SERIAL = createField("goods_serial", org.jooq.impl.SQLDataType.INTEGER.nullable(false).defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.INTEGER)), this, "");
+    public final TableField<GoodsRecord, Byte> IS_DEL_GOODS = createField("is_del_goods", org.jooq.impl.SQLDataType.TINYINT.nullable(false).defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.TINYINT)), this, "");
 
     /**
      * The column <code>xyf.goods.classify_id</code>.

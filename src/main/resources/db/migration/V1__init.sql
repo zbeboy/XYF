@@ -16,7 +16,8 @@ CREATE TABLE authorities (
 
 CREATE TABLE classify(
   classify_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY ,
-  classify_name VARCHAR(30) NOT NULL UNIQUE
+  classify_name VARCHAR(30) NOT NULL UNIQUE,
+  is_del_classify BOOLEAN NOT NULL DEFAULT 0
 );
 
 CREATE TABLE goods(
@@ -25,9 +26,8 @@ CREATE TABLE goods(
   goods_price DOUBLE NOT NULL DEFAULT 0,
   goods_brief VARCHAR(200) ,
   goods_recommend INT NOT NULL DEFAULT 0,
-  is_stick BOOLEAN NOT NULL DEFAULT 0,
-  stick_serial INT NOT NULL DEFAULT 0,
-  goods_serial INT NOT NULL DEFAULT 0,
+  update_time DATETIME NOT NULL,
+  is_del_goods BOOLEAN NOT NULL DEFAULT 0,
   classify_id INT NOT NULL ,
   FOREIGN KEY (classify_id) REFERENCES classify(classify_id)
 );
@@ -37,6 +37,15 @@ CREATE TABLE goods_pics(
   goods_id VARCHAR(64) NOT NULL,
   pic_url VARCHAR(500) NOT NULL ,
   FOREIGN KEY (goods_id) REFERENCES goods(goods_id)
+);
+
+CREATE TABLE banner(
+  banner_id VARCHAR(64) NOT NULL PRIMARY KEY ,
+  banner_serial INT NOT NULL DEFAULT 0,
+  banner_url VARCHAR(500) NOT NULL ,
+  is_hide BOOLEAN NOT NULL DEFAULT 0,
+  classify_id INT NOT NULL ,
+  FOREIGN KEY (classify_id) REFERENCES classify(classify_id)
 );
 
 CREATE TABLE shop_info(
@@ -57,6 +66,11 @@ CREATE TABLE feedback(
   content VARCHAR(500) NOT NULL,
   is_deal BOOLEAN NOT NULL DEFAULT 0,
   remark VARCHAR(200)
+);
+
+CREATE TABLE table_time(
+  table_name VARCHAR(20) NOT NULL PRIMARY KEY ,
+  deal_time DATETIME NOT NULL
 );
 
 INSERT INTO users (username, password)

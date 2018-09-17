@@ -5,12 +5,14 @@ package com.rongxingyn.xyf.domain;
 
 
 import com.rongxingyn.xyf.domain.tables.Authorities;
+import com.rongxingyn.xyf.domain.tables.Banner;
 import com.rongxingyn.xyf.domain.tables.Classify;
 import com.rongxingyn.xyf.domain.tables.DataInfo;
 import com.rongxingyn.xyf.domain.tables.Feedback;
 import com.rongxingyn.xyf.domain.tables.Goods;
 import com.rongxingyn.xyf.domain.tables.GoodsPics;
 import com.rongxingyn.xyf.domain.tables.ShopInfo;
+import com.rongxingyn.xyf.domain.tables.TableTime;
 import com.rongxingyn.xyf.domain.tables.Users;
 
 import java.util.ArrayList;
@@ -37,7 +39,7 @@ import org.jooq.impl.SchemaImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Xyf extends SchemaImpl {
 
-    private static final long serialVersionUID = -614895717;
+    private static final long serialVersionUID = -1643031037;
 
     /**
      * The reference instance of <code>xyf</code>
@@ -48,6 +50,11 @@ public class Xyf extends SchemaImpl {
      * The table <code>xyf.authorities</code>.
      */
     public final Authorities AUTHORITIES = com.rongxingyn.xyf.domain.tables.Authorities.AUTHORITIES;
+
+    /**
+     * The table <code>xyf.banner</code>.
+     */
+    public final Banner BANNER = com.rongxingyn.xyf.domain.tables.Banner.BANNER;
 
     /**
      * The table <code>xyf.classify</code>.
@@ -80,6 +87,11 @@ public class Xyf extends SchemaImpl {
     public final ShopInfo SHOP_INFO = com.rongxingyn.xyf.domain.tables.ShopInfo.SHOP_INFO;
 
     /**
+     * The table <code>xyf.table_time</code>.
+     */
+    public final TableTime TABLE_TIME = com.rongxingyn.xyf.domain.tables.TableTime.TABLE_TIME;
+
+    /**
      * The table <code>xyf.users</code>.
      */
     public final Users USERS = com.rongxingyn.xyf.domain.tables.Users.USERS;
@@ -110,12 +122,14 @@ public class Xyf extends SchemaImpl {
     private final List<Table<?>> getTables0() {
         return Arrays.<Table<?>>asList(
             Authorities.AUTHORITIES,
+            Banner.BANNER,
             Classify.CLASSIFY,
             DataInfo.DATA_INFO,
             Feedback.FEEDBACK,
             Goods.GOODS,
             GoodsPics.GOODS_PICS,
             ShopInfo.SHOP_INFO,
+            TableTime.TABLE_TIME,
             Users.USERS);
     }
 }
