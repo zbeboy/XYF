@@ -15,6 +15,7 @@ $(document).ready(function () {
     function getAjaxUrl() {
         return {
             classifies: '/web/goods/classify/data',
+            valid: '/web/goods/classify/valid',
             add: '/web/goods/classify/add',
             edit: '/web/goods/classify/edit'
         };
@@ -117,7 +118,7 @@ $(document).ready(function () {
             {"data": null},
             {"data": "classifyId"},
             {"data": "classifyName"},
-            {"data": "isDelClassify"},
+            {"data": "classifyIsDel"},
             {"data": null}
         ],
         columnDefs: [
@@ -135,7 +136,7 @@ $(document).ready(function () {
 
                     var context = null;
 
-                    if (c.isDelClassify === 0 || c.isDelClassify == null) {
+                    if (c.classifyIsDel === 0 || c.classifyIsDel == null) {
                         context =
                             {
                                 func: [
@@ -183,7 +184,7 @@ $(document).ready(function () {
             {
                 targets: 3,
                 render: function (a, b, c, d) {
-                    if (c.isDelClassify === 0 || c.isDelClassify == null) {
+                    if (c.classifyIsDel === 0 || c.classifyIsDel == null) {
                         return "<span class='text-info'>正常</span>";
                     } else {
                         return "<span class='text-danger'>已删除</span>";
@@ -259,13 +260,34 @@ $(document).ready(function () {
     /**
      * 校验类别名
      */
-    function validClassifyName(url){
+    function validClassifyName(url) {
         var dataClassifyName = getParam().dataClassifyName;
-        if (_.trim(dataClassifyName) === '') {
-            validErrorDom(getParamId().dataClassifyName, errorMsgId.dataClassifyName, '请填写类别');
+        if (_.inRange(dataClassifyName.length, 1, 30)) {
+            Messenger().run({
+                progressMessage: '正在校验数据...'
+            }, {
+                url: web_path + getAjaxUrl().valid,
+                data: {
+                    type: 0,
+                    classifyName: dataClassifyName
+                },
+                success: function (data) {
+                    if (data.state) {
+                        validSuccessDom(getParamId().dataClassifyName, errorMsgId.dataClassifyName);
+                        sendAjax(url);
+                    } else {
+                        validErrorDom(getParamId().dataClassifyName, errorMsgId.dataClassifyName, data.msg);
+                    }
+                },
+                error: function (xhr) {
+                    if ((xhr != null ? xhr.status : void 0) === 404) {
+                        return "请求错误";
+                    }
+                    return true;
+                }
+            });
         } else {
-            validSuccessDom(getParamId().dataClassifyName, errorMsgId.dataClassifyName);
-            sendAjax(url);
+            validErrorDom(getParamId().dataClassifyName, errorMsgId.dataClassifyName, '类别1~30个字符');
         }
     }
 
@@ -273,8 +295,32 @@ $(document).ready(function () {
      * 发送数据到后台
      * @param url
      */
-    function sendAjax(url){
-
+    function sendAjax(url) {
+        Messenger().run({
+            progressMessage: '正在保存数据...'
+        }, {
+            url: web_path + url,
+            type: 'post',
+            data: $('#dataForm').serialize(),
+            success: function (data) {
+                if (data.state) {
+                    $('#addModal').modal('hide');
+                    myTable.ajax.reload();
+                } else {
+                    Messenger().post({
+                        message: data.msg,
+                        type: 'error',
+                        showCloseButton: true
+                    });
+                }
+            },
+            error: function (xhr) {
+                if ((xhr != null ? xhr.status : void 0) === 404) {
+                    return "请求错误";
+                }
+                return true;
+            }
+        });
     }
 
 });

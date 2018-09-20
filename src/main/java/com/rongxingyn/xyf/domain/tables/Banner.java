@@ -39,7 +39,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Banner extends TableImpl<BannerRecord> {
 
-    private static final long serialVersionUID = -216982679;
+    private static final long serialVersionUID = -1722543042;
 
     /**
      * The reference instance of <code>xyf.banner</code>
@@ -70,9 +70,9 @@ public class Banner extends TableImpl<BannerRecord> {
     public final TableField<BannerRecord, String> BANNER_URL = createField("banner_url", org.jooq.impl.SQLDataType.VARCHAR(500).nullable(false), this, "");
 
     /**
-     * The column <code>xyf.banner.is_hide</code>.
+     * The column <code>xyf.banner.banner_is_hide</code>.
      */
-    public final TableField<BannerRecord, Byte> IS_HIDE = createField("is_hide", org.jooq.impl.SQLDataType.TINYINT.nullable(false).defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.TINYINT)), this, "");
+    public final TableField<BannerRecord, Byte> BANNER_IS_HIDE = createField("banner_is_hide", org.jooq.impl.SQLDataType.TINYINT.nullable(false).defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.TINYINT)), this, "");
 
     /**
      * The column <code>xyf.banner.classify_id</code>.

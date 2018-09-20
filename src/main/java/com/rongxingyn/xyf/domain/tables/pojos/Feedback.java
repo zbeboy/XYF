@@ -24,13 +24,13 @@ import javax.validation.constraints.Size;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Feedback implements Serializable {
 
-    private static final long serialVersionUID = -568597517;
+    private static final long serialVersionUID = -1269198639;
 
     private Integer feedbackId;
     private String  customerName;
     private String  customerContact;
     private String  content;
-    private Byte    isDeal;
+    private Byte    hasDeal;
     private String  remark;
 
     public Feedback() {}
@@ -40,7 +40,7 @@ public class Feedback implements Serializable {
         this.customerName = value.customerName;
         this.customerContact = value.customerContact;
         this.content = value.content;
-        this.isDeal = value.isDeal;
+        this.hasDeal = value.hasDeal;
         this.remark = value.remark;
     }
 
@@ -49,14 +49,14 @@ public class Feedback implements Serializable {
         String  customerName,
         String  customerContact,
         String  content,
-        Byte    isDeal,
+        Byte    hasDeal,
         String  remark
     ) {
         this.feedbackId = feedbackId;
         this.customerName = customerName;
         this.customerContact = customerContact;
         this.content = content;
-        this.isDeal = isDeal;
+        this.hasDeal = hasDeal;
         this.remark = remark;
     }
 
@@ -98,12 +98,12 @@ public class Feedback implements Serializable {
         this.content = content;
     }
 
-    public Byte getIsDeal() {
-        return this.isDeal;
+    public Byte getHasDeal() {
+        return this.hasDeal;
     }
 
-    public void setIsDeal(Byte isDeal) {
-        this.isDeal = isDeal;
+    public void setHasDeal(Byte hasDeal) {
+        this.hasDeal = hasDeal;
     }
 
     @Size(max = 200)
@@ -123,7 +123,7 @@ public class Feedback implements Serializable {
         sb.append(", ").append(customerName);
         sb.append(", ").append(customerContact);
         sb.append(", ").append(content);
-        sb.append(", ").append(isDeal);
+        sb.append(", ").append(hasDeal);
         sb.append(", ").append(remark);
 
         sb.append(")");

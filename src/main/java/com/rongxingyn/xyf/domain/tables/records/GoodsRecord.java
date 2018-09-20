@@ -32,7 +32,7 @@ import org.jooq.impl.UpdatableRecordImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class GoodsRecord extends UpdatableRecordImpl<GoodsRecord> implements Record8<String, String, Double, String, Integer, Timestamp, Byte, Integer> {
 
-    private static final long serialVersionUID = 1784521074;
+    private static final long serialVersionUID = 118106158;
 
     /**
      * Setter for <code>xyf.goods.goods_id</code>.
@@ -125,16 +125,16 @@ public class GoodsRecord extends UpdatableRecordImpl<GoodsRecord> implements Rec
     }
 
     /**
-     * Setter for <code>xyf.goods.is_del_goods</code>.
+     * Setter for <code>xyf.goods.goods_is_del</code>.
      */
-    public void setIsDelGoods(Byte value) {
+    public void setGoodsIsDel(Byte value) {
         set(6, value);
     }
 
     /**
-     * Getter for <code>xyf.goods.is_del_goods</code>.
+     * Getter for <code>xyf.goods.goods_is_del</code>.
      */
-    public Byte getIsDelGoods() {
+    public Byte getGoodsIsDel() {
         return (Byte) get(6);
     }
 
@@ -238,7 +238,7 @@ public class GoodsRecord extends UpdatableRecordImpl<GoodsRecord> implements Rec
      */
     @Override
     public Field<Byte> field7() {
-        return Goods.GOODS.IS_DEL_GOODS;
+        return Goods.GOODS.GOODS_IS_DEL;
     }
 
     /**
@@ -302,7 +302,7 @@ public class GoodsRecord extends UpdatableRecordImpl<GoodsRecord> implements Rec
      */
     @Override
     public Byte component7() {
-        return getIsDelGoods();
+        return getGoodsIsDel();
     }
 
     /**
@@ -366,7 +366,7 @@ public class GoodsRecord extends UpdatableRecordImpl<GoodsRecord> implements Rec
      */
     @Override
     public Byte value7() {
-        return getIsDelGoods();
+        return getGoodsIsDel();
     }
 
     /**
@@ -436,7 +436,7 @@ public class GoodsRecord extends UpdatableRecordImpl<GoodsRecord> implements Rec
      */
     @Override
     public GoodsRecord value7(Byte value) {
-        setIsDelGoods(value);
+        setGoodsIsDel(value);
         return this;
     }
 
@@ -479,7 +479,7 @@ public class GoodsRecord extends UpdatableRecordImpl<GoodsRecord> implements Rec
     /**
      * Create a detached, initialised GoodsRecord
      */
-    public GoodsRecord(String goodsId, String goodsName, Double goodsPrice, String goodsBrief, Integer goodsRecommend, Timestamp updateTime, Byte isDelGoods, Integer classifyId) {
+    public GoodsRecord(String goodsId, String goodsName, Double goodsPrice, String goodsBrief, Integer goodsRecommend, Timestamp updateTime, Byte goodsIsDel, Integer classifyId) {
         super(Goods.GOODS);
 
         set(0, goodsId);
@@ -488,7 +488,7 @@ public class GoodsRecord extends UpdatableRecordImpl<GoodsRecord> implements Rec
         set(3, goodsBrief);
         set(4, goodsRecommend);
         set(5, updateTime);
-        set(6, isDelGoods);
+        set(6, goodsIsDel);
         set(7, classifyId);
     }
 }

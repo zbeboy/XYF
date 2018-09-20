@@ -112,10 +112,10 @@ public class GoodsDao extends DAOImpl<GoodsRecord, com.rongxingyn.xyf.domain.tab
     }
 
     /**
-     * Fetch records that have <code>is_del_goods IN (values)</code>
+     * Fetch records that have <code>goods_is_del IN (values)</code>
      */
-    public List<com.rongxingyn.xyf.domain.tables.pojos.Goods> fetchByIsDelGoods(Byte... values) {
-        return fetch(Goods.GOODS.IS_DEL_GOODS, values);
+    public List<com.rongxingyn.xyf.domain.tables.pojos.Goods> fetchByGoodsIsDel(Byte... values) {
+        return fetch(Goods.GOODS.GOODS_IS_DEL, values);
     }
 
     /**

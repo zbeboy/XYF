@@ -30,7 +30,7 @@ import org.jooq.impl.UpdatableRecordImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class FeedbackRecord extends UpdatableRecordImpl<FeedbackRecord> implements Record6<Integer, String, String, String, Byte, String> {
 
-    private static final long serialVersionUID = -1625573466;
+    private static final long serialVersionUID = -75505516;
 
     /**
      * Setter for <code>xyf.feedback.feedback_id</code>.
@@ -95,16 +95,16 @@ public class FeedbackRecord extends UpdatableRecordImpl<FeedbackRecord> implemen
     }
 
     /**
-     * Setter for <code>xyf.feedback.is_deal</code>.
+     * Setter for <code>xyf.feedback.has_deal</code>.
      */
-    public void setIsDeal(Byte value) {
+    public void setHasDeal(Byte value) {
         set(4, value);
     }
 
     /**
-     * Getter for <code>xyf.feedback.is_deal</code>.
+     * Getter for <code>xyf.feedback.has_deal</code>.
      */
-    public Byte getIsDeal() {
+    public Byte getHasDeal() {
         return (Byte) get(4);
     }
 
@@ -192,7 +192,7 @@ public class FeedbackRecord extends UpdatableRecordImpl<FeedbackRecord> implemen
      */
     @Override
     public Field<Byte> field5() {
-        return Feedback.FEEDBACK.IS_DEAL;
+        return Feedback.FEEDBACK.HAS_DEAL;
     }
 
     /**
@@ -240,7 +240,7 @@ public class FeedbackRecord extends UpdatableRecordImpl<FeedbackRecord> implemen
      */
     @Override
     public Byte component5() {
-        return getIsDeal();
+        return getHasDeal();
     }
 
     /**
@@ -288,7 +288,7 @@ public class FeedbackRecord extends UpdatableRecordImpl<FeedbackRecord> implemen
      */
     @Override
     public Byte value5() {
-        return getIsDeal();
+        return getHasDeal();
     }
 
     /**
@@ -340,7 +340,7 @@ public class FeedbackRecord extends UpdatableRecordImpl<FeedbackRecord> implemen
      */
     @Override
     public FeedbackRecord value5(Byte value) {
-        setIsDeal(value);
+        setHasDeal(value);
         return this;
     }
 
@@ -381,14 +381,14 @@ public class FeedbackRecord extends UpdatableRecordImpl<FeedbackRecord> implemen
     /**
      * Create a detached, initialised FeedbackRecord
      */
-    public FeedbackRecord(Integer feedbackId, String customerName, String customerContact, String content, Byte isDeal, String remark) {
+    public FeedbackRecord(Integer feedbackId, String customerName, String customerContact, String content, Byte hasDeal, String remark) {
         super(Feedback.FEEDBACK);
 
         set(0, feedbackId);
         set(1, customerName);
         set(2, customerContact);
         set(3, content);
-        set(4, isDeal);
+        set(4, hasDeal);
         set(5, remark);
     }
 }

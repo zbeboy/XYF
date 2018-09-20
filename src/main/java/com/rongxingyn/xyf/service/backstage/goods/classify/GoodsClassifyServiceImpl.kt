@@ -2,6 +2,8 @@ package com.rongxingyn.xyf.service.backstage.goods.classify
 
 import com.rongxingyn.xyf.domain.Tables.CLASSIFY
 import com.rongxingyn.xyf.domain.tables.daos.ClassifyDao
+import com.rongxingyn.xyf.domain.tables.pojos.Classify
+import com.rongxingyn.xyf.domain.tables.records.ClassifyRecord
 import com.rongxingyn.xyf.service.plugin.DataTablesPlugin
 import com.rongxingyn.xyf.service.utils.SQLQueryUtils
 import com.rongxingyn.xyf.web.bean.backstage.goods.classify.ClassifyBean
@@ -24,6 +26,16 @@ open class GoodsClassifyServiceImpl @Autowired constructor(dslContext: DSLContex
     @Resource
     open lateinit var classifyDao: ClassifyDao
 
+    override fun findByClassifyName(classifyName: String): List<Classify> {
+        return classifyDao.fetchByClassifyName(classifyName)
+    }
+
+    override fun findByClassifyNameNeClassifyId(classifyName: String, classifyId: Int): Result<ClassifyRecord>{
+        return create.selectFrom<ClassifyRecord>(CLASSIFY)
+                .where(CLASSIFY.CLASSIFY_NAME.eq(classifyName).and(CLASSIFY.CLASSIFY_ID.ne(classifyId)))
+                .fetch()
+    }
+
     override fun findAllByPage(dataTablesUtils: DataTablesUtils<ClassifyBean>): Result<Record> {
         return dataPagingQueryAll(dataTablesUtils, create, CLASSIFY)
     }
@@ -34,6 +46,11 @@ open class GoodsClassifyServiceImpl @Autowired constructor(dslContext: DSLContex
 
     override fun countByCondition(dataTablesUtils: DataTablesUtils<ClassifyBean>): Int {
         return statisticsWithCondition(dataTablesUtils, create, CLASSIFY)
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
+    override fun save(classify: Classify) {
+        classifyDao.insert(classify)
     }
 
     /**
@@ -87,13 +104,13 @@ open class GoodsClassifyServiceImpl @Autowired constructor(dslContext: DSLContex
                 }
             }
 
-            if ("is_del_classify".equals(orderColumnName, ignoreCase = true)) {
+            if ("classify_is_del".equals(orderColumnName, ignoreCase = true)) {
                 sortField = arrayOfNulls(2)
                 if (isAsc) {
-                    sortField[0] = CLASSIFY.IS_DEL_CLASSIFY.asc()
+                    sortField[0] = CLASSIFY.CLASSIFY_IS_DEL.asc()
                     sortField[1] = CLASSIFY.CLASSIFY_ID.asc()
                 } else {
-                    sortField[0] = CLASSIFY.IS_DEL_CLASSIFY.desc()
+                    sortField[0] = CLASSIFY.CLASSIFY_IS_DEL.desc()
                     sortField[1] = CLASSIFY.CLASSIFY_ID.desc()
                 }
             }

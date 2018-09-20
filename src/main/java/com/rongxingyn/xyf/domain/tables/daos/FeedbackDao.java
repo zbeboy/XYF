@@ -90,10 +90,10 @@ public class FeedbackDao extends DAOImpl<FeedbackRecord, com.rongxingyn.xyf.doma
     }
 
     /**
-     * Fetch records that have <code>is_deal IN (values)</code>
+     * Fetch records that have <code>has_deal IN (values)</code>
      */
-    public List<com.rongxingyn.xyf.domain.tables.pojos.Feedback> fetchByIsDeal(Byte... values) {
-        return fetch(Feedback.FEEDBACK.IS_DEAL, values);
+    public List<com.rongxingyn.xyf.domain.tables.pojos.Feedback> fetchByHasDeal(Byte... values) {
+        return fetch(Feedback.FEEDBACK.HAS_DEAL, values);
     }
 
     /**

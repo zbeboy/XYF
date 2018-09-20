@@ -25,7 +25,7 @@ import javax.validation.constraints.Size;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Goods implements Serializable {
 
-    private static final long serialVersionUID = 746108952;
+    private static final long serialVersionUID = -1239372742;
 
     private String    goodsId;
     private String    goodsName;
@@ -33,7 +33,7 @@ public class Goods implements Serializable {
     private String    goodsBrief;
     private Integer   goodsRecommend;
     private Timestamp updateTime;
-    private Byte      isDelGoods;
+    private Byte      goodsIsDel;
     private Integer   classifyId;
 
     public Goods() {}
@@ -45,7 +45,7 @@ public class Goods implements Serializable {
         this.goodsBrief = value.goodsBrief;
         this.goodsRecommend = value.goodsRecommend;
         this.updateTime = value.updateTime;
-        this.isDelGoods = value.isDelGoods;
+        this.goodsIsDel = value.goodsIsDel;
         this.classifyId = value.classifyId;
     }
 
@@ -56,7 +56,7 @@ public class Goods implements Serializable {
         String    goodsBrief,
         Integer   goodsRecommend,
         Timestamp updateTime,
-        Byte      isDelGoods,
+        Byte      goodsIsDel,
         Integer   classifyId
     ) {
         this.goodsId = goodsId;
@@ -65,7 +65,7 @@ public class Goods implements Serializable {
         this.goodsBrief = goodsBrief;
         this.goodsRecommend = goodsRecommend;
         this.updateTime = updateTime;
-        this.isDelGoods = isDelGoods;
+        this.goodsIsDel = goodsIsDel;
         this.classifyId = classifyId;
     }
 
@@ -123,12 +123,12 @@ public class Goods implements Serializable {
         this.updateTime = updateTime;
     }
 
-    public Byte getIsDelGoods() {
-        return this.isDelGoods;
+    public Byte getGoodsIsDel() {
+        return this.goodsIsDel;
     }
 
-    public void setIsDelGoods(Byte isDelGoods) {
-        this.isDelGoods = isDelGoods;
+    public void setGoodsIsDel(Byte goodsIsDel) {
+        this.goodsIsDel = goodsIsDel;
     }
 
     @NotNull
@@ -150,7 +150,7 @@ public class Goods implements Serializable {
         sb.append(", ").append(goodsBrief);
         sb.append(", ").append(goodsRecommend);
         sb.append(", ").append(updateTime);
-        sb.append(", ").append(isDelGoods);
+        sb.append(", ").append(goodsIsDel);
         sb.append(", ").append(classifyId);
 
         sb.append(")");

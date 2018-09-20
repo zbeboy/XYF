@@ -30,7 +30,7 @@ import org.jooq.impl.UpdatableRecordImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class BannerRecord extends UpdatableRecordImpl<BannerRecord> implements Record5<String, Integer, String, Byte, Integer> {
 
-    private static final long serialVersionUID = 1894177768;
+    private static final long serialVersionUID = -27328623;
 
     /**
      * Setter for <code>xyf.banner.banner_id</code>.
@@ -79,16 +79,16 @@ public class BannerRecord extends UpdatableRecordImpl<BannerRecord> implements R
     }
 
     /**
-     * Setter for <code>xyf.banner.is_hide</code>.
+     * Setter for <code>xyf.banner.banner_is_hide</code>.
      */
-    public void setIsHide(Byte value) {
+    public void setBannerIsHide(Byte value) {
         set(3, value);
     }
 
     /**
-     * Getter for <code>xyf.banner.is_hide</code>.
+     * Getter for <code>xyf.banner.banner_is_hide</code>.
      */
-    public Byte getIsHide() {
+    public Byte getBannerIsHide() {
         return (Byte) get(3);
     }
 
@@ -168,7 +168,7 @@ public class BannerRecord extends UpdatableRecordImpl<BannerRecord> implements R
      */
     @Override
     public Field<Byte> field4() {
-        return Banner.BANNER.IS_HIDE;
+        return Banner.BANNER.BANNER_IS_HIDE;
     }
 
     /**
@@ -208,7 +208,7 @@ public class BannerRecord extends UpdatableRecordImpl<BannerRecord> implements R
      */
     @Override
     public Byte component4() {
-        return getIsHide();
+        return getBannerIsHide();
     }
 
     /**
@@ -248,7 +248,7 @@ public class BannerRecord extends UpdatableRecordImpl<BannerRecord> implements R
      */
     @Override
     public Byte value4() {
-        return getIsHide();
+        return getBannerIsHide();
     }
 
     /**
@@ -291,7 +291,7 @@ public class BannerRecord extends UpdatableRecordImpl<BannerRecord> implements R
      */
     @Override
     public BannerRecord value4(Byte value) {
-        setIsHide(value);
+        setBannerIsHide(value);
         return this;
     }
 
@@ -331,13 +331,13 @@ public class BannerRecord extends UpdatableRecordImpl<BannerRecord> implements R
     /**
      * Create a detached, initialised BannerRecord
      */
-    public BannerRecord(String bannerId, Integer bannerSerial, String bannerUrl, Byte isHide, Integer classifyId) {
+    public BannerRecord(String bannerId, Integer bannerSerial, String bannerUrl, Byte bannerIsHide, Integer classifyId) {
         super(Banner.BANNER);
 
         set(0, bannerId);
         set(1, bannerSerial);
         set(2, bannerUrl);
-        set(3, isHide);
+        set(3, bannerIsHide);
         set(4, classifyId);
     }
 }

@@ -24,28 +24,28 @@ import javax.validation.constraints.Size;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Classify implements Serializable {
 
-    private static final long serialVersionUID = 256501968;
+    private static final long serialVersionUID = 1845964120;
 
     private Integer classifyId;
     private String  classifyName;
-    private Byte    isDelClassify;
+    private Byte    classifyIsDel;
 
     public Classify() {}
 
     public Classify(Classify value) {
         this.classifyId = value.classifyId;
         this.classifyName = value.classifyName;
-        this.isDelClassify = value.isDelClassify;
+        this.classifyIsDel = value.classifyIsDel;
     }
 
     public Classify(
         Integer classifyId,
         String  classifyName,
-        Byte    isDelClassify
+        Byte    classifyIsDel
     ) {
         this.classifyId = classifyId;
         this.classifyName = classifyName;
-        this.isDelClassify = isDelClassify;
+        this.classifyIsDel = classifyIsDel;
     }
 
     public Integer getClassifyId() {
@@ -66,12 +66,12 @@ public class Classify implements Serializable {
         this.classifyName = classifyName;
     }
 
-    public Byte getIsDelClassify() {
-        return this.isDelClassify;
+    public Byte getClassifyIsDel() {
+        return this.classifyIsDel;
     }
 
-    public void setIsDelClassify(Byte isDelClassify) {
-        this.isDelClassify = isDelClassify;
+    public void setClassifyIsDel(Byte classifyIsDel) {
+        this.classifyIsDel = classifyIsDel;
     }
 
     @Override
@@ -80,7 +80,7 @@ public class Classify implements Serializable {
 
         sb.append(classifyId);
         sb.append(", ").append(classifyName);
-        sb.append(", ").append(isDelClassify);
+        sb.append(", ").append(classifyIsDel);
 
         sb.append(")");
         return sb.toString();

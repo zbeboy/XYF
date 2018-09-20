@@ -12,6 +12,8 @@
     <!-- Page level plugin CSS-->
     <link href="vendor/datatables/dataTables.bootstrap4.css" rel="stylesheet" th:href="@{/plugin/datatables/css/dataTables.bootstrap4.min.css}" />
     <link href="vendor/datatables/responsive.bootstrap4.css" rel="stylesheet" th:href="@{/plugin/datatables/css/responsive.bootstrap4.min.css}" />
+    <link rel="stylesheet" th:href="@{/plugin/messenger/css/messenger.css}" />
+    <link rel="stylesheet" th:href="@{/plugin/messenger/css/messenger-theme-future.css}" />
     <!-- Custom styles for this template-->
     <link href="css/sb-admin.css" rel="stylesheet" th:href="@{/plugin/sb-admin/css/sb-admin.min.css}"/>
 </head>
@@ -87,11 +89,11 @@
                         <label for="classifyName" class="col-form-label">类别名:</label>
                         <input type="text" class="form-control" id="classifyName" name="classifyName"/>
                         <div class="invalid-feedback" id="classify_name_error_msg"></div>
-                        <input type="hidden" id="classifyId" name="classifyId"/>
+                        <input type="hidden" id="classifyId" name="classifyId" value="15"/>
                     </div>
                     <div class="form-check">
-                        <input type="checkbox" class="form-check-input" style="margin-left: 0" id="isDelClassify" name="isDelClassify" value="0" />
-                        <label class="form-check-label" for="isDelClassify">不可用</label>
+                        <input type="checkbox" class="form-check-input" style="margin-left: 0" id="classifyIsDel" name="classifyIsDel" value="1" />
+                        <label class="form-check-label" for="classifyIsDel">不可用</label>
                     </div>
                 </form>
             </div>
@@ -125,6 +127,9 @@
 <script src="vendor/datatables/responsive.bootstrap4.js" th:src="@{/plugin/datatables/js/responsive.bootstrap4.min.js}"></script>
 <!-- Custom scripts for all pages-->
 <script src="js/sb-admin.min.js" th:src="@{/plugin/sb-admin/js/sb-admin.min.js}"></script>
+<script th:src="@{/plugin/messenger/js/messenger.min.js}"></script>
+<script th:src="@{/plugin/messenger/js/messenger-theme-future.js}"></script>
+<script th:src="@{/js/imessenger.js}"></script>
 <script th:src="@{/webjars/lodash/dist/lodash.js}"></script>
 <script th:src="@{/js/csrf.js}"></script>
 <script th:src="@{/webjars/handlebars/handlebars.min.js}"></script>

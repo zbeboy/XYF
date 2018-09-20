@@ -24,12 +24,12 @@ import javax.validation.constraints.Size;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Banner implements Serializable {
 
-    private static final long serialVersionUID = -105775541;
+    private static final long serialVersionUID = 1612470727;
 
     private String  bannerId;
     private Integer bannerSerial;
     private String  bannerUrl;
-    private Byte    isHide;
+    private Byte    bannerIsHide;
     private Integer classifyId;
 
     public Banner() {}
@@ -38,7 +38,7 @@ public class Banner implements Serializable {
         this.bannerId = value.bannerId;
         this.bannerSerial = value.bannerSerial;
         this.bannerUrl = value.bannerUrl;
-        this.isHide = value.isHide;
+        this.bannerIsHide = value.bannerIsHide;
         this.classifyId = value.classifyId;
     }
 
@@ -46,13 +46,13 @@ public class Banner implements Serializable {
         String  bannerId,
         Integer bannerSerial,
         String  bannerUrl,
-        Byte    isHide,
+        Byte    bannerIsHide,
         Integer classifyId
     ) {
         this.bannerId = bannerId;
         this.bannerSerial = bannerSerial;
         this.bannerUrl = bannerUrl;
-        this.isHide = isHide;
+        this.bannerIsHide = bannerIsHide;
         this.classifyId = classifyId;
     }
 
@@ -84,12 +84,12 @@ public class Banner implements Serializable {
         this.bannerUrl = bannerUrl;
     }
 
-    public Byte getIsHide() {
-        return this.isHide;
+    public Byte getBannerIsHide() {
+        return this.bannerIsHide;
     }
 
-    public void setIsHide(Byte isHide) {
-        this.isHide = isHide;
+    public void setBannerIsHide(Byte bannerIsHide) {
+        this.bannerIsHide = bannerIsHide;
     }
 
     @NotNull
@@ -108,7 +108,7 @@ public class Banner implements Serializable {
         sb.append(bannerId);
         sb.append(", ").append(bannerSerial);
         sb.append(", ").append(bannerUrl);
-        sb.append(", ").append(isHide);
+        sb.append(", ").append(bannerIsHide);
         sb.append(", ").append(classifyId);
 
         sb.append(")");

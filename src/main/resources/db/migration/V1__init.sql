@@ -17,7 +17,7 @@ CREATE TABLE authorities (
 CREATE TABLE classify(
   classify_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY ,
   classify_name VARCHAR(30) NOT NULL UNIQUE,
-  is_del_classify BOOLEAN NOT NULL DEFAULT 0
+  classify_is_del BOOLEAN NOT NULL DEFAULT 0
 );
 
 CREATE TABLE goods(
@@ -27,7 +27,7 @@ CREATE TABLE goods(
   goods_brief VARCHAR(200) ,
   goods_recommend INT NOT NULL DEFAULT 0,
   update_time DATETIME NOT NULL,
-  is_del_goods BOOLEAN NOT NULL DEFAULT 0,
+  goods_is_del BOOLEAN NOT NULL DEFAULT 0,
   classify_id INT NOT NULL ,
   FOREIGN KEY (classify_id) REFERENCES classify(classify_id)
 );
@@ -43,7 +43,7 @@ CREATE TABLE banner(
   banner_id VARCHAR(64) NOT NULL PRIMARY KEY ,
   banner_serial INT NOT NULL DEFAULT 0,
   banner_url VARCHAR(500) NOT NULL ,
-  is_hide BOOLEAN NOT NULL DEFAULT 0,
+  banner_is_hide BOOLEAN NOT NULL DEFAULT 0,
   classify_id INT NOT NULL ,
   FOREIGN KEY (classify_id) REFERENCES classify(classify_id)
 );
@@ -64,7 +64,7 @@ CREATE TABLE feedback(
   customer_name VARCHAR(20) NOT NULL ,
   customer_contact VARCHAR(100) NOT NULL ,
   content VARCHAR(500) NOT NULL,
-  is_deal BOOLEAN NOT NULL DEFAULT 0,
+  has_deal BOOLEAN NOT NULL DEFAULT 0,
   remark VARCHAR(200)
 );
 

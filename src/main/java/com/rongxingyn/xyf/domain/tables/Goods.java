@@ -40,7 +40,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Goods extends TableImpl<GoodsRecord> {
 
-    private static final long serialVersionUID = -1570187934;
+    private static final long serialVersionUID = -331543112;
 
     /**
      * The reference instance of <code>xyf.goods</code>
@@ -86,9 +86,9 @@ public class Goods extends TableImpl<GoodsRecord> {
     public final TableField<GoodsRecord, Timestamp> UPDATE_TIME = createField("update_time", org.jooq.impl.SQLDataType.TIMESTAMP.nullable(false), this, "");
 
     /**
-     * The column <code>xyf.goods.is_del_goods</code>.
+     * The column <code>xyf.goods.goods_is_del</code>.
      */
-    public final TableField<GoodsRecord, Byte> IS_DEL_GOODS = createField("is_del_goods", org.jooq.impl.SQLDataType.TINYINT.nullable(false).defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.TINYINT)), this, "");
+    public final TableField<GoodsRecord, Byte> GOODS_IS_DEL = createField("goods_is_del", org.jooq.impl.SQLDataType.TINYINT.nullable(false).defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.TINYINT)), this, "");
 
     /**
      * The column <code>xyf.goods.classify_id</code>.

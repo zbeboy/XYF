@@ -30,7 +30,7 @@ import org.jooq.impl.UpdatableRecordImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class ClassifyRecord extends UpdatableRecordImpl<ClassifyRecord> implements Record3<Integer, String, Byte> {
 
-    private static final long serialVersionUID = 2085426301;
+    private static final long serialVersionUID = 732105721;
 
     /**
      * Setter for <code>xyf.classify.classify_id</code>.
@@ -63,16 +63,16 @@ public class ClassifyRecord extends UpdatableRecordImpl<ClassifyRecord> implemen
     }
 
     /**
-     * Setter for <code>xyf.classify.is_del_classify</code>.
+     * Setter for <code>xyf.classify.classify_is_del</code>.
      */
-    public void setIsDelClassify(Byte value) {
+    public void setClassifyIsDel(Byte value) {
         set(2, value);
     }
 
     /**
-     * Getter for <code>xyf.classify.is_del_classify</code>.
+     * Getter for <code>xyf.classify.classify_is_del</code>.
      */
-    public Byte getIsDelClassify() {
+    public Byte getClassifyIsDel() {
         return (Byte) get(2);
     }
 
@@ -129,7 +129,7 @@ public class ClassifyRecord extends UpdatableRecordImpl<ClassifyRecord> implemen
      */
     @Override
     public Field<Byte> field3() {
-        return Classify.CLASSIFY.IS_DEL_CLASSIFY;
+        return Classify.CLASSIFY.CLASSIFY_IS_DEL;
     }
 
     /**
@@ -153,7 +153,7 @@ public class ClassifyRecord extends UpdatableRecordImpl<ClassifyRecord> implemen
      */
     @Override
     public Byte component3() {
-        return getIsDelClassify();
+        return getClassifyIsDel();
     }
 
     /**
@@ -177,7 +177,7 @@ public class ClassifyRecord extends UpdatableRecordImpl<ClassifyRecord> implemen
      */
     @Override
     public Byte value3() {
-        return getIsDelClassify();
+        return getClassifyIsDel();
     }
 
     /**
@@ -203,7 +203,7 @@ public class ClassifyRecord extends UpdatableRecordImpl<ClassifyRecord> implemen
      */
     @Override
     public ClassifyRecord value3(Byte value) {
-        setIsDelClassify(value);
+        setClassifyIsDel(value);
         return this;
     }
 
@@ -232,11 +232,11 @@ public class ClassifyRecord extends UpdatableRecordImpl<ClassifyRecord> implemen
     /**
      * Create a detached, initialised ClassifyRecord
      */
-    public ClassifyRecord(Integer classifyId, String classifyName, Byte isDelClassify) {
+    public ClassifyRecord(Integer classifyId, String classifyName, Byte classifyIsDel) {
         super(Classify.CLASSIFY);
 
         set(0, classifyId);
         set(1, classifyName);
-        set(2, isDelClassify);
+        set(2, classifyIsDel);
     }
 }

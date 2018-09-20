@@ -39,7 +39,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Feedback extends TableImpl<FeedbackRecord> {
 
-    private static final long serialVersionUID = 1407356550;
+    private static final long serialVersionUID = 621396186;
 
     /**
      * The reference instance of <code>xyf.feedback</code>
@@ -75,9 +75,9 @@ public class Feedback extends TableImpl<FeedbackRecord> {
     public final TableField<FeedbackRecord, String> CONTENT = createField("content", org.jooq.impl.SQLDataType.VARCHAR(500).nullable(false), this, "");
 
     /**
-     * The column <code>xyf.feedback.is_deal</code>.
+     * The column <code>xyf.feedback.has_deal</code>.
      */
-    public final TableField<FeedbackRecord, Byte> IS_DEAL = createField("is_deal", org.jooq.impl.SQLDataType.TINYINT.nullable(false).defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.TINYINT)), this, "");
+    public final TableField<FeedbackRecord, Byte> HAS_DEAL = createField("has_deal", org.jooq.impl.SQLDataType.TINYINT.nullable(false).defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.TINYINT)), this, "");
 
     /**
      * The column <code>xyf.feedback.remark</code>.
