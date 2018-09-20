@@ -4,7 +4,9 @@ $(document).ready(function () {
     参数
     */
     var param = {
-        classifyName: ''
+        classifyName: '',
+        dataClassifyName: '',
+        dataClassifyId: ''
     };
 
     /*
@@ -23,7 +25,9 @@ $(document).ready(function () {
     */
     function getParamId() {
         return {
-            classifyName: '#search_classify'
+            classifyName: '#search_classify',
+            dataClassifyName: '#classifyName',
+            dataClassifyId: '#dataClassifyId'
         };
     }
 
@@ -39,6 +43,36 @@ $(document).ready(function () {
      */
     function initParam() {
         param.classifyName = $(getParamId().classifyName).val();
+        param.dataClassifyName = $(getParamId().dataClassifyName).val();
+        param.dataClassifyId = $(getParamId().dataClassifyId).val();
+    }
+
+    /*
+    错误消息id
+    */
+    var errorMsgId = {
+        dataClassifyName: '#classify_name_error_msg'
+    };
+
+    /**
+     * 检验成功
+     * @param validId
+     * @param errorMsgId
+     */
+    function validSuccessDom(validId, errorMsgId) {
+        $(validId).removeClass('is-invalid');
+        $(errorMsgId).text('');
+    }
+
+    /**
+     * 检验失败
+     * @param validId
+     * @param errorMsgId
+     * @param msg
+     */
+    function validErrorDom(validId, errorMsgId, msg) {
+        $(validId).addClass('is-invalid');
+        $(errorMsgId).text(msg);
     }
 
     // 预编译模板
@@ -200,9 +234,47 @@ $(document).ready(function () {
     $('#mytoolbox').append(html);
 
     var global_button = '<button type="button" id="classify_add" class="btn btn-outline btn-primary btn-sm"><i class="fa fa-plus"></i>添加</button>' +
-        '  <button type="button" id="classify_dels" class="btn btn-outline btn-danger btn-sm"><i class="fa fa-trash-o"></i>批量注销</button>' +
+        '  <button type="button" id="classify_dels" class="btn btn-outline btn-danger btn-sm"><i class="fa fa-trash-o"></i>批量删除</button>' +
         '  <button type="button" id="classify_recoveries" class="btn btn-outline btn-warning btn-sm"><i class="fa fa-reply-all"></i>批量恢复</button>' +
         '  <button type="button" id="refresh" class="btn btn-outline btn-default btn-sm"><i class="fa fa-refresh"></i>刷新</button>';
     $('#global_button').append(global_button);
+
+
+    /*
+    添加
+    */
+    $('#classify_add').click(function () {
+        $('#addModalLabel').text('添加类别');
+        $('#addModal').modal('show');
+    });
+
+    /**
+     * 保存数据
+     */
+    $('#save').click(function () {
+        initParam();
+        validClassifyName(getAjaxUrl().add)
+    });
+
+    /**
+     * 校验类别名
+     */
+    function validClassifyName(url){
+        var dataClassifyName = getParam().dataClassifyName;
+        if (_.trim(dataClassifyName) === '') {
+            validErrorDom(getParamId().dataClassifyName, errorMsgId.dataClassifyName, '请填写类别');
+        } else {
+            validSuccessDom(getParamId().dataClassifyName, errorMsgId.dataClassifyName);
+            sendAjax(url);
+        }
+    }
+
+    /**
+     * 发送数据到后台
+     * @param url
+     */
+    function sendAjax(url){
+
+    }
 
 });

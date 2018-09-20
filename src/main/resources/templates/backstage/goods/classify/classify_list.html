@@ -71,6 +71,38 @@
         <i class="fa fa-angle-up"></i>
     </a>
 </div>
+<!-- add Modal -->
+<div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="addModalLabel">类别</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+               <form id="dataForm">
+                    <div class="form-group">
+                        <label for="classifyName" class="col-form-label">类别名:</label>
+                        <input type="text" class="form-control" id="classifyName" name="classifyName"/>
+                        <div class="invalid-feedback" id="classify_name_error_msg"></div>
+                        <input type="hidden" id="classifyId" name="classifyId"/>
+                    </div>
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" style="margin-left: 0" id="isDelClassify" name="isDelClassify" value="0" />
+                        <label class="form-check-label" for="isDelClassify">不可用</label>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="save">保存</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <!--定义操作列按钮模板-->
 <script id="operator_button" type="text/x-handlebars-template">
     {{#each func}}
@@ -93,6 +125,7 @@
 <script src="vendor/datatables/responsive.bootstrap4.js" th:src="@{/plugin/datatables/js/responsive.bootstrap4.min.js}"></script>
 <!-- Custom scripts for all pages-->
 <script src="js/sb-admin.min.js" th:src="@{/plugin/sb-admin/js/sb-admin.min.js}"></script>
+<script th:src="@{/webjars/lodash/dist/lodash.js}"></script>
 <script th:src="@{/js/csrf.js}"></script>
 <script th:src="@{/webjars/handlebars/handlebars.min.js}"></script>
 <script th:src="@{/plugin/checkall/checkall.min.js}"></script>

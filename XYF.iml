@@ -154,6 +154,7 @@
     <orderEntry type="library" name="Maven: org.webjars:jquery:3.0.0" level="project" />
     <orderEntry type="library" name="Maven: org.webjars.npm:popper.js:1.11.1" level="project" />
     <orderEntry type="library" name="Maven: org.webjars:font-awesome:4.7.0" level="project" />
+    <orderEntry type="library" name="Maven: org.webjars.bower:lodash:4.17.10" level="project" />
     <orderEntry type="library" name="Maven: org.webjars:handlebars:4.0.11-1" level="project" />
   </component>
 </module>

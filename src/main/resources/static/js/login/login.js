@@ -102,6 +102,7 @@
     });
 
     $(paramId.btnLogin).click(function () {
+        initParam();
         validUsername();
     });
 
@@ -118,10 +119,8 @@
     });
 
     function validUsername() {
-        initParam();
         var username = param.username;
-        if (username === '') {
-            console.log('hahahah')
+        if (_.trim(username) === '') {
             validErrorDom(paramId.username, errorMsgId.username, msg.username);
         } else {
             validSuccessDom(paramId.username, errorMsgId.username);
@@ -130,7 +129,6 @@
     }
 
     function validPassword() {
-        initParam();
         var password = param.password;
         if (!valid_regex.password_regex.test(password)) {
             validErrorDom(paramId.password, errorMsgId.password, msg.password);
