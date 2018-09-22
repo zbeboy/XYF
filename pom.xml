@@ -27,7 +27,7 @@
         <commons-lang3.version>3.7</commons-lang3.version>
         <fastJson.version>1.2.49</fastJson.version>
         <!-- support kotlin -->
-        <kotlin.version>1.2.60</kotlin.version>
+        <kotlin.version>1.2.70</kotlin.version>
         <!-- webjars -->
         <webjars.bootstrap.version>4.0.0-beta.2</webjars.bootstrap.version>
         <webjars.font-awesome.version>4.7.0</webjars.font-awesome.version>
