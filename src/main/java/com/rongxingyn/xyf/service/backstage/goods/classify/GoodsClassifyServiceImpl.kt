@@ -26,6 +26,10 @@ open class GoodsClassifyServiceImpl @Autowired constructor(dslContext: DSLContex
     @Resource
     open lateinit var classifyDao: ClassifyDao
 
+    override fun findById(id: Int): Classify {
+        return classifyDao.findById(id)
+    }
+
     override fun findByClassifyName(classifyName: String): List<Classify> {
         return classifyDao.fetchByClassifyName(classifyName)
     }
@@ -51,6 +55,16 @@ open class GoodsClassifyServiceImpl @Autowired constructor(dslContext: DSLContex
     @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
     override fun save(classify: Classify) {
         classifyDao.insert(classify)
+    }
+
+    override fun update(classify: Classify) {
+        classifyDao.update(classify)
+    }
+
+    override fun updateState(ids: List<Int>, isDel: Byte?) {
+        for (id in ids) {
+            create.update<ClassifyRecord>(CLASSIFY).set<Byte>(CLASSIFY.CLASSIFY_IS_DEL, isDel).where(CLASSIFY.CLASSIFY_ID.eq(id)).execute()
+        }
     }
 
     /**

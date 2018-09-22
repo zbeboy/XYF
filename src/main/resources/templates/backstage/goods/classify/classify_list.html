@@ -73,12 +73,13 @@
         <i class="fa fa-angle-up"></i>
     </a>
 </div>
-<!-- add Modal -->
-<div class="modal fade" id="addModal" tabindex="-1" role="dialog" aria-labelledby="addModalLabel" aria-hidden="true">
+<!-- Modal -->
+<div class="modal fade" id="modal" tabindex="-1" role="dialog" aria-labelledby="modalLabel" aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="addModalLabel">类别</h5>
+                <h5 class="modal-title" id="modalLabel">类别</h5>
+                <input type="hidden" id="modalType" />
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                     <span aria-hidden="true">&times;</span>
                 </button>
@@ -89,7 +90,7 @@
                         <label for="classifyName" class="col-form-label">类别名:</label>
                         <input type="text" class="form-control" id="classifyName" name="classifyName"/>
                         <div class="invalid-feedback" id="classify_name_error_msg"></div>
-                        <input type="hidden" id="classifyId" name="classifyId" value="15"/>
+                        <input type="hidden" id="classifyId" name="classifyId"/>
                     </div>
                     <div class="form-check">
                         <input type="checkbox" class="form-check-input" style="margin-left: 0" id="classifyIsDel" name="classifyIsDel" value="1" />

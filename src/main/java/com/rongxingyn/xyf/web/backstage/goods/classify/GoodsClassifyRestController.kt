@@ -3,24 +3,25 @@ package com.rongxingyn.xyf.web.backstage.goods.classify
 import com.rongxingyn.xyf.domain.tables.pojos.Classify
 import com.rongxingyn.xyf.service.backstage.goods.classify.GoodsClassifyService
 import com.rongxingyn.xyf.web.bean.backstage.goods.classify.ClassifyBean
+import com.rongxingyn.xyf.web.utils.AjaxUtils
 import com.rongxingyn.xyf.web.utils.DataTablesUtils
+import com.rongxingyn.xyf.web.utils.SmallPropsUtils
 import com.rongxingyn.xyf.web.vo.backstage.goods.classify.ClassifyAddVo
+import com.rongxingyn.xyf.web.vo.backstage.goods.classify.ClassifyEditVo
+import com.rongxingyn.xyf.web.vo.backstage.goods.classify.ClassifyStateVo
 import com.rongxingyn.xyf.web.vo.backstage.goods.classify.ClassifyValidVo
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.util.CollectionUtils
 import org.springframework.util.ObjectUtils
+import org.springframework.util.StringUtils
 import org.springframework.validation.BindingResult
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PostMapping
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 import org.springframework.web.server.ServerWebExchange
 import reactor.core.publisher.Mono
 import java.util.*
 import javax.annotation.Resource
 import javax.validation.Valid
-import kotlin.collections.HashMap
 
 @RestController
 @RequestMapping("/web/goods")
@@ -57,6 +58,17 @@ open class GoodsClassifyRestController {
     }
 
     /**
+     * 查询类别
+     *
+     * @param classify 类别id
+     * @return 数据
+     */
+    @GetMapping("/classify/query/{classify}")
+    fun getClassify(@PathVariable classify: Int): Mono<Classify> {
+        return Mono.just(goodsClassifyService.findById(classify))
+    }
+
+    /**
      * 商品分类名校验
      *
      * @param classifyValidVo 请求数据
@@ -65,35 +77,29 @@ open class GoodsClassifyRestController {
      */
     @GetMapping("/classify/valid")
     fun valid(@Valid classifyValidVo: ClassifyValidVo, bindingResult: BindingResult): Mono<ResponseEntity<Map<String, Any>>> {
-        val data = HashMap<String, Any>()
+        val ajaxUtils = AjaxUtils.of()
         if (!bindingResult.hasErrors()) {
             if (0 == classifyValidVo.type) {
                 val classify = goodsClassifyService.findByClassifyName(classifyValidVo.classifyName!!)
                 if (CollectionUtils.isEmpty(classify)) {
-                    data["state"] = true
-                    data["msg"] = "类别名不存在"
+                    ajaxUtils.success().msg("类别名不存在")
                 } else {
-                    data["state"] = false
-                    data["msg"] = "类别名已存在"
+                    ajaxUtils.fail().msg("类别名已存在")
                 }
             } else if (1 == classifyValidVo.type) {
                 val classify = goodsClassifyService.findByClassifyNameNeClassifyId(classifyValidVo.classifyName!!, classifyValidVo.classifyId!!)
                 if (classify.isEmpty()) {
-                    data["state"] = true
-                    data["msg"] = "类别名不存在"
+                    ajaxUtils.success().msg("类别名不存在")
                 } else {
-                    data["state"] = false
-                    data["msg"] = "类别名已存在"
+                    ajaxUtils.fail().msg("类别名已存在")
                 }
             } else {
-                data["state"] = false
-                data["msg"] = "未知的校验类型"
+                ajaxUtils.fail().msg("未知的校验类型")
             }
         } else {
-            data["state"] = false
-            data["msg"] = bindingResult.fieldError!!.defaultMessage!!
+            ajaxUtils.fail().msg("bindingResult.fieldError!!.defaultMessage!!")
         }
-        return Mono.just(ResponseEntity<Map<String, Any>>(data, HttpStatus.OK))
+        return Mono.just(ResponseEntity(ajaxUtils.send(), HttpStatus.OK))
     }
 
     /**
@@ -105,19 +111,59 @@ open class GoodsClassifyRestController {
      */
     @PostMapping("/classify/add")
     fun add(@Valid classifyAddVo: ClassifyAddVo, bindingResult: BindingResult): Mono<ResponseEntity<Map<String, Any>>> {
-        val data = HashMap<String, Any>()
+        val ajaxUtils = AjaxUtils.of()
         if (!bindingResult.hasErrors()) {
             val classify = Classify()
             classify.classifyName = classifyAddVo.classifyName
             classify.classifyIsDel = classifyAddVo.classifyIsDel
             goodsClassifyService.save(classify)
-            data["state"] = true
-            data["msg"] = "保存数据成功"
+            ajaxUtils.success().msg("保存数据成功")
         } else {
-            data["state"] = false
-            data["msg"] = bindingResult.fieldError!!.defaultMessage!!
+            ajaxUtils.fail().msg(bindingResult.fieldError!!.defaultMessage!!)
         }
 
-        return Mono.just(ResponseEntity<Map<String, Any>>(data, HttpStatus.OK))
+        return Mono.just(ResponseEntity(ajaxUtils.send(), HttpStatus.OK))
+    }
+
+    /**
+     * 商品分类添加
+     *
+     * @param classifyEditVo 请求数据
+     * @param bindingResult 校验
+     * @return true or false
+     */
+    @PutMapping("/classify/edit")
+    fun edit(@Valid classifyEditVo: ClassifyEditVo, bindingResult: BindingResult): Mono<ResponseEntity<Map<String, Any>>> {
+        val ajaxUtils = AjaxUtils.of()
+        if (!bindingResult.hasErrors()) {
+            val classify = goodsClassifyService.findById(classifyEditVo.classifyId!!)
+            classify.classifyName = classifyEditVo.classifyName
+            classify.classifyIsDel = classifyEditVo.classifyIsDel
+            goodsClassifyService.update(classify)
+            ajaxUtils.success().msg("更新数据成功")
+        } else {
+            ajaxUtils.fail().msg(bindingResult.fieldError!!.defaultMessage!!)
+        }
+
+        return Mono.just(ResponseEntity(ajaxUtils.send(), HttpStatus.OK))
+    }
+
+    /**
+     * 批量更改状态
+     *
+     * @param classifyIds ids
+     * @param classifyIsDel  状态
+     * @return true注销成功
+     */
+    @PutMapping("/classify/state")
+    fun state(classifyStateVo: ClassifyStateVo): Mono<ResponseEntity<Map<String, Any>>> {
+        val ajaxUtils = AjaxUtils.of()
+        if (StringUtils.hasLength(classifyStateVo.classifyIds) && SmallPropsUtils.StringIdsIsNumber(classifyStateVo.classifyIds!!)) {
+            goodsClassifyService.updateState(SmallPropsUtils.StringIdsToList(classifyStateVo.classifyIds!!), classifyStateVo.classifyIsDel)
+            ajaxUtils.success().msg("更新状态成功")
+        } else {
+            ajaxUtils.fail().msg("更新状态失败")
+        }
+        return Mono.just(ResponseEntity(ajaxUtils.send(), HttpStatus.OK))
     }
 }

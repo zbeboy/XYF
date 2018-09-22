@@ -6,7 +6,8 @@ $(document).ready(function () {
     var param = {
         classifyName: '',
         dataClassifyName: '',
-        dataClassifyId: ''
+        dataClassifyId: '',
+        dataClassifyIsDel: ''
     };
 
     /*
@@ -17,7 +18,9 @@ $(document).ready(function () {
             classifies: '/web/goods/classify/data',
             valid: '/web/goods/classify/valid',
             add: '/web/goods/classify/add',
-            edit: '/web/goods/classify/edit'
+            edit: '/web/goods/classify/edit',
+            query: '/web/goods/classify/query',
+            state: '/web/goods/classify/state'
         };
     }
 
@@ -28,7 +31,8 @@ $(document).ready(function () {
         return {
             classifyName: '#search_classify',
             dataClassifyName: '#classifyName',
-            dataClassifyId: '#dataClassifyId'
+            dataClassifyId: '#classifyId',
+            dataClassifyIsDel: '#classifyIsDel'
         };
     }
 
@@ -46,6 +50,8 @@ $(document).ready(function () {
         param.classifyName = $(getParamId().classifyName).val();
         param.dataClassifyName = $(getParamId().dataClassifyName).val();
         param.dataClassifyId = $(getParamId().dataClassifyId).val();
+        var isDel = $('input[name="classifyIsDel"]:checked').val();
+        param.dataClassifyIsDel = _.isUndefined(isDel) ? 0 : isDel;
     }
 
     /*
@@ -218,10 +224,20 @@ $(document).ready(function () {
             }
         },
         "dom": "<'row'<'col-sm-2'l><'#global_button.col-sm-4'><'col-sm-6'<'#mytoolbox'>>r>" +
-        "t" +
-        "<'row'<'col-sm-5'i><'col-sm-7'p>>",
+            "t" +
+            "<'row'<'col-sm-5'i><'col-sm-7'p>>",
         initComplete: function () {
+            tableElement.delegate('.edit', "click", function () {
+                edit($(this).attr('data-id'));
+            });
 
+            tableElement.delegate('.del', "click", function () {
+                classify_del($(this).attr('data-id'), $(this).attr('data-classify'));
+            });
+
+            tableElement.delegate('.recovery', "click", function () {
+                classify_recovery($(this).attr('data-id'), $(this).attr('data-classify'));
+            });
         }
     });
 
@@ -240,13 +256,71 @@ $(document).ready(function () {
         '  <button type="button" id="refresh" class="btn btn-outline btn-default btn-sm"><i class="fa fa-refresh"></i>刷新</button>';
     $('#global_button').append(global_button);
 
+    /*
+    清空参数
+    */
+    function cleanParam() {
+        $(getParamId().classifyName).val('');
+    }
+
+    $(getParamId().classifyName).keyup(function (event) {
+        if (event.keyCode === 13) {
+            initParam();
+            myTable.ajax.reload();
+        }
+    });
+
+    $('#search').click(function () {
+        initParam();
+        myTable.ajax.reload();
+    });
+
+    $('#reset_search').click(function () {
+        cleanParam();
+        initParam();
+        myTable.ajax.reload();
+    });
+
+    $('#refresh').click(function () {
+        myTable.ajax.reload();
+    });
 
     /*
     添加
     */
     $('#classify_add').click(function () {
-        $('#addModalLabel').text('添加类别');
-        $('#addModal').modal('show');
+        $('#modalLabel').text('添加类别');
+        $('#modalType').val('add');
+        $('#modal').modal('show');
+    });
+
+    /*
+     编辑
+     */
+    function edit(classifyId) {
+        Messenger().run({
+            progressMessage: '正在查询数据...'
+        }, {
+            url: web_path + getAjaxUrl().query + '/' + classifyId,
+            success: function (data) {
+                $('#modalLabel').text('编辑类别');
+                $('#modalType').val('edit');
+                $(getParamId().dataClassifyName).val(data.classifyName);
+                $(getParamId().dataClassifyId).val(classifyId);
+                $(getParamId().dataClassifyIsDel).prop('checked', data.classifyIsDel);
+                $('#modal').modal('show');
+            },
+            error: function (xhr) {
+                if ((xhr != null ? xhr.status : void 0) === 404) {
+                    return "请求错误";
+                }
+                return true;
+            }
+        });
+    }
+
+    $('#modal').on('shown.bs.modal', function () {
+        $(getParamId().dataClassifyName).trigger('focus');
     });
 
     /**
@@ -254,27 +328,37 @@ $(document).ready(function () {
      */
     $('#save').click(function () {
         initParam();
-        validClassifyName(getAjaxUrl().add)
+        validClassifyName();
     });
 
     /**
      * 校验类别名
      */
-    function validClassifyName(url) {
+    function validClassifyName() {
         var dataClassifyName = getParam().dataClassifyName;
         if (_.inRange(dataClassifyName.length, 1, 30)) {
+            var data = "";
+            if ($('#modalType').val() === 'add') {
+                data = {
+                    type: 0,
+                    classifyName: dataClassifyName
+                };
+            } else {
+                data = {
+                    type: 1,
+                    classifyName: dataClassifyName,
+                    classifyId: getParam().dataClassifyId
+                };
+            }
             Messenger().run({
                 progressMessage: '正在校验数据...'
             }, {
                 url: web_path + getAjaxUrl().valid,
-                data: {
-                    type: 0,
-                    classifyName: dataClassifyName
-                },
+                data: data,
                 success: function (data) {
                     if (data.state) {
                         validSuccessDom(getParamId().dataClassifyName, errorMsgId.dataClassifyName);
-                        sendAjax(url);
+                        sendAjax();
                     } else {
                         validErrorDom(getParamId().dataClassifyName, errorMsgId.dataClassifyName, data.msg);
                     }
@@ -293,18 +377,25 @@ $(document).ready(function () {
 
     /**
      * 发送数据到后台
-     * @param url
      */
-    function sendAjax(url) {
+    function sendAjax() {
+        var url = "";
+        if ($('#modalType').val() === 'add') {
+            url = getAjaxUrl().add;
+            type = "post";
+        } else {
+            url = getAjaxUrl().edit;
+            type = "put";
+        }
         Messenger().run({
             progressMessage: '正在保存数据...'
         }, {
             url: web_path + url,
-            type: 'post',
+            type: type,
             data: $('#dataForm').serialize(),
             success: function (data) {
                 if (data.state) {
-                    $('#addModal').modal('hide');
+                    $('#modal').modal('hide');
                     myTable.ajax.reload();
                 } else {
                     Messenger().post({
@@ -317,6 +408,108 @@ $(document).ready(function () {
             error: function (xhr) {
                 if ((xhr != null ? xhr.status : void 0) === 404) {
                     return "请求错误";
+                }
+                return true;
+            }
+        });
+    }
+
+
+    /*
+     删除
+    */
+    function classify_del(classifyId, classifyName) {
+        var msg;
+        msg = Messenger().post({
+            message: "确定删除类别 '" + classifyName + "' 吗?",
+            actions: {
+                retry: {
+                    label: '确定',
+                    phrase: 'Retrying TIME',
+                    action: function () {
+                        msg.cancel();
+                        del(classifyId);
+                    }
+                },
+                cancel: {
+                    label: '取消',
+                    action: function () {
+                        return msg.cancel();
+                    }
+                }
+            }
+        });
+    }
+
+    /*
+     恢复
+     */
+    function school_recovery(schoolId, schoolName) {
+        var msg;
+        msg = Messenger().post({
+            message: "确定恢复学校 '" + schoolName + "' 吗?",
+            actions: {
+                retry: {
+                    label: '确定',
+                    phrase: 'Retrying TIME',
+                    action: function () {
+                        msg.cancel();
+                        recovery(schoolId);
+                    }
+                },
+                cancel: {
+                    label: '取消',
+                    action: function () {
+                        return msg.cancel();
+                    }
+                }
+            }
+        });
+    }
+
+    function del(classifyId) {
+        sendUpdateDelAjax(classifyId, '删除', 1);
+    }
+
+    function recovery(schoolId) {
+        sendUpdateDelAjax(schoolId, '恢复', 0);
+    }
+
+    function dels(schoolIds) {
+        sendUpdateDelAjax(schoolIds.join(","), '批量注销', 1);
+    }
+
+    function recoveries(schoolIds) {
+        sendUpdateDelAjax(schoolIds.join(","), '批量恢复', 0);
+    }
+
+    /**
+     * 注销或恢复ajax
+     * @param classifyId
+     * @param message
+     * @param classifyIsDel
+     */
+    function sendUpdateDelAjax(classifyId, message, classifyIsDel) {
+        Messenger().run({
+            progressMessage: '正在' + message + '类别....'
+        }, {
+            url: web_path + getAjaxUrl().state,
+            type: 'put',
+            data: {classifyIds: classifyId, classifyIsDel: classifyIsDel},
+            success: function (data) {
+                if (data.state) {
+                    myTable.ajax.reload();
+                } else {
+                    Messenger().post({
+                        message: data.msg,
+                        type: 'error',
+                        showCloseButton: true
+                    });
+                }
+            },
+            error: function (xhr) {
+                if ((xhr != null ? xhr.status : void 0) === 404) {
+                    return "请求失败";
                 }
                 return true;
             }

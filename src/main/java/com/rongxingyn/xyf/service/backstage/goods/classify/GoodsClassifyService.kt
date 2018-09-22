@@ -10,6 +10,14 @@ import org.jooq.Result
 interface GoodsClassifyService {
 
     /**
+     * 根据主键查询
+     *
+     * @param id 主键
+     * @return 数据
+     */
+    fun findById(id: Int): Classify
+
+    /**
      * 根据类别名查询
      *
      * @param classifyName 类别名
@@ -54,4 +62,19 @@ interface GoodsClassifyService {
      * @param classify 数据
      */
     fun save(classify: Classify)
+
+    /**
+     * 更新
+     *
+     * @param classify 数据
+     */
+    fun update(classify: Classify)
+
+    /**
+     * 通过id更新状态
+     *
+     * @param ids   ids
+     * @param isDel is_del
+     */
+    fun updateState(ids: List<Int>, isDel: Byte?)
 }
