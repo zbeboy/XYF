@@ -151,18 +151,21 @@ open class GoodsClassifyRestController {
     /**
      * 批量更改状态
      *
-     * @param classifyIds ids
-     * @param classifyIsDel  状态
+     * @param classifyStateVo 数据
      * @return true注销成功
      */
     @PutMapping("/classify/state")
-    fun state(classifyStateVo: ClassifyStateVo): Mono<ResponseEntity<Map<String, Any>>> {
+    fun state(@Valid classifyStateVo: ClassifyStateVo, bindingResult: BindingResult): Mono<ResponseEntity<Map<String, Any>>> {
         val ajaxUtils = AjaxUtils.of()
-        if (StringUtils.hasLength(classifyStateVo.classifyIds) && SmallPropsUtils.StringIdsIsNumber(classifyStateVo.classifyIds!!)) {
-            goodsClassifyService.updateState(SmallPropsUtils.StringIdsToList(classifyStateVo.classifyIds!!), classifyStateVo.classifyIsDel)
-            ajaxUtils.success().msg("更新状态成功")
+        if (!bindingResult.hasErrors()) {
+            if (StringUtils.hasLength(classifyStateVo.classifyIds) && SmallPropsUtils.StringIdsIsNumber(classifyStateVo.classifyIds!!)) {
+                goodsClassifyService.updateState(SmallPropsUtils.StringIdsToList(classifyStateVo.classifyIds!!), classifyStateVo.classifyIsDel!!)
+                ajaxUtils.success().msg("更新状态成功")
+            } else {
+                ajaxUtils.fail().msg("更新状态失败")
+            }
         } else {
-            ajaxUtils.fail().msg("更新状态失败")
+            ajaxUtils.fail().msg(bindingResult.fieldError!!.defaultMessage!!)
         }
         return Mono.just(ResponseEntity(ajaxUtils.send(), HttpStatus.OK))
     }

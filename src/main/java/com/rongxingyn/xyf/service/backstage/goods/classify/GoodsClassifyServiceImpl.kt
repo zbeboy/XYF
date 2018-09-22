@@ -61,7 +61,7 @@ open class GoodsClassifyServiceImpl @Autowired constructor(dslContext: DSLContex
         classifyDao.update(classify)
     }
 
-    override fun updateState(ids: List<Int>, isDel: Byte?) {
+    override fun updateState(ids: List<Int>, isDel: Byte) {
         for (id in ids) {
             create.update<ClassifyRecord>(CLASSIFY).set<Byte>(CLASSIFY.CLASSIFY_IS_DEL, isDel).where(CLASSIFY.CLASSIFY_ID.eq(id)).execute()
         }

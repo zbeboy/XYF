@@ -76,5 +76,5 @@ interface GoodsClassifyService {
      * @param ids   ids
      * @param isDel is_del
      */
-    fun updateState(ids: List<Int>, isDel: Byte?)
+    fun updateState(ids: List<Int>, isDel: Byte)
 }
