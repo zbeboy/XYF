@@ -15,7 +15,7 @@ open class GoodsClassifyViewController {
      * @return list page
      */
     @GetMapping("/classify/list")
-    fun root(): Mono<String> {
+    fun list(): Mono<String> {
         return Mono.just("backstage/goods/classify/classify_list")
     }
 }
