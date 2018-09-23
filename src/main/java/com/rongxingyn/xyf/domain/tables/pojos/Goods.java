@@ -5,7 +5,6 @@ package com.rongxingyn.xyf.domain.tables.pojos;
 
 
 import java.io.Serializable;
-import java.sql.Timestamp;
 
 import javax.annotation.Generated;
 import javax.validation.constraints.NotNull;
@@ -25,16 +24,16 @@ import javax.validation.constraints.Size;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Goods implements Serializable {
 
-    private static final long serialVersionUID = -1239372742;
+    private static final long serialVersionUID = 135068332;
 
-    private String    goodsId;
-    private String    goodsName;
-    private Double    goodsPrice;
-    private String    goodsBrief;
-    private Integer   goodsRecommend;
-    private Timestamp updateTime;
-    private Byte      goodsIsDel;
-    private Integer   classifyId;
+    private String  goodsId;
+    private String  goodsName;
+    private Double  goodsPrice;
+    private String  goodsBrief;
+    private Integer goodsRecommend;
+    private Integer goodsSerial;
+    private Byte    goodsIsDel;
+    private Integer classifyId;
 
     public Goods() {}
 
@@ -44,27 +43,27 @@ public class Goods implements Serializable {
         this.goodsPrice = value.goodsPrice;
         this.goodsBrief = value.goodsBrief;
         this.goodsRecommend = value.goodsRecommend;
-        this.updateTime = value.updateTime;
+        this.goodsSerial = value.goodsSerial;
         this.goodsIsDel = value.goodsIsDel;
         this.classifyId = value.classifyId;
     }
 
     public Goods(
-        String    goodsId,
-        String    goodsName,
-        Double    goodsPrice,
-        String    goodsBrief,
-        Integer   goodsRecommend,
-        Timestamp updateTime,
-        Byte      goodsIsDel,
-        Integer   classifyId
+        String  goodsId,
+        String  goodsName,
+        Double  goodsPrice,
+        String  goodsBrief,
+        Integer goodsRecommend,
+        Integer goodsSerial,
+        Byte    goodsIsDel,
+        Integer classifyId
     ) {
         this.goodsId = goodsId;
         this.goodsName = goodsName;
         this.goodsPrice = goodsPrice;
         this.goodsBrief = goodsBrief;
         this.goodsRecommend = goodsRecommend;
-        this.updateTime = updateTime;
+        this.goodsSerial = goodsSerial;
         this.goodsIsDel = goodsIsDel;
         this.classifyId = classifyId;
     }
@@ -114,13 +113,12 @@ public class Goods implements Serializable {
         this.goodsRecommend = goodsRecommend;
     }
 
-    @NotNull
-    public Timestamp getUpdateTime() {
-        return this.updateTime;
+    public Integer getGoodsSerial() {
+        return this.goodsSerial;
     }
 
-    public void setUpdateTime(Timestamp updateTime) {
-        this.updateTime = updateTime;
+    public void setGoodsSerial(Integer goodsSerial) {
+        this.goodsSerial = goodsSerial;
     }
 
     public Byte getGoodsIsDel() {
@@ -149,7 +147,7 @@ public class Goods implements Serializable {
         sb.append(", ").append(goodsPrice);
         sb.append(", ").append(goodsBrief);
         sb.append(", ").append(goodsRecommend);
-        sb.append(", ").append(updateTime);
+        sb.append(", ").append(goodsSerial);
         sb.append(", ").append(goodsIsDel);
         sb.append(", ").append(classifyId);
 

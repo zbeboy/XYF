@@ -7,7 +7,6 @@ package com.rongxingyn.xyf.domain.tables.daos;
 import com.rongxingyn.xyf.domain.tables.Goods;
 import com.rongxingyn.xyf.domain.tables.records.GoodsRecord;
 
-import java.sql.Timestamp;
 import java.util.List;
 
 import javax.annotation.Generated;
@@ -105,10 +104,10 @@ public class GoodsDao extends DAOImpl<GoodsRecord, com.rongxingyn.xyf.domain.tab
     }
 
     /**
-     * Fetch records that have <code>update_time IN (values)</code>
+     * Fetch records that have <code>goods_serial IN (values)</code>
      */
-    public List<com.rongxingyn.xyf.domain.tables.pojos.Goods> fetchByUpdateTime(Timestamp... values) {
-        return fetch(Goods.GOODS.UPDATE_TIME, values);
+    public List<com.rongxingyn.xyf.domain.tables.pojos.Goods> fetchByGoodsSerial(Integer... values) {
+        return fetch(Goods.GOODS.GOODS_SERIAL, values);
     }
 
     /**

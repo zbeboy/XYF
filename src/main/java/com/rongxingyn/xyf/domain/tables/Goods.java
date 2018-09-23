@@ -9,7 +9,6 @@ import com.rongxingyn.xyf.domain.Keys;
 import com.rongxingyn.xyf.domain.Xyf;
 import com.rongxingyn.xyf.domain.tables.records.GoodsRecord;
 
-import java.sql.Timestamp;
 import java.util.Arrays;
 import java.util.List;
 
@@ -40,7 +39,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Goods extends TableImpl<GoodsRecord> {
 
-    private static final long serialVersionUID = -331543112;
+    private static final long serialVersionUID = -1659897274;
 
     /**
      * The reference instance of <code>xyf.goods</code>
@@ -81,9 +80,9 @@ public class Goods extends TableImpl<GoodsRecord> {
     public final TableField<GoodsRecord, Integer> GOODS_RECOMMEND = createField("goods_recommend", org.jooq.impl.SQLDataType.INTEGER.nullable(false).defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.INTEGER)), this, "");
 
     /**
-     * The column <code>xyf.goods.update_time</code>.
+     * The column <code>xyf.goods.goods_serial</code>.
      */
-    public final TableField<GoodsRecord, Timestamp> UPDATE_TIME = createField("update_time", org.jooq.impl.SQLDataType.TIMESTAMP.nullable(false), this, "");
+    public final TableField<GoodsRecord, Integer> GOODS_SERIAL = createField("goods_serial", org.jooq.impl.SQLDataType.INTEGER.nullable(false).defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.INTEGER)), this, "");
 
     /**
      * The column <code>xyf.goods.goods_is_del</code>.

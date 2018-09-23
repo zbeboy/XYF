@@ -26,7 +26,7 @@ CREATE TABLE goods(
   goods_price DOUBLE NOT NULL DEFAULT 0,
   goods_brief VARCHAR(200) ,
   goods_recommend INT NOT NULL DEFAULT 0,
-  update_time DATETIME NOT NULL,
+  goods_serial INT NOT NULL DEFAULT 0,
   goods_is_del BOOLEAN NOT NULL DEFAULT 0,
   classify_id INT NOT NULL ,
   FOREIGN KEY (classify_id) REFERENCES classify(classify_id)
