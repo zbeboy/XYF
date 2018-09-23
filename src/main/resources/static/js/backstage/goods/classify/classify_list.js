@@ -20,7 +20,8 @@ $(document).ready(function () {
             add: '/web/goods/classify/add',
             edit: '/web/goods/classify/edit',
             query: '/web/goods/classify/query',
-            state: '/web/goods/classify/state'
+            state: '/web/goods/classify/state',
+            tableTime: '/web/table/CLASSIFY'
         };
     }
 
@@ -80,6 +81,32 @@ $(document).ready(function () {
     function validErrorDom(validId, errorMsgId, msg) {
         $(validId).addClass('is-invalid');
         $(errorMsgId).text(msg);
+    }
+
+    init();
+
+    function init() {
+        initTableTime();
+    }
+
+    function initTableTime() {
+        Messenger().run({
+            progressMessage: '正在初始化表...'
+        }, {
+            url: web_path + getAjaxUrl().tableTime,
+            success: function (data) {
+                if (data.dealTimeStr) {
+                    moment.locale('zh-cn');
+                    $('#tableTime').text('更新于 ' + moment(data.dealTimeStr, 'YYYY-MM-DD hh:mm:ss').calendar() + ' ' + data.dealTimeStr);
+                }
+            },
+            error: function (xhr) {
+                if ((xhr != null ? xhr.status : void 0) === 404) {
+                    return "请求错误";
+                }
+                return true;
+            }
+        });
     }
 
     // 预编译模板
@@ -295,6 +322,78 @@ $(document).ready(function () {
     });
 
     /*
+   批量注销
+   */
+    $('#classify_dels').click(function () {
+        var classifyIds = [];
+        var ids = $('input[name="check"]:checked');
+        for (var i = 0; i < ids.length; i++) {
+            classifyIds.push($(ids[i]).val());
+        }
+
+        if (classifyIds.length > 0) {
+            var msg;
+            msg = Messenger().post({
+                message: "确定删除选中的类别吗?",
+                actions: {
+                    retry: {
+                        label: '确定',
+                        phrase: 'Retrying TIME',
+                        action: function () {
+                            msg.cancel();
+                            dels(classifyIds);
+                        }
+                    },
+                    cancel: {
+                        label: '取消',
+                        action: function () {
+                            return msg.cancel();
+                        }
+                    }
+                }
+            });
+        } else {
+            Messenger().post("未发现有选中的类别!");
+        }
+    });
+
+    /*
+     批量恢复
+     */
+    $('#classify_recoveries').click(function () {
+        var classifyIds = [];
+        var ids = $('input[name="check"]:checked');
+        for (var i = 0; i < ids.length; i++) {
+            classifyIds.push($(ids[i]).val());
+        }
+
+        if (classifyIds.length > 0) {
+            var msg;
+            msg = Messenger().post({
+                message: "确定恢复选中的类别吗?",
+                actions: {
+                    retry: {
+                        label: '确定',
+                        phrase: 'Retrying TIME',
+                        action: function () {
+                            msg.cancel();
+                            recoveries(classifyIds);
+                        }
+                    },
+                    cancel: {
+                        label: '取消',
+                        action: function () {
+                            return msg.cancel();
+                        }
+                    }
+                }
+            });
+        } else {
+            Messenger().post("未发现有选中的类别!");
+        }
+    });
+
+    /*
      编辑
      */
     function edit(classifyId) {
@@ -444,17 +543,17 @@ $(document).ready(function () {
     /*
      恢复
      */
-    function school_recovery(schoolId, schoolName) {
+    function classify_recovery(classifyId, classifyName) {
         var msg;
         msg = Messenger().post({
-            message: "确定恢复学校 '" + schoolName + "' 吗?",
+            message: "确定恢复类别 '" + classifyName + "' 吗?",
             actions: {
                 retry: {
                     label: '确定',
                     phrase: 'Retrying TIME',
                     action: function () {
                         msg.cancel();
-                        recovery(schoolId);
+                        recovery(classifyId);
                     }
                 },
                 cancel: {
@@ -471,16 +570,16 @@ $(document).ready(function () {
         sendUpdateDelAjax(classifyId, '删除', 1);
     }
 
-    function recovery(schoolId) {
-        sendUpdateDelAjax(schoolId, '恢复', 0);
+    function recovery(classifyId) {
+        sendUpdateDelAjax(classifyId, '恢复', 0);
     }
 
-    function dels(schoolIds) {
-        sendUpdateDelAjax(schoolIds.join(","), '批量注销', 1);
+    function dels(classifyIds) {
+        sendUpdateDelAjax(classifyIds.join(","), '批量注销', 1);
     }
 
-    function recoveries(schoolIds) {
-        sendUpdateDelAjax(schoolIds.join(","), '批量恢复', 0);
+    function recoveries(classifyIds) {
+        sendUpdateDelAjax(classifyIds.join(","), '批量恢复', 0);
     }
 
     /**

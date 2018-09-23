@@ -1,6 +1,8 @@
 package com.rongxingyn.xyf.web.backstage.goods.classify
 
 import com.rongxingyn.xyf.domain.tables.pojos.Classify
+import com.rongxingyn.xyf.domain.tables.pojos.TableTime
+import com.rongxingyn.xyf.service.backstage.TableTimeService
 import com.rongxingyn.xyf.service.backstage.goods.classify.GoodsClassifyService
 import com.rongxingyn.xyf.web.bean.backstage.goods.classify.ClassifyBean
 import com.rongxingyn.xyf.web.utils.AjaxUtils
@@ -10,6 +12,7 @@ import com.rongxingyn.xyf.web.vo.backstage.goods.classify.ClassifyAddVo
 import com.rongxingyn.xyf.web.vo.backstage.goods.classify.ClassifyEditVo
 import com.rongxingyn.xyf.web.vo.backstage.goods.classify.ClassifyStateVo
 import com.rongxingyn.xyf.web.vo.backstage.goods.classify.ClassifyValidVo
+import org.jooq.util.derby.sys.Sys
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.util.CollectionUtils
@@ -19,6 +22,7 @@ import org.springframework.validation.BindingResult
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.server.ServerWebExchange
 import reactor.core.publisher.Mono
+import java.sql.Timestamp
 import java.util.*
 import javax.annotation.Resource
 import javax.validation.Valid
@@ -29,6 +33,9 @@ open class GoodsClassifyRestController {
 
     @Resource
     open lateinit var goodsClassifyService: GoodsClassifyService
+
+    @Resource
+    open lateinit var tableTimeService: TableTimeService
 
     /**
      * 商品分类列表数据
@@ -117,6 +124,7 @@ open class GoodsClassifyRestController {
             classify.classifyName = classifyAddVo.classifyName
             classify.classifyIsDel = classifyAddVo.classifyIsDel
             goodsClassifyService.save(classify)
+            saveTableTime()
             ajaxUtils.success().msg("保存数据成功")
         } else {
             ajaxUtils.fail().msg(bindingResult.fieldError!!.defaultMessage!!)
@@ -126,7 +134,7 @@ open class GoodsClassifyRestController {
     }
 
     /**
-     * 商品分类添加
+     * 商品分类更新
      *
      * @param classifyEditVo 请求数据
      * @param bindingResult 校验
@@ -140,6 +148,7 @@ open class GoodsClassifyRestController {
             classify.classifyName = classifyEditVo.classifyName
             classify.classifyIsDel = classifyEditVo.classifyIsDel
             goodsClassifyService.update(classify)
+            saveTableTime()
             ajaxUtils.success().msg("更新数据成功")
         } else {
             ajaxUtils.fail().msg(bindingResult.fieldError!!.defaultMessage!!)
@@ -160,6 +169,7 @@ open class GoodsClassifyRestController {
         if (!bindingResult.hasErrors()) {
             if (StringUtils.hasLength(classifyStateVo.classifyIds) && SmallPropsUtils.StringIdsIsNumber(classifyStateVo.classifyIds!!)) {
                 goodsClassifyService.updateState(SmallPropsUtils.StringIdsToList(classifyStateVo.classifyIds!!), classifyStateVo.classifyIsDel!!)
+                saveTableTime()
                 ajaxUtils.success().msg("更新状态成功")
             } else {
                 ajaxUtils.fail().msg("更新状态失败")
@@ -168,5 +178,15 @@ open class GoodsClassifyRestController {
             ajaxUtils.fail().msg(bindingResult.fieldError!!.defaultMessage!!)
         }
         return Mono.just(ResponseEntity(ajaxUtils.send(), HttpStatus.OK))
+    }
+
+    /**
+     * 保存时间到tableTime
+     */
+    private fun saveTableTime() {
+        val tableTime = TableTime()
+        tableTime.tableName = "CLASSIFY"
+        tableTime.dealTime = Timestamp(System.currentTimeMillis())
+        tableTimeService.save(tableTime)
     }
 }
