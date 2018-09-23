@@ -18,4 +18,14 @@ open class GoodsDatumViewController {
     fun list(): Mono<String> {
         return Mono.just("backstage/goods/datum/datum_list")
     }
+
+    /**
+     * 商品添加页
+     *
+     * @return add page
+     */
+    @GetMapping("/datum/add")
+    fun add(): Mono<String> {
+        return Mono.just("backstage/goods/datum/datum_add")
+    }
 }

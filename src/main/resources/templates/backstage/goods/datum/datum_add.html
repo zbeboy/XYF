@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="header :: header(~{::meta},~{::title},~{::link})">
+    <!-- csrf -->
+    <meta name="_csrf" content="" th:content="${_csrf.token}"/>
+    <!-- default header name is X-CSRF-TOKEN -->
+    <meta name="_csrf_header" content="" th:content="${_csrf.headerName}"/>
+    <title>商品 - 兴易坊</title>
+    <!-- Custom fonts for this template-->
+    <link href="css/font-awesome.min.css" rel="stylesheet" type="text/css"
+          th:href="@{/webjars/font-awesome/css/font-awesome.min.css}"/>
+    <!-- Page level plugin CSS-->
+    <link href="vendor/datatables/dataTables.bootstrap4.css" rel="stylesheet"
+          th:href="@{/plugin/datatables/css/dataTables.bootstrap4.min.css}"/>
+    <link href="vendor/datatables/responsive.bootstrap4.css" rel="stylesheet"
+          th:href="@{/plugin/datatables/css/responsive.bootstrap4.min.css}"/>
+    <link rel="stylesheet" th:href="@{/plugin/messenger/css/messenger.css}"/>
+    <link rel="stylesheet" th:href="@{/plugin/messenger/css/messenger-theme-future.css}"/>
+    <!-- Custom styles for this template-->
+    <link href="css/sb-admin.css" rel="stylesheet" th:href="@{/plugin/sb-admin/css/sb-admin.min.css}"/>
+</head>
+<body class="fixed-nav sticky-footer bg-dark" id="page-top">
+<!-- Navigation-->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav" th:include="nav::backstage">
+</nav>
+<div class="content-wrapper">
+    <div class="container-fluid">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="#" th:href="@{/web/backstage}">后台</a>
+            </li>
+            <li class="breadcrumb-item">
+                <a href="#" th:href="@{/web/goods/datum/list}">商品管理</a>
+            </li>
+            <li class="breadcrumb-item active">添加</li>
+        </ol>
+        <div class="row">
+            <div class="col-12">
+                <form>
+                    <div class="form-group">
+                        <label for="exampleInputEmail1">Email address</label>
+                        <input type="email" class="form-control" id="exampleInputEmail1" aria-describedby="emailHelp"
+                               placeholder="Enter email">
+                        <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone
+                            else.
+                        </small>
+                    </div>
+                    <div class="form-group">
+                        <label for="exampleInputPassword1">Password</label>
+                        <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                    </div>
+                    <div class="form-check">
+                        <input type="checkbox" class="form-check-input" id="exampleCheck1">
+                        <label class="form-check-label" for="exampleCheck1">Check me out</label>
+                    </div>
+                    <button type="submit" class="btn btn-primary">Submit</button>
+                </form>
+            </div>
+        </div>
+    </div>
+    <!-- /.container-fluid-->
+    <!-- /.content-wrapper-->
+    <footer class="sticky-footer" th:include="footer::backstageFooter">
+    </footer>
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fa fa-angle-up"></i>
+    </a>
+</div>
+
+<!--定义操作列按钮模板-->
+<script id="operator_button" type="text/x-handlebars-template">
+    {{#each func}}
+    <button type="button" class="btn btn-{{this.type}} btn-sm {{this.css}}" data-id="{{this.id}}"
+            data-goods="{{this.goods}}">{{this.name}}
+    </button>
+    {{/each}}
+</script>
+<!-- Bootstrap core JavaScript-->
+<script th:inline="javascript">
+    var web_path = /*[[${webPath}]]*/ '';
+</script>
+<script src="vendor/jquery/jquery.min.js" th:src="@{/webjars/jquery/jquery.min.js}"></script>
+<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"
+        th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}"></script>
+<!-- Core plugin JavaScript-->
+<script src="vendor/jquery-easing/jquery.easing.min.js" th:src="@{/plugin/jquery-easing/jquery.easing.min.js}"></script>
+<!-- Page level plugin JavaScript-->
+<script src="vendor/datatables/jquery.dataTables.js"
+        th:src="@{/plugin/datatables/js/jquery.dataTables.min.js}"></script>
+<script src="vendor/datatables/dataTables.bootstrap4.js"
+        th:src="@{/plugin/datatables/js/dataTables.bootstrap4.min.js}"></script>
+<script src="vendor/datatables/dataTables.responsive.js"
+        th:src="@{/plugin/datatables/js/dataTables.responsive.min.js}"></script>
+<script src="vendor/datatables/responsive.bootstrap4.js"
+        th:src="@{/plugin/datatables/js/responsive.bootstrap4.min.js}"></script>
+<!-- Custom scripts for all pages-->
+<script src="js/sb-admin.min.js" th:src="@{/plugin/sb-admin/js/sb-admin.min.js}"></script>
+<script th:src="@{/plugin/messenger/js/messenger.min.js}"></script>
+<script th:src="@{/plugin/messenger/js/messenger-theme-future.js}"></script>
+<script th:src="@{/js/imessenger.js}"></script>
+<script th:src="@{/js/csrf.js}"></script>
+<script th:src="@{/webjars/handlebars/handlebars.min.js}"></script>
+<script th:src="@{/js/backstage/goods/datum/datum_add.js}"></script>
+</body>
+</html>
