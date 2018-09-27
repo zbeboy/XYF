@@ -30,6 +30,10 @@ open class GoodsClassifyServiceImpl @Autowired constructor(dslContext: DSLContex
         return classifyDao.findById(id)
     }
 
+    override fun findByState(state: Byte): List<Classify> {
+        return classifyDao.fetchByClassifyIsDel(state)
+    }
+
     override fun findByClassifyName(classifyName: String): List<Classify> {
         return classifyDao.fetchByClassifyName(classifyName)
     }

@@ -18,6 +18,14 @@ interface GoodsClassifyService {
     fun findById(id: Int): Classify
 
     /**
+     * 根据状态查询
+     *
+     * @param state 状态
+     * @return 数据
+     */
+    fun findByState(state: Byte): List<Classify>
+
+    /**
      * 根据类别名查询
      *
      * @param classifyName 类别名
