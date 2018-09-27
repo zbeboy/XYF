@@ -12,10 +12,10 @@ $(document).ready(function () {
     */
     function getAjaxUrl() {
         return {
-            goods: '/web/goods/datum/data',
-            add: '/web/goods/datum/add',
-            edit: '/web/goods/datum/edit',
-            tableTime: '/web/table/GOODS'
+            goods: '/web/backstage/goods/datum/data',
+            add: '/web/backstage/goods/datum/add',
+            edit: '/web/backstage/goods/datum/edit',
+            tableTime: '/web/backstage/table/GOODS'
         };
     }
 

@@ -14,7 +14,7 @@ import java.util.ArrayList
 import javax.annotation.Resource
 
 @RestController
-@RequestMapping("/web/goods")
+@RequestMapping("/web/backstage/goods")
 open class GoodsDatumRestController {
 
     @Resource

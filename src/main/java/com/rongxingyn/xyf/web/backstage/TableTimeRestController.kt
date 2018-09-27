@@ -12,7 +12,7 @@ import reactor.core.publisher.Mono
 import javax.annotation.Resource
 
 @RestController
-@RequestMapping("/web/table")
+@RequestMapping("/web/backstage/table")
 open class TableTimeRestController {
 
     @Resource

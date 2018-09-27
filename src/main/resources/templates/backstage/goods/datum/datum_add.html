@@ -10,12 +10,9 @@
     <link href="css/font-awesome.min.css" rel="stylesheet" type="text/css"
           th:href="@{/webjars/font-awesome/css/font-awesome.min.css}"/>
     <!-- Page level plugin CSS-->
-    <link href="vendor/datatables/dataTables.bootstrap4.css" rel="stylesheet"
-          th:href="@{/plugin/datatables/css/dataTables.bootstrap4.min.css}"/>
-    <link href="vendor/datatables/responsive.bootstrap4.css" rel="stylesheet"
-          th:href="@{/plugin/datatables/css/responsive.bootstrap4.min.css}"/>
     <link rel="stylesheet" th:href="@{/plugin/messenger/css/messenger.css}"/>
     <link rel="stylesheet" th:href="@{/plugin/messenger/css/messenger-theme-future.css}"/>
+    <link th:href="@{/plugin/jquery-file_upload/css/jquery.fileupload.min.css}" rel="stylesheet"/>
     <!-- Custom styles for this template-->
     <link href="css/sb-admin.css" rel="stylesheet" th:href="@{/plugin/sb-admin/css/sb-admin.min.css}"/>
 </head>
@@ -40,11 +37,6 @@
                     <div class="form-group">
                         <label for="classifyId">商品类别</label>
                         <select class="form-control" id="classifyId">
-                            <option>1</option>
-                            <option>2</option>
-                            <option>3</option>
-                            <option>4</option>
-                            <option>5</option>
                         </select>
                     </div>
                     <div class="form-group">
@@ -69,7 +61,24 @@
                     </div>
                     <div class="form-group">
                         <label for="goodsPic">图片</label>
-                        <input type="file" class="form-control-file" id="goodsPic">
+                        <div class="row">
+                            <div class="col-sm-6 col-md-4">
+                                <div class="thumbnail">
+                                    <img data-src="holder.js/100%x200" id="articleCoverTemp" alt="100%x200"
+                                         src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9InllcyI/PjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iMzE5IiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDMxOSAyMDAiIHByZXNlcnZlQXNwZWN0UmF0aW89Im5vbmUiPjwhLS0KU291cmNlIFVSTDogaG9sZGVyLmpzLzEwMCV4MjAwCkNyZWF0ZWQgd2l0aCBIb2xkZXIuanMgMi42LjAuCkxlYXJuIG1vcmUgYXQgaHR0cDovL2hvbGRlcmpzLmNvbQooYykgMjAxMi0yMDE1IEl2YW4gTWFsb3BpbnNreSAtIGh0dHA6Ly9pbXNreS5jbwotLT48ZGVmcz48c3R5bGUgdHlwZT0idGV4dC9jc3MiPjwhW0NEQVRBWyNob2xkZXJfMTYyYmUyMDgyYWQgdGV4dCB7IGZpbGw6I0FBQUFBQTtmb250LXdlaWdodDpib2xkO2ZvbnQtZmFtaWx5OkFyaWFsLCBIZWx2ZXRpY2EsIE9wZW4gU2Fucywgc2Fucy1zZXJpZiwgbW9ub3NwYWNlO2ZvbnQtc2l6ZToxNnB0IH0gXV0+PC9zdHlsZT48L2RlZnM+PGcgaWQ9ImhvbGRlcl8xNjJiZTIwODJhZCI+PHJlY3Qgd2lkdGg9IjMxOSIgaGVpZ2h0PSIyMDAiIGZpbGw9IiNFRUVFRUUiLz48Zz48dGV4dCB4PSIxMTcuOTg0Mzc1IiB5PSIxMDcuMiI+MzE5eDIwMDwvdGV4dD48L2c+PC9nPjwvc3ZnPg=="
+                                         data-holder-rendered="true" style="height: 200px; width: 100%; display: block;">
+                                    <div class="caption text-center">
+                                    <span class="btn btn-primary fileinput-button">
+                                        <span>上传</span>
+                                        <!-- The file input field used as target for the file upload widget -->
+                                        <input id="fileupload" type="file" name="files[]"/>
+                                    </span>
+                                        <button type="button" id="clearImg" class="btn btn-default" role="button">清除</button>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <input type="hidden" id="goodsPic" name="goodsPic" class="form-control"/>
                     </div>
                     <div class="form-group">
                         <label for="goodsBrief">简介</label>
@@ -94,12 +103,10 @@
     </a>
 </div>
 
-<!--定义操作列按钮模板-->
-<script id="operator_button" type="text/x-handlebars-template">
-    {{#each func}}
-    <button type="button" class="btn btn-{{this.type}} btn-sm {{this.css}}" data-id="{{this.id}}"
-            data-goods="{{this.goods}}">{{this.name}}
-    </button>
+<!--类别模板-->
+<script id="classify-template" type="text/x-handlebars-template">
+    {{#each listResult}}
+    <option value="{{classifyId}}">{{classifyName}}</option>
     {{/each}}
 </script>
 <!-- Bootstrap core JavaScript-->
@@ -112,14 +119,11 @@
 <!-- Core plugin JavaScript-->
 <script src="vendor/jquery-easing/jquery.easing.min.js" th:src="@{/plugin/jquery-easing/jquery.easing.min.js}"></script>
 <!-- Page level plugin JavaScript-->
-<script src="vendor/datatables/jquery.dataTables.js"
-        th:src="@{/plugin/datatables/js/jquery.dataTables.min.js}"></script>
-<script src="vendor/datatables/dataTables.bootstrap4.js"
-        th:src="@{/plugin/datatables/js/dataTables.bootstrap4.min.js}"></script>
-<script src="vendor/datatables/dataTables.responsive.js"
-        th:src="@{/plugin/datatables/js/dataTables.responsive.min.js}"></script>
-<script src="vendor/datatables/responsive.bootstrap4.js"
-        th:src="@{/plugin/datatables/js/responsive.bootstrap4.min.js}"></script>
+<script th:src="@{/plugin/jquery-file_upload/js/vendor/jquery.ui.widget.min.js}"></script>
+<script th:src="@{/plugin/jquery-file_upload/js/jquery.iframe-transport.min.js}"></script>
+<script th:src="@{/plugin/jquery-file_upload/js/jquery.fileupload.min.js}"></script>
+<script th:src="@{/plugin/jquery-file_upload/js/jquery.fileupload-process.min.js}"></script>
+<script th:src="@{/plugin/jquery-file_upload/js/jquery.fileupload-validate.min.js}"></script>
 <!-- Custom scripts for all pages-->
 <script src="js/sb-admin.min.js" th:src="@{/plugin/sb-admin/js/sb-admin.min.js}"></script>
 <script th:src="@{/plugin/messenger/js/messenger.min.js}"></script>

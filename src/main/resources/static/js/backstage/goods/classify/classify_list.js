@@ -15,13 +15,13 @@ $(document).ready(function () {
     */
     function getAjaxUrl() {
         return {
-            classifies: '/web/goods/classify/data',
-            valid: '/web/goods/classify/valid',
-            add: '/web/goods/classify/add',
-            edit: '/web/goods/classify/edit',
-            query: '/web/goods/classify/query',
-            state: '/web/goods/classify/state',
-            tableTime: '/web/table/CLASSIFY'
+            classifies: '/web/backstage/goods/classify/data',
+            valid: '/web/backstage/goods/classify/valid',
+            add: '/web/backstage/goods/classify/add',
+            edit: '/web/backstage/goods/classify/edit',
+            query: '/web/backstage/goods/classify/query',
+            state: '/web/backstage/goods/classify/state',
+            tableTime: '/web/backstage/table/CLASSIFY'
         };
     }
 

@@ -28,7 +28,7 @@ import javax.annotation.Resource
 import javax.validation.Valid
 
 @RestController
-@RequestMapping("/web/goods")
+@RequestMapping("/web/backstage/goods")
 open class GoodsClassifyRestController {
 
     @Resource

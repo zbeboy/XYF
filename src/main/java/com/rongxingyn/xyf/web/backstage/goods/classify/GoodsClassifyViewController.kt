@@ -6,7 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping
 import reactor.core.publisher.Mono
 
 @Controller
-@RequestMapping("/web/goods")
+@RequestMapping("/web/backstage/goods")
 open class GoodsClassifyViewController {
 
     /**
