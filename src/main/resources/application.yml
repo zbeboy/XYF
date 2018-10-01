@@ -1,16 +1,22 @@
 # spring setting
 spring:
-      profiles:
-        active: secret,dev
-      servlet:
-              multipart:
-                max-request-size: 100MB
-                max-file-size: 100MB
-      thymeleaf:
-        mode: HTML
-      cache:
-        caffeine:
-          spec: maximumSize=1000,expireAfterAccess=1800s
+  profiles:
+    active: secret,dev
+  servlet:
+    multipart:
+      max-request-size: 100MB
+      max-file-size: 100MB
+  thymeleaf:
+    mode: HTML
+  resources:
+    chain:
+      strategy:
+        content:
+          enabled: true
+          paths: /**
+  cache:
+    caffeine:
+      spec: maximumSize=1000,expireAfterAccess=1800s
 
 # logging setting
 logging:
