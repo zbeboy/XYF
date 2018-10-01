@@ -1,16 +1,21 @@
 package com.rongxingyn.xyf.web.backstage.goods.datum
 
+import com.rongxingyn.xyf.config.Workbook
+import com.rongxingyn.xyf.config.XYFProperties
 import com.rongxingyn.xyf.service.backstage.goods.classify.GoodsClassifyService
 import com.rongxingyn.xyf.service.backstage.goods.datum.GoodsDatumService
+import com.rongxingyn.xyf.service.common.UploadService
+import com.rongxingyn.xyf.service.utils.RequestUtils
 import com.rongxingyn.xyf.web.bean.backstage.goods.datum.GoodsBean
 import com.rongxingyn.xyf.web.utils.AjaxUtils
 import com.rongxingyn.xyf.web.utils.DataTablesUtils
+import org.springframework.core.io.ClassPathResource
 import org.springframework.http.HttpStatus
+import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
+import org.springframework.http.codec.multipart.FilePart
 import org.springframework.util.ObjectUtils
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 import org.springframework.web.server.ServerWebExchange
 import reactor.core.publisher.Mono
 import java.util.*
@@ -25,6 +30,12 @@ open class GoodsDatumRestController {
 
     @Resource
     open lateinit var goodsClassifyService: GoodsClassifyService
+
+    @Resource
+    open lateinit var uploadService: UploadService
+
+    @Resource
+    open lateinit var xyfProperties: XYFProperties
 
     /**
      * 商品列表数据
@@ -64,6 +75,21 @@ open class GoodsDatumRestController {
     @GetMapping("/datum/classifies")
     fun classifies(): Mono<ResponseEntity<Map<String, Any>>> {
         val ajaxUtils = AjaxUtils.of().success().msg("获取数据成功").listData(goodsClassifyService.findByState(0))
+        return Mono.just(ResponseEntity(ajaxUtils.send(), HttpStatus.OK))
+    }
+
+    @PostMapping("/datum/upload", consumes = [MediaType.MULTIPART_FORM_DATA_VALUE])
+    fun upload(@RequestPart("file") filePart: FilePart): Mono<ResponseEntity<Map<String, Any>>> {
+        val ajaxUtils = AjaxUtils.of()
+        val path =  xyfProperties.getConstants().documentRoot +
+                Workbook.DIRECTORY_SPLIT + xyfProperties.getConstants().staticImages + Workbook.DIRECTORY_SPLIT
+        val fileData = uploadService.upload(filePart, "pic", Workbook.GOODS_DATUM_FILE)
+        if (fileData.isPresent) {
+            ajaxUtils.success().msg("上传文件成功").put("info", fileData.get())
+                    .put("picPath", xyfProperties.getConstants().staticImages!!)
+        } else {
+            ajaxUtils.fail().msg("上传文件失败")
+        }
         return Mono.just(ResponseEntity(ajaxUtils.send(), HttpStatus.OK))
     }
 }

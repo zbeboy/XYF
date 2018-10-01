@@ -24,6 +24,12 @@ class XYFProperties {
     class Constants {
 
         var documentRoot: String? = null
+
+        var fileFreeSpace: Long? = null
+
+        var fileMaxSize: Long? = null
+
+        var staticImages: String? = null
     }
 
 }

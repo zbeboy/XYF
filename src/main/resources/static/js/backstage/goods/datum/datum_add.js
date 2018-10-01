@@ -5,7 +5,7 @@ $(document).ready(function () {
     */
     var ajax_url = {
         classifies: '/web/backstage/goods/datum/classifies',
-        file_upload_url: '/web/backstage/article/cover/upload',
+        file_upload_url: '/web/backstage/goods/datum/upload',
         del_cover: '/web/backstage/article/cover/delete',
         save: '/web/backstage/article/save',
         back: '/web/backstage/article'
@@ -18,8 +18,8 @@ $(document).ready(function () {
         classifyId: '#classifyId',
         articleTitle: '#articleTitle',
         articleBrief: '#articleBrief',
-        articleCover: '#articleCover',
-        articleCoverTemp: '#articleCoverTemp',
+        goodsPic: '#goodsPic',
+        goodsPicTemp: '#goodsPicTemp',
         articleSources: '#articleSources',
         articleSourcesName: '#articleSourcesName',
         articleSourcesLink: '#articleSourcesLink',
@@ -47,7 +47,7 @@ $(document).ready(function () {
         initClassify();
     }
 
-    function initClassify(){
+    function initClassify() {
         $.get(web_path + ajax_url.classifies, function (data) {
             classifyData(data);
         });
@@ -61,5 +61,47 @@ $(document).ready(function () {
         var template = Handlebars.compile($("#classify-template").html());
         $(paramId.classifyId).append(template(data));
     }
+
+    // 上传组件
+    $('#fileupload').fileupload({
+        url: web_path + ajax_url.file_upload_url,
+        dataType: 'json',
+        maxFileSize: file_max_size,// 100MB
+        acceptFileTypes: /([.\/])(jpg|jpeg|png|gif)$/i,
+        formAcceptCharset: 'utf-8',
+        maxNumberOfFiles: 1,
+        messages: {
+            maxNumberOfFiles: '最大支持上传1个文件',
+            acceptFileTypes: '仅支持上传jpg,png,gif等类型文件',
+            maxFileSize: '单文件上传仅允许100MB大小'
+        },
+        done: function (e, data) {
+            $(paramId.goodsPicTemp).attr('src', web_path + "/" + data.result.picPath + "/" +data.result.info.newName);
+            $(paramId.goodsPic).val(data.result.info.newName);
+            $('.fileinput-button').addClass('hidden');
+            Messenger().post({
+                message: data.result.msg,
+                type: data.result.state ? 'success' : 'error',
+                showCloseButton: true
+            });
+        }
+    }).on('fileuploadadd', function (evt, data) {
+        var isOk = true;
+        var $this = $(this);
+        var validation = data.process(function () {
+            return $this.fileupload('process', data);
+        });
+        validation.fail(function (data) {
+            isOk = false;
+            Messenger().post({
+                message: '上传失败: ' + data.files[0].error,
+                type: 'error',
+                showCloseButton: true
+            });
+        });
+        return isOk;
+    });
+
+    var IMG = "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9InllcyI/PjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iMzE5IiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDMxOSAyMDAiIHByZXNlcnZlQXNwZWN0UmF0aW89Im5vbmUiPjwhLS0KU291cmNlIFVSTDogaG9sZGVyLmpzLzEwMCV4MjAwCkNyZWF0ZWQgd2l0aCBIb2xkZXIuanMgMi42LjAuCkxlYXJuIG1vcmUgYXQgaHR0cDovL2hvbGRlcmpzLmNvbQooYykgMjAxMi0yMDE1IEl2YW4gTWFsb3BpbnNreSAtIGh0dHA6Ly9pbXNreS5jbwotLT48ZGVmcz48c3R5bGUgdHlwZT0idGV4dC9jc3MiPjwhW0NEQVRBWyNob2xkZXJfMTYyYmUyMDgyYWQgdGV4dCB7IGZpbGw6I0FBQUFBQTtmb250LXdlaWdodDpib2xkO2ZvbnQtZmFtaWx5OkFyaWFsLCBIZWx2ZXRpY2EsIE9wZW4gU2Fucywgc2Fucy1zZXJpZiwgbW9ub3NwYWNlO2ZvbnQtc2l6ZToxNnB0IH0gXV0+PC9zdHlsZT48L2RlZnM+PGcgaWQ9ImhvbGRlcl8xNjJiZTIwODJhZCI+PHJlY3Qgd2lkdGg9IjMxOSIgaGVpZ2h0PSIyMDAiIGZpbGw9IiNFRUVFRUUiLz48Zz48dGV4dCB4PSIxMTcuOTg0Mzc1IiB5PSIxMDcuMiI+MzE5eDIwMDwvdGV4dD48L2c+PC9nPjwvc3ZnPg==";
 
 });

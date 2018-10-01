@@ -11,7 +11,6 @@ open class AjaxUtils() {
     var msg: String = ""// 消息
     var mapResult: Map<String, Any> = HashMap()// map数据
     var listResult: List<Any> = ArrayList()// list数据
-    var objectResult: Any = String()// 单个对象数据
     val data = HashMap<String, Any>()   // 数据
     var paginationUtils: PaginationUtils = PaginationUtils()// 分页数据
 
@@ -34,11 +33,6 @@ open class AjaxUtils() {
 
     fun msg(msg: String): AjaxUtils {
         this.msg = msg
-        return this
-    }
-
-    fun obj(obj: Any): AjaxUtils {
-        this.objectResult = obj
         return this
     }
 
@@ -67,7 +61,6 @@ open class AjaxUtils() {
         this.data["msg"] = this.msg
         this.data["mapResult"] = this.mapResult
         this.data["listResult"] = this.listResult
-        this.data["obj"] = this.objectResult
         this.data["pagination"] = this.paginationUtils
         return this.data
     }

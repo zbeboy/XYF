@@ -30,5 +30,8 @@ open class Workbook {
         const val USERNAME_PARAMETER = "username"
         const val PASSWORD_PARAMETER = "password"
         const val LOGIN_PAGE = "/login"
+
+        // 文件识别码
+        const val GOODS_DATUM_FILE = "GOODS_DATUM_"
     }
 }

@@ -1,6 +1,7 @@
 xyf:
   constants:
     document-root:
+    static-images: pic
 
 spring:
   devtools:
@@ -10,5 +11,6 @@ spring:
       enabled: true
   jooq:
       sql-dialect: mysql_8_0
+
 server:
   port: 8080
