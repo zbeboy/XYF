@@ -479,6 +479,7 @@ $(document).ready(function () {
      */
     function sendAjax() {
         var url = "";
+        var type = "";
         if ($('#modalType').val() === 'add') {
             url = getAjaxUrl().add;
             type = "post";
