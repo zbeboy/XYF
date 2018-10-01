@@ -3,3 +3,4 @@
 /.idea/
 /src/main/resources/application-secret.yml
 /target/
+/root/

@@ -9,6 +9,7 @@ import org.springframework.web.reactive.config.WebFluxConfigurer
 import java.io.File
 import javax.inject.Inject
 
+
 @Configuration
 open class WebConfiguration : WebFluxConfigurer {
 

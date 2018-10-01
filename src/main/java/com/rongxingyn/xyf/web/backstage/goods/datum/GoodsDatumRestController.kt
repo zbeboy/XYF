@@ -81,9 +81,8 @@ open class GoodsDatumRestController {
     @PostMapping("/datum/upload", consumes = [MediaType.MULTIPART_FORM_DATA_VALUE])
     fun upload(@RequestPart("file") filePart: FilePart): Mono<ResponseEntity<Map<String, Any>>> {
         val ajaxUtils = AjaxUtils.of()
-        val path =  xyfProperties.getConstants().documentRoot +
-                Workbook.DIRECTORY_SPLIT + xyfProperties.getConstants().staticImages + Workbook.DIRECTORY_SPLIT
-        val fileData = uploadService.upload(filePart, "pic", Workbook.GOODS_DATUM_FILE)
+        val path =   xyfProperties.getConstants().staticImages + Workbook.DIRECTORY_SPLIT
+        val fileData = uploadService.upload(filePart, path, Workbook.GOODS_DATUM_FILE)
         if (fileData.isPresent) {
             ajaxUtils.success().msg("上传文件成功").put("info", fileData.get())
                     .put("picPath", xyfProperties.getConstants().staticImages!!)

@@ -12,7 +12,7 @@ spring:
   jooq:
       sql-dialect: mysql_8_0
   resources:
-    static-locations: ["classpath:/META-INF/resources/","classpath:/resources/","classpath:/static/","classpath:/public/","file://${user.dir}/${xyf.constants.document-root}/${xyf.constants.static-images}"]
+    static-locations: ["classpath:/META-INF/resources/","classpath:/resources/","classpath:/static/","classpath:/public/","file://${user.dir}/${xyf.constants.document-root}/"]
 
 server:
   port: 9734

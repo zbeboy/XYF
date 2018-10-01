@@ -1,5 +1,6 @@
 package com.rongxingyn.xyf.service.common
 
+import com.rongxingyn.xyf.config.Workbook
 import com.rongxingyn.xyf.config.XYFProperties
 import com.rongxingyn.xyf.web.bean.file.FileBean
 import org.slf4j.LoggerFactory
@@ -26,14 +27,14 @@ open class UploadServiceImpl : UploadService {
 
     override fun upload(filePart: FilePart, path: String, fileUniqueId: String): Optional<FileBean> {
         var fileData = Optional.empty<FileBean>()
-
+        val filePath = xyfProperties.getConstants().documentRoot + Workbook.DIRECTORY_SPLIT + path
         // step 1. 文件目录是否存在
-        if (!Files.exists(Paths.get(path))) {
-            Files.createDirectories(Paths.get(path))
+        if (!Files.exists(Paths.get(filePath))) {
+            Files.createDirectories(Paths.get(filePath))
         }
 
         // step 2. 空间是否足够 500MB 524288000
-        val tempFile = Files.createTempFile(Paths.get(path), fileUniqueId, filePart.filename())
+        val tempFile = Files.createTempFile(Paths.get(filePath), fileUniqueId, filePart.filename())
         if (tempFile.toFile().totalSpace - tempFile.toFile().usableSpace > xyfProperties.getConstants().fileFreeSpace!!) {
             filePart.transferTo(tempFile.toFile()).doOnSuccess {
                 val fileBean = FileBean()
