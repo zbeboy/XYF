@@ -6,7 +6,7 @@ $(document).ready(function () {
     var ajax_url = {
         classifies: '/web/backstage/goods/datum/classifies',
         file_upload_url: '/web/backstage/goods/datum/upload',
-        del_cover: '/web/backstage/article/cover/delete',
+        del_pic: '/web/backstage/goods/datum/del_pic',
         save: '/web/backstage/article/save',
         back: '/web/backstage/article'
     };
@@ -76,8 +76,8 @@ $(document).ready(function () {
             maxFileSize: '单文件上传仅允许100MB大小'
         },
         done: function (e, data) {
-            $(paramId.goodsPicTemp).attr('src', web_path + "/" + data.result.picPath + "/" +data.result.info.newName);
-            $(paramId.goodsPic).val(data.result.info.newName);
+            $(paramId.goodsPicTemp).attr('src', web_path + "/" + data.result.picPath + "/" + data.result.info.newName);
+            $(paramId.goodsPic).val("/" + data.result.picPath + "/" + data.result.info.newName);
             $('.fileinput-button').addClass('hidden');
             Messenger().post({
                 message: data.result.msg,
@@ -104,4 +104,33 @@ $(document).ready(function () {
 
     var IMG = "data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9InllcyI/PjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iMzE5IiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDMxOSAyMDAiIHByZXNlcnZlQXNwZWN0UmF0aW89Im5vbmUiPjwhLS0KU291cmNlIFVSTDogaG9sZGVyLmpzLzEwMCV4MjAwCkNyZWF0ZWQgd2l0aCBIb2xkZXIuanMgMi42LjAuCkxlYXJuIG1vcmUgYXQgaHR0cDovL2hvbGRlcmpzLmNvbQooYykgMjAxMi0yMDE1IEl2YW4gTWFsb3BpbnNreSAtIGh0dHA6Ly9pbXNreS5jbwotLT48ZGVmcz48c3R5bGUgdHlwZT0idGV4dC9jc3MiPjwhW0NEQVRBWyNob2xkZXJfMTYyYmUyMDgyYWQgdGV4dCB7IGZpbGw6I0FBQUFBQTtmb250LXdlaWdodDpib2xkO2ZvbnQtZmFtaWx5OkFyaWFsLCBIZWx2ZXRpY2EsIE9wZW4gU2Fucywgc2Fucy1zZXJpZiwgbW9ub3NwYWNlO2ZvbnQtc2l6ZToxNnB0IH0gXV0+PC9zdHlsZT48L2RlZnM+PGcgaWQ9ImhvbGRlcl8xNjJiZTIwODJhZCI+PHJlY3Qgd2lkdGg9IjMxOSIgaGVpZ2h0PSIyMDAiIGZpbGw9IiNFRUVFRUUiLz48Zz48dGV4dCB4PSIxMTcuOTg0Mzc1IiB5PSIxMDcuMiI+MzE5eDIwMDwvdGV4dD48L2c+PC9nPjwvc3ZnPg==";
 
+    $('#clearImg').click(function () {
+        $(paramId.goodsPicTemp).attr('src', IMG);
+        var goodsPic = $(paramId.goodsPic).val();
+        if (!_.isEmpty(goodsPic)) {
+            Messenger().run({
+                progressMessage: '正在删除图片...'
+            }, {
+                url: web_path + ajax_url.del_pic,
+                data: {goodsPic: goodsPic},
+                success: function (data) {
+                    if(data.state){
+                        $(paramId.goodsPic).val('');
+                        $('.fileinput-button').removeClass('hidden');
+                    }
+                    Messenger().post({
+                        message: data.msg,
+                        type: data.state ? 'info' : 'error',
+                        showCloseButton: true
+                    });
+                },
+                error: function (xhr) {
+                    if ((xhr != null ? xhr.status : void 0) === 404) {
+                        return "请求错误";
+                    }
+                    return true;
+                }
+            });
+        }
+    });
 });

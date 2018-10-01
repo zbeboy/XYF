@@ -4,12 +4,10 @@ import com.rongxingyn.xyf.config.Workbook
 import com.rongxingyn.xyf.config.XYFProperties
 import com.rongxingyn.xyf.service.backstage.goods.classify.GoodsClassifyService
 import com.rongxingyn.xyf.service.backstage.goods.datum.GoodsDatumService
-import com.rongxingyn.xyf.service.common.UploadService
-import com.rongxingyn.xyf.service.utils.RequestUtils
+import com.rongxingyn.xyf.service.common.FileSystemService
 import com.rongxingyn.xyf.web.bean.backstage.goods.datum.GoodsBean
 import com.rongxingyn.xyf.web.utils.AjaxUtils
 import com.rongxingyn.xyf.web.utils.DataTablesUtils
-import org.springframework.core.io.ClassPathResource
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
@@ -20,6 +18,7 @@ import org.springframework.web.server.ServerWebExchange
 import reactor.core.publisher.Mono
 import java.util.*
 import javax.annotation.Resource
+import javax.websocket.server.PathParam
 
 @RestController
 @RequestMapping("/web/backstage/goods")
@@ -32,7 +31,7 @@ open class GoodsDatumRestController {
     open lateinit var goodsClassifyService: GoodsClassifyService
 
     @Resource
-    open lateinit var uploadService: UploadService
+    open lateinit var fileSystemService: FileSystemService
 
     @Resource
     open lateinit var xyfProperties: XYFProperties
@@ -78,17 +77,36 @@ open class GoodsDatumRestController {
         return Mono.just(ResponseEntity(ajaxUtils.send(), HttpStatus.OK))
     }
 
+    /**
+     * 上传图片
+     *
+     * @param filePart 数据
+     * @return 文件信息
+     */
     @PostMapping("/datum/upload", consumes = [MediaType.MULTIPART_FORM_DATA_VALUE])
     fun upload(@RequestPart("file") filePart: FilePart): Mono<ResponseEntity<Map<String, Any>>> {
         val ajaxUtils = AjaxUtils.of()
-        val path =   xyfProperties.getConstants().staticImages + Workbook.DIRECTORY_SPLIT
-        val fileData = uploadService.upload(filePart, path, Workbook.GOODS_DATUM_FILE)
+        val path = xyfProperties.getConstants().staticImages + Workbook.DIRECTORY_SPLIT
+        val fileData = fileSystemService.upload(filePart, path, Workbook.GOODS_DATUM_FILE)
         if (fileData.isPresent) {
             ajaxUtils.success().msg("上传文件成功").put("info", fileData.get())
                     .put("picPath", xyfProperties.getConstants().staticImages!!)
         } else {
             ajaxUtils.fail().msg("上传文件失败")
         }
+        return Mono.just(ResponseEntity(ajaxUtils.send(), HttpStatus.OK))
+    }
+
+    /**
+     * 删除图片
+     *
+     * @param goodsPic 路径
+     * @return true or false
+     */
+    @GetMapping("/datum/del_pic")
+    fun delPic(@PathParam("goodsPic") goodsPic: String): Mono<ResponseEntity<Map<String, Any>>> {
+        val ajaxUtils = AjaxUtils.of().success().msg("删除成功")
+        fileSystemService.delete(goodsPic)
         return Mono.just(ResponseEntity(ajaxUtils.send(), HttpStatus.OK))
     }
 }
