@@ -12,7 +12,6 @@ import com.rongxingyn.xyf.web.vo.backstage.goods.classify.ClassifyAddVo
 import com.rongxingyn.xyf.web.vo.backstage.goods.classify.ClassifyEditVo
 import com.rongxingyn.xyf.web.vo.backstage.goods.classify.ClassifyStateVo
 import com.rongxingyn.xyf.web.vo.backstage.goods.classify.ClassifyValidVo
-import org.jooq.util.derby.sys.Sys
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.util.CollectionUtils
@@ -94,11 +93,15 @@ open class GoodsClassifyRestController {
                     ajaxUtils.fail().msg("类别名已存在")
                 }
             } else if (1 == classifyValidVo.type) {
-                val classify = goodsClassifyService.findByClassifyNameNeClassifyId(classifyValidVo.classifyName!!, classifyValidVo.classifyId!!)
-                if (classify.isEmpty()) {
-                    ajaxUtils.success().msg("类别名不存在")
+                if (ObjectUtils.isEmpty(classifyValidVo.classifyId)) {
+                    ajaxUtils.fail().msg("类别ID不能为空")
                 } else {
-                    ajaxUtils.fail().msg("类别名已存在")
+                    val classify = goodsClassifyService.findByClassifyNameNeClassifyId(classifyValidVo.classifyName!!, classifyValidVo.classifyId!!)
+                    if (classify.isEmpty()) {
+                        ajaxUtils.success().msg("类别名不存在")
+                    } else {
+                        ajaxUtils.fail().msg("类别名已存在")
+                    }
                 }
             } else {
                 ajaxUtils.fail().msg("未知的校验类型")
