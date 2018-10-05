@@ -78,7 +78,6 @@ public class Keys {
     // -------------------------------------------------------------------------
 
     public static final ForeignKey<AuthoritiesRecord, UsersRecord> AUTHORITIES_IBFK_1 = ForeignKeys0.AUTHORITIES_IBFK_1;
-    public static final ForeignKey<BannerRecord, ClassifyRecord> BANNER_IBFK_1 = ForeignKeys0.BANNER_IBFK_1;
     public static final ForeignKey<GoodsRecord, ClassifyRecord> GOODS_IBFK_1 = ForeignKeys0.GOODS_IBFK_1;
     public static final ForeignKey<GoodsPicsRecord, GoodsRecord> GOODS_PICS_IBFK_1 = ForeignKeys0.GOODS_PICS_IBFK_1;
 
@@ -110,7 +109,6 @@ public class Keys {
 
     private static class ForeignKeys0 {
         public static final ForeignKey<AuthoritiesRecord, UsersRecord> AUTHORITIES_IBFK_1 = Internal.createForeignKey(com.rongxingyn.xyf.domain.Keys.KEY_USERS_PRIMARY, Authorities.AUTHORITIES, "authorities_ibfk_1", Authorities.AUTHORITIES.USERNAME);
-        public static final ForeignKey<BannerRecord, ClassifyRecord> BANNER_IBFK_1 = Internal.createForeignKey(com.rongxingyn.xyf.domain.Keys.KEY_CLASSIFY_PRIMARY, Banner.BANNER, "banner_ibfk_1", Banner.BANNER.CLASSIFY_ID);
         public static final ForeignKey<GoodsRecord, ClassifyRecord> GOODS_IBFK_1 = Internal.createForeignKey(com.rongxingyn.xyf.domain.Keys.KEY_CLASSIFY_PRIMARY, Goods.GOODS, "goods_ibfk_1", Goods.GOODS.CLASSIFY_ID);
         public static final ForeignKey<GoodsPicsRecord, GoodsRecord> GOODS_PICS_IBFK_1 = Internal.createForeignKey(com.rongxingyn.xyf.domain.Keys.KEY_GOODS_PRIMARY, GoodsPics.GOODS_PICS, "goods_pics_ibfk_1", GoodsPics.GOODS_PICS.GOODS_ID);
     }

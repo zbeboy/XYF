@@ -15,7 +15,6 @@ import java.util.List;
 import javax.annotation.Generated;
 
 import org.jooq.Field;
-import org.jooq.ForeignKey;
 import org.jooq.Index;
 import org.jooq.Name;
 import org.jooq.Schema;
@@ -39,7 +38,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Banner extends TableImpl<BannerRecord> {
 
-    private static final long serialVersionUID = -1722543042;
+    private static final long serialVersionUID = -203411289;
 
     /**
      * The reference instance of <code>xyf.banner</code>
@@ -73,11 +72,6 @@ public class Banner extends TableImpl<BannerRecord> {
      * The column <code>xyf.banner.banner_is_hide</code>.
      */
     public final TableField<BannerRecord, Byte> BANNER_IS_HIDE = createField("banner_is_hide", org.jooq.impl.SQLDataType.TINYINT.nullable(false).defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.TINYINT)), this, "");
-
-    /**
-     * The column <code>xyf.banner.classify_id</code>.
-     */
-    public final TableField<BannerRecord, Integer> CLASSIFY_ID = createField("classify_id", org.jooq.impl.SQLDataType.INTEGER.nullable(false), this, "");
 
     /**
      * Create a <code>xyf.banner</code> table reference
@@ -121,7 +115,7 @@ public class Banner extends TableImpl<BannerRecord> {
      */
     @Override
     public List<Index> getIndexes() {
-        return Arrays.<Index>asList(Indexes.BANNER_CLASSIFY_ID, Indexes.BANNER_PRIMARY);
+        return Arrays.<Index>asList(Indexes.BANNER_PRIMARY);
     }
 
     /**
@@ -138,14 +132,6 @@ public class Banner extends TableImpl<BannerRecord> {
     @Override
     public List<UniqueKey<BannerRecord>> getKeys() {
         return Arrays.<UniqueKey<BannerRecord>>asList(Keys.KEY_BANNER_PRIMARY);
-    }
-
-    /**
-     * {@inheritDoc}
-     */
-    @Override
-    public List<ForeignKey<BannerRecord, ?>> getReferences() {
-        return Arrays.<ForeignKey<BannerRecord, ?>>asList(Keys.BANNER_IBFK_1);
     }
 
     /**

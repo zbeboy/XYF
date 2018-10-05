@@ -11,23 +11,15 @@ import javax.annotation.Resource
 open class RequestControllerAdvice {
 
     @Resource
-    open lateinit var xyfProperties: XYFProperties;
+    open lateinit var xyfProperties: XYFProperties
 
     /**
-     * 添加 webPath全局变量
+     * 添加全局变量
      */
     @ModelAttribute
-    fun webPath(exchange: ServerWebExchange): Mono<ServerWebExchange> {
+    fun globalVar(exchange: ServerWebExchange): Mono<ServerWebExchange> {
         val request = exchange.request
         exchange.attributes["webPath"] = request.uri.scheme + "://" + request.uri.host + ":" + request.uri.port + request.path.contextPath().value()
-        return Mono.just(exchange)
-    }
-
-    /**
-     * 添加自定义变量
-     */
-    @ModelAttribute
-    fun ownConfig(exchange: ServerWebExchange): Mono<ServerWebExchange> {
         exchange.attributes["fileMaxSize"] = xyfProperties.getConstants().fileMaxSize
         return Mono.just(exchange)
     }

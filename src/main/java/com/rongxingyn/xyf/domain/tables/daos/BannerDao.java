@@ -88,11 +88,4 @@ public class BannerDao extends DAOImpl<BannerRecord, com.rongxingyn.xyf.domain.t
     public List<com.rongxingyn.xyf.domain.tables.pojos.Banner> fetchByBannerIsHide(Byte... values) {
         return fetch(Banner.BANNER.BANNER_IS_HIDE, values);
     }
-
-    /**
-     * Fetch records that have <code>classify_id IN (values)</code>
-     */
-    public List<com.rongxingyn.xyf.domain.tables.pojos.Banner> fetchByClassifyId(Integer... values) {
-        return fetch(Banner.BANNER.CLASSIFY_ID, values);
-    }
 }

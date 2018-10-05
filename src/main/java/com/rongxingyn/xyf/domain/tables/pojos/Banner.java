@@ -24,13 +24,12 @@ import javax.validation.constraints.Size;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Banner implements Serializable {
 
-    private static final long serialVersionUID = 1612470727;
+    private static final long serialVersionUID = 276549266;
 
     private String  bannerId;
     private Integer bannerSerial;
     private String  bannerUrl;
     private Byte    bannerIsHide;
-    private Integer classifyId;
 
     public Banner() {}
 
@@ -39,21 +38,18 @@ public class Banner implements Serializable {
         this.bannerSerial = value.bannerSerial;
         this.bannerUrl = value.bannerUrl;
         this.bannerIsHide = value.bannerIsHide;
-        this.classifyId = value.classifyId;
     }
 
     public Banner(
         String  bannerId,
         Integer bannerSerial,
         String  bannerUrl,
-        Byte    bannerIsHide,
-        Integer classifyId
+        Byte    bannerIsHide
     ) {
         this.bannerId = bannerId;
         this.bannerSerial = bannerSerial;
         this.bannerUrl = bannerUrl;
         this.bannerIsHide = bannerIsHide;
-        this.classifyId = classifyId;
     }
 
     @NotNull
@@ -92,15 +88,6 @@ public class Banner implements Serializable {
         this.bannerIsHide = bannerIsHide;
     }
 
-    @NotNull
-    public Integer getClassifyId() {
-        return this.classifyId;
-    }
-
-    public void setClassifyId(Integer classifyId) {
-        this.classifyId = classifyId;
-    }
-
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder("Banner (");
@@ -109,7 +96,6 @@ public class Banner implements Serializable {
         sb.append(", ").append(bannerSerial);
         sb.append(", ").append(bannerUrl);
         sb.append(", ").append(bannerIsHide);
-        sb.append(", ").append(classifyId);
 
         sb.append(")");
         return sb.toString();

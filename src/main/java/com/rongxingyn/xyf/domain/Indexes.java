@@ -40,7 +40,6 @@ public class Indexes {
     // -------------------------------------------------------------------------
 
     public static final Index AUTHORITIES_PRIMARY = Indexes0.AUTHORITIES_PRIMARY;
-    public static final Index BANNER_CLASSIFY_ID = Indexes0.BANNER_CLASSIFY_ID;
     public static final Index BANNER_PRIMARY = Indexes0.BANNER_PRIMARY;
     public static final Index CLASSIFY_CLASSIFY_NAME = Indexes0.CLASSIFY_CLASSIFY_NAME;
     public static final Index CLASSIFY_PRIMARY = Indexes0.CLASSIFY_PRIMARY;
@@ -61,7 +60,6 @@ public class Indexes {
 
     private static class Indexes0 {
         public static Index AUTHORITIES_PRIMARY = Internal.createIndex("PRIMARY", Authorities.AUTHORITIES, new OrderField[] { Authorities.AUTHORITIES.USERNAME, Authorities.AUTHORITIES.AUTHORITY }, true);
-        public static Index BANNER_CLASSIFY_ID = Internal.createIndex("classify_id", Banner.BANNER, new OrderField[] { Banner.BANNER.CLASSIFY_ID }, false);
         public static Index BANNER_PRIMARY = Internal.createIndex("PRIMARY", Banner.BANNER, new OrderField[] { Banner.BANNER.BANNER_ID }, true);
         public static Index CLASSIFY_CLASSIFY_NAME = Internal.createIndex("classify_name", Classify.CLASSIFY, new OrderField[] { Classify.CLASSIFY.CLASSIFY_NAME }, true);
         public static Index CLASSIFY_PRIMARY = Internal.createIndex("PRIMARY", Classify.CLASSIFY, new OrderField[] { Classify.CLASSIFY.CLASSIFY_ID }, true);
