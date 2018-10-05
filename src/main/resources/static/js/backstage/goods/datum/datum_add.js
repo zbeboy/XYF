@@ -7,8 +7,9 @@ $(document).ready(function () {
         classifies: '/web/backstage/goods/datum/classifies',
         file_upload_url: '/web/backstage/goods/datum/upload',
         del_pic: '/web/backstage/goods/datum/del_pic',
-        save: '/web/backstage/article/save',
-        back: '/web/backstage/article'
+        valid: '/web/backstage/goods/datum/valid',
+        save: '/web/backstage/goods/datum/save',
+        back: '/web/backstage/goods/datum/list'
     };
 
     /*
@@ -16,30 +17,73 @@ $(document).ready(function () {
     */
     var paramId = {
         classifyId: '#classifyId',
-        articleTitle: '#articleTitle',
-        articleBrief: '#articleBrief',
+        goodsName: '#goodsName',
+        goodsRecommend: '#goodsRecommend',
+        goodsPrice: '#goodsPrice',
+        goodsSerial: '#goodsSerial',
+        goodsIsDel: '#goodsIsDel',
         goodsPic: '#goodsPic',
         goodsPicTemp: '#goodsPicTemp',
-        articleSources: '#articleSources',
-        articleSourcesName: '#articleSourcesName',
-        articleSourcesLink: '#articleSourcesLink',
-        articleSn: '#articleSn'
+        goodsBrief: '#goodsBrief'
     };
 
     /*
     参数
     */
     var param = {
-        menuId: $(paramId.menuId).val(),
-        articleTitle: $(paramId.articleTitle).val(),
-        articleBrief: $(paramId.articleBrief).val(),
-        articleCover: $(paramId.articleCover).val(),
-        articleContent: '',
-        articleSources: $("input[name='articleSources']:checked").val(),
-        articleSourcesName: $(paramId.articleSourcesName).val(),
-        articleSourcesLink: $(paramId.articleSourcesLink).val(),
-        articleSn: $(paramId.articleSn).val()
+        classifyId: $(paramId.classifyId).val(),
+        goodsName: $(paramId.goodsName).val(),
+        goodsRecommend: $(paramId.goodsRecommend).val(),
+        goodsPrice: $(paramId.goodsPrice).val(),
+        goodsSerial: $(paramId.goodsSerial).val(),
+        goodsIsDel: $("input[name='goodsIsDel']:checked").val(),
+        goodsPic: $(paramId.goodsPic).val(),
+        goodsBrief: $(paramId.goodsBrief).val()
     };
+
+    /*
+     初始化参数
+     */
+    function initParam() {
+        param.classifyId = $(paramId.classifyId).val();
+        param.goodsName = $(paramId.goodsName).val();
+        param.goodsRecommend = $(paramId.goodsRecommend).val();
+        param.goodsPrice = $(paramId.goodsPrice).val();
+        param.goodsSerial = $(paramId.goodsSerial).val();
+        var isDel = $('input[name="goodsIsDel"]:checked').val();
+        param.goodsIsDel = _.isUndefined(isDel) ? 0 : isDel;
+        param.goodsPic = $(paramId.goodsPic).val();
+        param.goodsBrief = $(paramId.goodsBrief).val();
+    }
+
+    /*
+     错误消息id
+     */
+    var errorMsgId = {
+        goodsName: '#goods_name_error_msg',
+        goodsRecommend: '#goods_recommend_error_msg'
+    };
+
+    /**
+     * 检验成功
+     * @param validId
+     * @param errorMsgId
+     */
+    function validSuccessDom(validId, errorMsgId) {
+        $(validId).removeClass('is-invalid');
+        $(errorMsgId).text('');
+    }
+
+    /**
+     * 检验失败
+     * @param validId
+     * @param errorMsgId
+     * @param msg
+     */
+    function validErrorDom(validId, errorMsgId, msg) {
+        $(validId).addClass('is-invalid');
+        $(errorMsgId).text(msg);
+    }
 
     init();
 
@@ -61,6 +105,47 @@ $(document).ready(function () {
         var template = Handlebars.compile($("#classify-template").html());
         $(paramId.classifyId).append(template(data));
     }
+
+    $(paramId.goodsName).blur(function () {
+        initParam();
+        var goodsName = param.goodsName;
+        if (!_.isEmpty(goodsName) && _.inRange(goodsName.length, 1, 100)) {
+            Messenger().run({
+                progressMessage: '正在校验数据...'
+            }, {
+                url: web_path + ajax_url.valid,
+                data: {
+                    type: 0,
+                    goodsName: goodsName
+                },
+                success: function (data) {
+                    if (data.state) {
+                        validSuccessDom(paramId.goodsName, errorMsgId.goodsName);
+                    } else {
+                        validErrorDom(paramId.goodsName, errorMsgId.goodsName, data.msg);
+                    }
+                },
+                error: function (xhr) {
+                    if ((xhr != null ? xhr.status : void 0) === 404) {
+                        return "请求错误";
+                    }
+                    return true;
+                }
+            });
+        } else {
+            validErrorDom(paramId.goodsName, errorMsgId.goodsName, "商品名1~100个字符")
+        }
+    });
+
+    $(paramId.goodsRecommend).blur(function () {
+        initParam();
+        var goodsRecommend = param.goodsRecommend;
+        if (_.toSafeInteger(goodsRecommend) <= 5) {
+            validSuccessDom(paramId.goodsRecommend, errorMsgId.goodsRecommend);
+        } else {
+            validErrorDom(paramId.goodsRecommend, errorMsgId.goodsRecommend, "商品推荐度最大5")
+        }
+    });
 
     // 上传组件
     $('#fileupload').fileupload({
@@ -114,7 +199,7 @@ $(document).ready(function () {
                 url: web_path + ajax_url.del_pic,
                 data: {goodsPic: goodsPic},
                 success: function (data) {
-                    if(data.state){
+                    if (data.state) {
                         $(paramId.goodsPic).val('');
                         $('.fileinput-button').removeClass('hidden');
                     }
@@ -133,4 +218,144 @@ $(document).ready(function () {
             });
         }
     });
+
+    /*
+    保存数据
+    */
+    $('#save').click(function () {
+        add();
+    });
+
+    /*
+    返回
+     */
+    $('#back').click(function () {
+        window.location.href = web_path + ajax_url.back;
+    });
+
+    /*
+    添加询问
+    */
+    function add() {
+        initParam();
+        var goodsName = param.goodsName;
+        var msg;
+        msg = Messenger().post({
+            message: "确定添加商品 '" + goodsName + "'  吗?",
+            actions: {
+                retry: {
+                    label: '确定',
+                    phrase: 'Retrying TIME',
+                    action: function () {
+                        msg.cancel();
+                        validGoodsName();
+                    }
+                },
+                cancel: {
+                    label: '取消',
+                    action: function () {
+                        return msg.cancel();
+                    }
+                }
+            }
+        });
+    }
+
+    /**
+     * 添加时检验并提交数据
+     */
+    function validGoodsName() {
+        var goodsName = param.goodsName;
+        if (!_.isEmpty(goodsName) && _.inRange(goodsName.length, 1, 100)) {
+            Messenger().run({
+                progressMessage: '正在校验数据...'
+            }, {
+                url: web_path + ajax_url.valid,
+                data: {
+                    type: 0,
+                    goodsName: goodsName
+                },
+                success: function (data) {
+                    if (data.state) {
+                        validGoodsRecommend();
+                    } else {
+                        Messenger().post({
+                            message: data.msg,
+                            type: 'error',
+                            showCloseButton: true
+                        });
+                    }
+                },
+                error: function (xhr) {
+                    if ((xhr != null ? xhr.status : void 0) === 404) {
+                        return "请求错误";
+                    }
+                    return true;
+                }
+            });
+        } else {
+            Messenger().post({
+                message: '商品名1~100个字符',
+                type: 'error',
+                showCloseButton: true
+            });
+        }
+    }
+
+    function validGoodsRecommend() {
+        var goodsRecommend = param.goodsRecommend;
+        if (_.toSafeInteger(goodsRecommend) <= 5) {
+            validGoodsPic();
+        } else {
+            Messenger().post({
+                message: '商品推荐度最大5',
+                type: 'error',
+                showCloseButton: true
+            });
+        }
+    }
+
+    function validGoodsPic() {
+        var goodsPic = param.goodsPic;
+        if (!_.isEmpty(goodsPic)) {
+            sendAjax();
+        } else {
+            Messenger().post({
+                message: '请上传商品图片',
+                type: 'error',
+                showCloseButton: true
+            });
+        }
+    }
+
+    /**
+     * 发送数据到后台
+     */
+    function sendAjax() {
+        Messenger().run({
+            progressMessage: '正在保存数据....'
+        }, {
+            url: web_path + ajax_url.save,
+            type: 'post',
+            data: param,
+            success: function (data) {
+                if (data.state) {
+                    window.location.href = web_path + ajax_url.back;
+                } else {
+                    Messenger().post({
+                        message: data.msg,
+                        type: 'error',
+                        showCloseButton: true
+                    });
+                }
+            },
+            error: function (xhr) {
+                if ((xhr != null ? xhr.status : void 0) === 404) {
+                    return "请求失败";
+                }
+                return true;
+            }
+        });
+    }
+
 });

@@ -42,21 +42,25 @@
                     <div class="form-group">
                         <label for="goodsName">商品名</label>
                         <input type="text" class="form-control" id="goodsName" placeholder="商品名">
+                        <div class="invalid-feedback" id="goods_name_error_msg"></div>
                     </div>
                     <div class="form-group">
                         <label for="goodsPrice">价格</label>
-                        <input type="number" class="form-control" id="goodsPrice" placeholder="价格">
+                        <input type="number" class="form-control" id="goodsPrice" placeholder="价格" value="0">
                     </div>
                     <div class="form-group">
                         <label for="goodsRecommend">推荐度</label>
                         <input type="number" max="5" class="form-control" id="goodsRecommend" placeholder="推荐度">
+                        <div class="invalid-feedback" id="goods_recommend_error_msg"></div>
+                        <small class="form-text text-muted">推荐度最大为5</small>
                     </div>
                     <div class="form-group">
                         <label for="goodsSerial">序号</label>
-                        <input type="number" class="form-control" id="goodsSerial" placeholder="序号">
+                        <input type="number" class="form-control" id="goodsSerial" placeholder="序号" value="0">
                     </div>
                     <div class="form-check">
-                        <input type="checkbox" class="form-check-input" style="margin-left: 0" id="goodsIsDel">
+                        <input type="checkbox" class="form-check-input" style="margin-left: 0" name="goodsIsDel"
+                               id="goodsIsDel" value="1">
                         <label class="form-check-label" for="goodsIsDel">状态</label>
                     </div>
                     <div class="form-group">
@@ -66,14 +70,16 @@
                                 <div class="thumbnail">
                                     <img data-src="holder.js/100%x200" id="goodsPicTemp" alt="100%x200"
                                          src="data:image/svg+xml;base64,PD94bWwgdmVyc2lvbj0iMS4wIiBlbmNvZGluZz0iVVRGLTgiIHN0YW5kYWxvbmU9InllcyI/PjxzdmcgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzIwMDAvc3ZnIiB3aWR0aD0iMzE5IiBoZWlnaHQ9IjIwMCIgdmlld0JveD0iMCAwIDMxOSAyMDAiIHByZXNlcnZlQXNwZWN0UmF0aW89Im5vbmUiPjwhLS0KU291cmNlIFVSTDogaG9sZGVyLmpzLzEwMCV4MjAwCkNyZWF0ZWQgd2l0aCBIb2xkZXIuanMgMi42LjAuCkxlYXJuIG1vcmUgYXQgaHR0cDovL2hvbGRlcmpzLmNvbQooYykgMjAxMi0yMDE1IEl2YW4gTWFsb3BpbnNreSAtIGh0dHA6Ly9pbXNreS5jbwotLT48ZGVmcz48c3R5bGUgdHlwZT0idGV4dC9jc3MiPjwhW0NEQVRBWyNob2xkZXJfMTYyYmUyMDgyYWQgdGV4dCB7IGZpbGw6I0FBQUFBQTtmb250LXdlaWdodDpib2xkO2ZvbnQtZmFtaWx5OkFyaWFsLCBIZWx2ZXRpY2EsIE9wZW4gU2Fucywgc2Fucy1zZXJpZiwgbW9ub3NwYWNlO2ZvbnQtc2l6ZToxNnB0IH0gXV0+PC9zdHlsZT48L2RlZnM+PGcgaWQ9ImhvbGRlcl8xNjJiZTIwODJhZCI+PHJlY3Qgd2lkdGg9IjMxOSIgaGVpZ2h0PSIyMDAiIGZpbGw9IiNFRUVFRUUiLz48Zz48dGV4dCB4PSIxMTcuOTg0Mzc1IiB5PSIxMDcuMiI+MzE5eDIwMDwvdGV4dD48L2c+PC9nPjwvc3ZnPg=="
-                                         data-holder-rendered="true" style="height: 200px; width: 100%; display: block;">
+                                         data-holder-rendered="true"
+                                         style="height: 200px; width: 100%; display: block;">
                                     <div class="caption text-center">
                                     <span class="btn btn-primary fileinput-button">
                                         <span>上传</span>
                                         <!-- The file input field used as target for the file upload widget -->
                                         <input id="fileupload" type="file" name="file"/>
                                     </span>
-                                        <button type="button" id="clearImg" class="btn btn-default" role="button">清除</button>
+                                        <button type="button" id="clearImg" class="btn btn-default" role="button">清除
+                                        </button>
                                     </div>
                                 </div>
                             </div>
@@ -82,11 +88,11 @@
                     </div>
                     <div class="form-group">
                         <label for="goodsBrief">简介</label>
-                        <textarea class="form-control" id="goodsBrief" rows="3"></textarea>
+                        <textarea class="form-control" id="goodsBrief" rows="3" placeholder="商品简介"></textarea>
                     </div>
                     <div class="text-center">
-                        <button type="button" class="btn btn-primary">提交</button>
-                        <button type="button" class="btn btn-default">返回</button>
+                        <button type="button" class="btn btn-primary" id="save">提交</button>
+                        <button type="button" class="btn btn-default" id="back">返回</button>
                     </div>
                 </form>
 

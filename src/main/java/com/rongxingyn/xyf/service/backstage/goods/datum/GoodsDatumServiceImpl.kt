@@ -1,6 +1,10 @@
 package com.rongxingyn.xyf.service.backstage.goods.datum
 
-import com.rongxingyn.xyf.domain.Tables.*
+import com.rongxingyn.xyf.domain.Tables.CLASSIFY
+import com.rongxingyn.xyf.domain.Tables.GOODS
+import com.rongxingyn.xyf.domain.tables.daos.GoodsDao
+import com.rongxingyn.xyf.domain.tables.pojos.Goods
+import com.rongxingyn.xyf.domain.tables.records.GoodsRecord
 import com.rongxingyn.xyf.service.plugin.DataTablesPlugin
 import com.rongxingyn.xyf.service.utils.SQLQueryUtils
 import com.rongxingyn.xyf.web.bean.backstage.goods.datum.GoodsBean
@@ -12,12 +16,26 @@ import org.springframework.transaction.annotation.Propagation
 import org.springframework.transaction.annotation.Transactional
 import org.springframework.util.ObjectUtils
 import org.springframework.util.StringUtils
+import javax.annotation.Resource
 
 @Service("goodsDatumService")
 @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 open class GoodsDatumServiceImpl @Autowired constructor(dslContext: DSLContext) : DataTablesPlugin<GoodsBean>(), GoodsDatumService {
 
     private val create: DSLContext = dslContext
+
+    @Resource
+    open lateinit var goodsDao: GoodsDao
+
+    override fun findByGoodsName(goodsName: String): List<Goods> {
+        return goodsDao.fetchByGoodsName(goodsName)
+    }
+
+    override fun findByGoodsNameNeGoodsId(goodsName: String, goodsId: String): Result<GoodsRecord> {
+        return create.selectFrom<GoodsRecord>(GOODS)
+                .where(GOODS.GOODS_NAME.eq(goodsName).and(GOODS.GOODS_ID.ne(goodsId)))
+                .fetch()
+    }
 
     override fun findAllByPage(dataTablesUtils: DataTablesUtils<GoodsBean>): Result<Record> {
         val a = searchCondition(dataTablesUtils)
@@ -59,6 +77,21 @@ open class GoodsDatumServiceImpl @Autowired constructor(dslContext: DSLContext) 
                     .where(a).fetchOne()
         }
         return count.value1()
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
+    override fun save(goods: Goods) {
+        goodsDao.insert(goods)
+    }
+
+    override fun update(goods: Goods) {
+        goodsDao.update(goods)
+    }
+
+    override fun updateState(ids: List<String>, isDel: Byte) {
+        for (id in ids) {
+            create.update<GoodsRecord>(GOODS).set<Byte>(GOODS.GOODS_IS_DEL, isDel).where(GOODS.GOODS_ID.eq(id)).execute()
+        }
     }
 
     /**

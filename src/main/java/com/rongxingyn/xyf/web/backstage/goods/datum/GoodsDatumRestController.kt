@@ -2,22 +2,34 @@ package com.rongxingyn.xyf.web.backstage.goods.datum
 
 import com.rongxingyn.xyf.config.Workbook
 import com.rongxingyn.xyf.config.XYFProperties
+import com.rongxingyn.xyf.domain.tables.pojos.Goods
+import com.rongxingyn.xyf.domain.tables.pojos.GoodsPics
+import com.rongxingyn.xyf.domain.tables.pojos.TableTime
+import com.rongxingyn.xyf.service.backstage.TableTimeService
 import com.rongxingyn.xyf.service.backstage.goods.classify.GoodsClassifyService
 import com.rongxingyn.xyf.service.backstage.goods.datum.GoodsDatumService
+import com.rongxingyn.xyf.service.backstage.goods.datum.GoodsPicsService
 import com.rongxingyn.xyf.service.common.FileSystemService
+import com.rongxingyn.xyf.service.utils.UUIDUtils
 import com.rongxingyn.xyf.web.bean.backstage.goods.datum.GoodsBean
 import com.rongxingyn.xyf.web.utils.AjaxUtils
 import com.rongxingyn.xyf.web.utils.DataTablesUtils
+import com.rongxingyn.xyf.web.vo.backstage.goods.datum.DatumAddVo
+import com.rongxingyn.xyf.web.vo.backstage.goods.datum.DatumValidVo
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.http.codec.multipart.FilePart
+import org.springframework.util.CollectionUtils
 import org.springframework.util.ObjectUtils
+import org.springframework.validation.BindingResult
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.server.ServerWebExchange
 import reactor.core.publisher.Mono
+import java.sql.Timestamp
 import java.util.*
 import javax.annotation.Resource
+import javax.validation.Valid
 import javax.websocket.server.PathParam
 
 @RestController
@@ -29,6 +41,12 @@ open class GoodsDatumRestController {
 
     @Resource
     open lateinit var goodsClassifyService: GoodsClassifyService
+
+    @Resource
+    open lateinit var goodsPicsService: GoodsPicsService
+
+    @Resource
+    open lateinit var tableTimeService: TableTimeService
 
     @Resource
     open lateinit var fileSystemService: FileSystemService
@@ -108,5 +126,89 @@ open class GoodsDatumRestController {
         val ajaxUtils = AjaxUtils.of().success().msg("删除成功")
         fileSystemService.delete(goodsPic)
         return Mono.just(ResponseEntity(ajaxUtils.send(), HttpStatus.OK))
+    }
+
+    /**
+     * 商品校验
+     *
+     * @param datumValidVo 请求数据
+     * @param bindingResult 校验
+     * @return true or false
+     */
+    @GetMapping("/datum/valid")
+    fun valid(@Valid datumValidVo: DatumValidVo, bindingResult: BindingResult): Mono<ResponseEntity<Map<String, Any>>> {
+        val ajaxUtils = AjaxUtils.of()
+        if (!bindingResult.hasErrors()) {
+            if (0 == datumValidVo.type) {
+                val goods = goodsDatumService.findByGoodsName(datumValidVo.goodsName!!)
+                if (CollectionUtils.isEmpty(goods)) {
+                    ajaxUtils.success().msg("商品名不存在")
+                } else {
+                    ajaxUtils.fail().msg("商品名已存在")
+                }
+            } else if (1 == datumValidVo.type) {
+                if (ObjectUtils.isEmpty(datumValidVo.goodsId)) {
+                    ajaxUtils.fail().msg("商品ID不能为空")
+                } else {
+                    val goods = goodsDatumService.findByGoodsNameNeGoodsId(datumValidVo.goodsName!!, datumValidVo.goodsId!!)
+                    if (goods.isEmpty()) {
+                        ajaxUtils.success().msg("商品名不存在")
+                    } else {
+                        ajaxUtils.fail().msg("商品名已存在")
+                    }
+                }
+            } else {
+                ajaxUtils.fail().msg("未知的校验类型")
+            }
+        } else {
+            ajaxUtils.fail().msg(bindingResult.fieldError!!.defaultMessage!!)
+        }
+        return Mono.just(ResponseEntity(ajaxUtils.send(), HttpStatus.OK))
+    }
+
+    /**
+     * 商品添加
+     *
+     * @param datumAddVo 请求数据
+     * @param bindingResult 校验
+     * @return true or false
+     */
+    @PostMapping("/datum/save")
+    fun add(@Valid datumAddVo: DatumAddVo, bindingResult: BindingResult): Mono<ResponseEntity<Map<String, Any>>> {
+        val ajaxUtils = AjaxUtils.of()
+        if (!bindingResult.hasErrors()) {
+            val goods = Goods()
+            val goodsId = UUIDUtils.getUUID()
+            goods.goodsId = goodsId
+            goods.goodsName = datumAddVo.goodsName
+            goods.goodsPrice = datumAddVo.goodsPrice
+            goods.goodsBrief = datumAddVo.goodsBrief
+            goods.goodsRecommend = datumAddVo.goodsRecommend
+            goods.goodsSerial = datumAddVo.goodsSerial
+            goods.goodsIsDel = datumAddVo.goodsIsDel
+            goods.classifyId = datumAddVo.classifyId
+            goodsDatumService.save(goods)
+
+            val goodsPics = GoodsPics()
+            goodsPics.goodsId = goodsId
+            goodsPics.picUrl = datumAddVo.goodsPic
+            goodsPicsService.save(goodsPics)
+            saveTableTime()
+            ajaxUtils.success().msg("保存数据成功")
+        } else {
+            ajaxUtils.fail().msg(bindingResult.fieldError!!.defaultMessage!!)
+        }
+
+        return Mono.just(ResponseEntity(ajaxUtils.send(), HttpStatus.OK))
+    }
+
+    /**
+     * 保存时间到tableTime
+     */
+    private fun saveTableTime() {
+        val tableTime = TableTime()
+        tableTime.tableName = "GOODS"
+        tableTime.dealTime = Timestamp(System.currentTimeMillis())
+        tableTimeService.save(tableTime)
     }
 }
