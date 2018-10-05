@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="header :: header(~{::meta},~{::title},~{::link})">
+    <!-- csrf -->
+    <meta name="_csrf" content="" th:content="${_csrf.token}"/>
+    <!-- default header name is X-CSRF-TOKEN -->
+    <meta name="_csrf_header" content="" th:content="${_csrf.headerName}"/>
+    <title>商品 - 兴易坊</title>
+    <!-- Custom fonts for this template-->
+    <link href="css/font-awesome.min.css" rel="stylesheet" type="text/css"
+          th:href="@{/webjars/font-awesome/css/font-awesome.min.css}"/>
+    <!-- Page level plugin CSS-->
+    <link rel="stylesheet" th:href="@{/plugin/messenger/css/messenger.css}"/>
+    <link rel="stylesheet" th:href="@{/plugin/messenger/css/messenger-theme-future.css}"/>
+    <link th:href="@{/plugin/jquery-file_upload/css/jquery.fileupload.min.css}" rel="stylesheet"/>
+    <!-- Custom styles for this template-->
+    <link href="css/sb-admin.css" rel="stylesheet" th:href="@{/plugin/sb-admin/css/sb-admin.min.css}"/>
+</head>
+<body class="fixed-nav sticky-footer bg-dark" id="page-top">
+<!-- Navigation-->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav" th:include="nav::backstage">
+</nav>
+<div class="content-wrapper">
+    <div class="container-fluid">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="/web/backstage" th:href="@{/web/backstage}">后台</a>
+            </li>
+            <li class="breadcrumb-item active">banner管理</li>
+        </ol>
+        <div class="row">
+            <div class="col-12">
+                <button class="btn btn-primary fileinput-button pull-right">
+                    <i class="fa fa-upload"></i> <span>上传</span>
+                    <!-- The file input field used as target for the file upload widget -->
+                    <input id="fileupload" type="file" name="file"/>
+                </button>
+            </div>
+        </div>
+        <div class="card-columns" id="datas">
+        </div>
+    </div>
+    <!-- /.container-fluid-->
+    <!-- /.content-wrapper-->
+    <footer class="sticky-footer" th:include="footer::backstageFooter">
+    </footer>
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fa fa-angle-up"></i>
+    </a>
+</div>
+
+<!--定义操作列按钮模板-->
+<script id="banner-template" type="text/x-handlebars-template">
+    {{#each listResult}}
+    <div class="card mb-3">
+        <div>
+            <img class="card-img-top img-fluid w-100" src="{{imgSrc}}" alt="">
+        </div>
+        <div class="card-body py-2">
+            <a class="mr-3 d-inline-block" href="javascript:">
+                <i class="fa fa-fw fa-{{imgHideCss}} {{imgHideClass}}" data-hide="{{imgHide}}"
+                   data-id="{{this.bannerId}}"></i>{{imgHideText}}</a>
+            <a class="mr-3 d-inline-block" href="javascript:">
+                <i class="fa fa-fw fa-trash del" data-id="{{this.bannerId}}"></i>删除</a>
+            <a class="mr-3 d-inline-block" href="javascript:">
+                <i class="fa fa-fw fa-tags ser" data-id="{{this.bannerId}}" data-ser="{{this.bannerSerial}}"></i>序号</a>
+            <p class="pull-right">{{this.bannerSerial}}</p>
+        </div>
+    </div>
+    {{/each}}
+</script>
+<!-- Bootstrap core JavaScript-->
+<script th:inline="javascript">
+    var web_path = /*[[${webPath}]]*/ '';
+    var file_max_size = /*[[${fileMaxSize}]]*/ '';
+</script>
+<script src="vendor/jquery/jquery.min.js" th:src="@{/webjars/jquery/jquery.min.js}"></script>
+<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"
+        th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}"></script>
+<!-- Core plugin JavaScript-->
+<script src="vendor/jquery-easing/jquery.easing.min.js" th:src="@{/plugin/jquery-easing/jquery.easing.min.js}"></script>
+<!-- Page level plugin JavaScript-->
+<script th:src="@{/plugin/jquery-file_upload/js/vendor/jquery.ui.widget.min.js}"></script>
+<script th:src="@{/plugin/jquery-file_upload/js/jquery.iframe-transport.min.js}"></script>
+<script th:src="@{/plugin/jquery-file_upload/js/jquery.fileupload.min.js}"></script>
+<script th:src="@{/plugin/jquery-file_upload/js/jquery.fileupload-process.min.js}"></script>
+<script th:src="@{/plugin/jquery-file_upload/js/jquery.fileupload-validate.min.js}"></script>
+<!-- Custom scripts for all pages-->
+<script src="js/sb-admin.min.js" th:src="@{/plugin/sb-admin/js/sb-admin.min.js}"></script>
+<script th:src="@{/plugin/messenger/js/messenger.min.js}"></script>
+<script th:src="@{/plugin/messenger/js/messenger-theme-future.js}"></script>
+<script th:src="@{/js/imessenger.js}"></script>
+<script th:src="@{/js/csrf.js}"></script>
+<script th:src="@{/webjars/handlebars/handlebars.min.js}"></script>
+<script th:src="@{/js/backstage/goods/banner/banner_list.js}"></script>
+</body>
+</html>

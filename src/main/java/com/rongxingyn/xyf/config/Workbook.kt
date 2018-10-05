@@ -33,5 +33,6 @@ open class Workbook {
 
         // 文件识别码
         const val GOODS_DATUM_FILE = "GOODS_DATUM_"
+        const val GOODS_BANNER_FILE = "GOODS_BANNER_"
     }
 }
