@@ -15,6 +15,7 @@ import com.rongxingyn.xyf.web.bean.backstage.goods.datum.GoodsBean
 import com.rongxingyn.xyf.web.utils.AjaxUtils
 import com.rongxingyn.xyf.web.utils.DataTablesUtils
 import com.rongxingyn.xyf.web.vo.backstage.goods.datum.DatumAddVo
+import com.rongxingyn.xyf.web.vo.backstage.goods.datum.DatumEditVo
 import com.rongxingyn.xyf.web.vo.backstage.goods.datum.DatumValidVo
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
@@ -195,6 +196,42 @@ open class GoodsDatumRestController {
             goodsPicsService.save(goodsPics)
             saveTableTime()
             ajaxUtils.success().msg("保存数据成功")
+        } else {
+            ajaxUtils.fail().msg(bindingResult.fieldError!!.defaultMessage!!)
+        }
+
+        return Mono.just(ResponseEntity(ajaxUtils.send(), HttpStatus.OK))
+    }
+
+    /**
+     * 商品添加
+     *
+     * @param datumEditVo 请求数据
+     * @param bindingResult 校验
+     * @return true or false
+     */
+    @PostMapping("/datum/update")
+    fun edit(@Valid datumEditVo: DatumEditVo, bindingResult: BindingResult): Mono<ResponseEntity<Map<String, Any>>> {
+        val ajaxUtils = AjaxUtils.of()
+        if (!bindingResult.hasErrors()) {
+            val goods = goodsDatumService.findById(datumEditVo.goodsId!!)
+            goods.goodsName = datumEditVo.goodsName
+            goods.goodsPrice = datumEditVo.goodsPrice
+            goods.goodsBrief = datumEditVo.goodsBrief
+            goods.goodsRecommend = datumEditVo.goodsRecommend
+            goods.goodsSerial = datumEditVo.goodsSerial
+            goods.goodsIsDel = datumEditVo.goodsIsDel
+            goods.classifyId = datumEditVo.classifyId
+            goodsDatumService.update(goods)
+
+            // 先删除图片
+            goodsPicsService.deleteByGoodsId(datumEditVo.goodsId!!)
+            val goodsPics = GoodsPics()
+            goodsPics.goodsId = datumEditVo.goodsId
+            goodsPics.picUrl = datumEditVo.goodsPic
+            goodsPicsService.save(goodsPics)
+            saveTableTime()
+            ajaxUtils.success().msg("更新数据成功")
         } else {
             ajaxUtils.fail().msg(bindingResult.fieldError!!.defaultMessage!!)
         }

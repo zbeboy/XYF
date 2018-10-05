@@ -27,6 +27,10 @@ open class GoodsDatumServiceImpl @Autowired constructor(dslContext: DSLContext) 
     @Resource
     open lateinit var goodsDao: GoodsDao
 
+    override fun findById(id: String): Goods {
+        return goodsDao.findById(id)
+    }
+
     override fun findByGoodsName(goodsName: String): List<Goods> {
         return goodsDao.fetchByGoodsName(goodsName)
     }

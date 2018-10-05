@@ -19,6 +19,10 @@ open class GoodsPicsServiceImpl @Autowired constructor(dslContext: DSLContext) :
     @Resource
     open lateinit var goodsPicsDao: GoodsPicsDao
 
+    override fun findByGoodsId(goodsId: String): List<GoodsPics> {
+        return goodsPicsDao.fetchByGoodsId(goodsId)
+    }
+
     override fun deleteByGoodsId(goodsId: String) {
         create.deleteFrom(GOODS_PICS).where(GOODS_PICS.GOODS_ID.eq(goodsId)).execute()
     }

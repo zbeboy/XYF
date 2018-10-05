@@ -10,6 +10,14 @@ import org.jooq.Result
 interface GoodsDatumService {
 
     /**
+     * 通过ID查询
+     *
+     * @param id 主键
+     * @return 数据
+     */
+    fun findById(id: String): Goods
+
+    /**
      * 根据商品名查询
      *
      * @param goodsName 商品名

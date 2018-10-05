@@ -139,15 +139,15 @@ $(document).ready(function () {
                                         "name": "编辑",
                                         "css": "edit",
                                         "type": "primary",
-                                        "id": c.goods_id,
-                                        "classify": c.goods_name
+                                        "id": c.goodsId,
+                                        "classify": c.goodsName
                                     },
                                     {
                                         "name": "删除",
                                         "css": "del",
                                         "type": "danger",
-                                        "id": c.goods_id,
-                                        "classify": c.goods_name
+                                        "id": c.goodsId,
+                                        "classify": c.goodsName
                                     }
                                 ]
                             };
@@ -159,15 +159,15 @@ $(document).ready(function () {
                                         "name": "编辑",
                                         "css": "edit",
                                         "type": "primary",
-                                        "id": c.goods_id,
-                                        "classify": c.goods_name
+                                        "id": c.goodsId,
+                                        "classify": c.goodsName
                                     },
                                     {
                                         "name": "恢复",
                                         "css": "recovery",
                                         "type": "warning",
-                                        "id": c.goods_id,
-                                        "classify": c.goods_name
+                                        "id": c.goodsId,
+                                        "classify": c.goodsName
                                     }
                                 ]
                             };
