@@ -15,6 +15,7 @@ $(document).ready(function () {
             goods: '/web/backstage/goods/datum/data',
             add: '/web/backstage/goods/datum/add',
             edit: '/web/backstage/goods/datum/edit',
+            state: '/web/backstage/goods/datum/state',
             tableTime: '/web/backstage/table/GOODS'
         };
     }
@@ -121,7 +122,7 @@ $(document).ready(function () {
                 targets: 0,
                 orderable: false,
                 render: function (a, b, c, d) {
-                    return '<input type="checkbox" value="' + c.classifyId + '" name="check"/>';
+                    return '<input type="checkbox" value="' + c.goodsId + '" name="check"/>';
                 }
             },
             {
@@ -140,14 +141,14 @@ $(document).ready(function () {
                                         "css": "edit",
                                         "type": "primary",
                                         "id": c.goodsId,
-                                        "classify": c.goodsName
+                                        "goods": c.goodsName
                                     },
                                     {
                                         "name": "删除",
                                         "css": "del",
                                         "type": "danger",
                                         "id": c.goodsId,
-                                        "classify": c.goodsName
+                                        "goods": c.goodsName
                                     }
                                 ]
                             };
@@ -160,14 +161,14 @@ $(document).ready(function () {
                                         "css": "edit",
                                         "type": "primary",
                                         "id": c.goodsId,
-                                        "classify": c.goodsName
+                                        "goods": c.goodsName
                                     },
                                     {
                                         "name": "恢复",
                                         "css": "recovery",
                                         "type": "warning",
                                         "id": c.goodsId,
-                                        "classify": c.goodsName
+                                        "goods": c.goodsName
                                     }
                                 ]
                             };

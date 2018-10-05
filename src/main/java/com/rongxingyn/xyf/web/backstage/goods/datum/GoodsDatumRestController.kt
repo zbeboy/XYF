@@ -14,8 +14,10 @@ import com.rongxingyn.xyf.service.utils.UUIDUtils
 import com.rongxingyn.xyf.web.bean.backstage.goods.datum.GoodsBean
 import com.rongxingyn.xyf.web.utils.AjaxUtils
 import com.rongxingyn.xyf.web.utils.DataTablesUtils
+import com.rongxingyn.xyf.web.utils.SmallPropsUtils
 import com.rongxingyn.xyf.web.vo.backstage.goods.datum.DatumAddVo
 import com.rongxingyn.xyf.web.vo.backstage.goods.datum.DatumEditVo
+import com.rongxingyn.xyf.web.vo.backstage.goods.datum.DatumStateVo
 import com.rongxingyn.xyf.web.vo.backstage.goods.datum.DatumValidVo
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
@@ -23,6 +25,7 @@ import org.springframework.http.ResponseEntity
 import org.springframework.http.codec.multipart.FilePart
 import org.springframework.util.CollectionUtils
 import org.springframework.util.ObjectUtils
+import org.springframework.util.StringUtils
 import org.springframework.validation.BindingResult
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.server.ServerWebExchange
@@ -236,6 +239,29 @@ open class GoodsDatumRestController {
             ajaxUtils.fail().msg(bindingResult.fieldError!!.defaultMessage!!)
         }
 
+        return Mono.just(ResponseEntity(ajaxUtils.send(), HttpStatus.OK))
+    }
+
+    /**
+     * 批量更改状态
+     *
+     * @param datumStateVo 数据
+     * @return true注销成功
+     */
+    @PutMapping("/datum/state")
+    fun state(@Valid datumStateVo: DatumStateVo, bindingResult: BindingResult): Mono<ResponseEntity<Map<String, Any>>> {
+        val ajaxUtils = AjaxUtils.of()
+        if (!bindingResult.hasErrors()) {
+            if (StringUtils.hasLength(datumStateVo.goodsIds)) {
+                goodsDatumService.updateState(SmallPropsUtils.StringIdsToStringList(datumStateVo.goodsIds!!), datumStateVo.goodsIsDel!!)
+                saveTableTime()
+                ajaxUtils.success().msg("更新状态成功")
+            } else {
+                ajaxUtils.fail().msg("更新状态失败")
+            }
+        } else {
+            ajaxUtils.fail().msg(bindingResult.fieldError!!.defaultMessage!!)
+        }
         return Mono.just(ResponseEntity(ajaxUtils.send(), HttpStatus.OK))
     }
 
