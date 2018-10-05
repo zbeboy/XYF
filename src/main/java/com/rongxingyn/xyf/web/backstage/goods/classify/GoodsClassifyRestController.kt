@@ -107,7 +107,7 @@ open class GoodsClassifyRestController {
                 ajaxUtils.fail().msg("未知的校验类型")
             }
         } else {
-            ajaxUtils.fail().msg("bindingResult.fieldError!!.defaultMessage!!")
+            ajaxUtils.fail().msg(bindingResult.fieldError!!.defaultMessage!!)
         }
         return Mono.just(ResponseEntity(ajaxUtils.send(), HttpStatus.OK))
     }
