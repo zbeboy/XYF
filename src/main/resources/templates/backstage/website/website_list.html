@@ -1,0 +1,80 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="header :: header(~{::meta},~{::title},~{::link})">
+    <!-- csrf -->
+    <meta name="_csrf" content="" th:content="${_csrf.token}"/>
+    <!-- default header name is X-CSRF-TOKEN -->
+    <meta name="_csrf_header" content="" th:content="${_csrf.headerName}"/>
+    <title>网站 - 兴易坊</title>
+    <!-- Custom fonts for this template-->
+    <link href="css/font-awesome.min.css" rel="stylesheet" type="text/css"
+          th:href="@{/webjars/font-awesome/css/font-awesome.min.css}"/>
+    <!-- Page level plugin CSS-->
+    <link rel="stylesheet" th:href="@{/plugin/messenger/css/messenger.css}"/>
+    <link rel="stylesheet" th:href="@{/plugin/messenger/css/messenger-theme-future.css}"/>
+    <!-- Custom styles for this template-->
+    <link href="css/sb-admin.css" rel="stylesheet" th:href="@{/plugin/sb-admin/css/sb-admin.min.css}"/>
+</head>
+<body class="fixed-nav sticky-footer bg-dark" id="page-top">
+<!-- Navigation-->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" id="mainNav" th:include="nav::backstage">
+</nav>
+<div class="content-wrapper">
+    <div class="container-fluid">
+        <ol class="breadcrumb">
+            <li class="breadcrumb-item">
+                <a href="#" th:href="@{/web/backstage}">后台</a>
+            </li>
+            <li class="breadcrumb-item active">店铺资料</li>
+        </ol>
+        <div class="row">
+            <div class="col-12">
+                <form id="dataForm">
+                    <div class="form-group">
+                        <label for="websitePhone">电话</label>
+                        <input type="text" class="form-control" id="websitePhone" name="websitePhone" placeholder="电话">
+                    </div>
+                    <div class="form-group">
+                        <label for="websiteEmail">邮箱</label>
+                        <input type="text" class="form-control" id="websiteEmail" name="websiteEmail" placeholder="邮箱">
+                    </div>
+                    <div class="form-group">
+                        <label for="websiteAddress">地址</label>
+                        <input type="text" class="form-control" id="websiteAddress" name="websiteAddress" placeholder="地址">
+                    </div>
+                    <div class="text-center">
+                        <button type="button" class="btn btn-primary" id="save">提交</button>
+                    </div>
+                </form>
+
+            </div>
+        </div>
+    </div>
+    <!-- /.container-fluid-->
+    <!-- /.content-wrapper-->
+    <footer class="sticky-footer" th:include="footer::backstageFooter">
+    </footer>
+    <!-- Scroll to Top Button-->
+    <a class="scroll-to-top rounded" href="#page-top">
+        <i class="fa fa-angle-up"></i>
+    </a>
+</div>
+
+<!-- Bootstrap core JavaScript-->
+<script th:inline="javascript">
+    var web_path = /*[[${webPath}]]*/ '';
+</script>
+<script src="vendor/jquery/jquery.min.js" th:src="@{/webjars/jquery/jquery.min.js}"></script>
+<script src="vendor/bootstrap/js/bootstrap.bundle.min.js"
+        th:src="@{/webjars/bootstrap/js/bootstrap.bundle.min.js}"></script>
+<!-- Core plugin JavaScript-->
+<script src="vendor/jquery-easing/jquery.easing.min.js" th:src="@{/plugin/jquery-easing/jquery.easing.min.js}"></script>
+<!-- Custom scripts for all pages-->
+<script src="js/sb-admin.min.js" th:src="@{/plugin/sb-admin/js/sb-admin.min.js}"></script>
+<script th:src="@{/plugin/messenger/js/messenger.min.js}"></script>
+<script th:src="@{/plugin/messenger/js/messenger-theme-future.js}"></script>
+<script th:src="@{/js/imessenger.js}"></script>
+<script th:src="@{/js/csrf.js}"></script>
+<script th:src="@{/js/backstage/website/website_list.js}"></script>
+</body>
+</html>
