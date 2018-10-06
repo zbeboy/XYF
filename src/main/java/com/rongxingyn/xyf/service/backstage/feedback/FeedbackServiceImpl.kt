@@ -1,6 +1,7 @@
 package com.rongxingyn.xyf.service.backstage.feedback
 
 import com.rongxingyn.xyf.domain.Tables.FEEDBACK
+import com.rongxingyn.xyf.domain.tables.daos.FeedbackDao
 import com.rongxingyn.xyf.service.plugin.DataTablesPlugin
 import com.rongxingyn.xyf.service.utils.SQLQueryUtils
 import com.rongxingyn.xyf.web.bean.backstage.feedback.FeedbackBean
@@ -12,12 +13,16 @@ import org.springframework.transaction.annotation.Propagation
 import org.springframework.transaction.annotation.Transactional
 import org.springframework.util.ObjectUtils
 import org.springframework.util.StringUtils
+import javax.annotation.Resource
 
 @Service("feedbackService")
 @Transactional(propagation = Propagation.SUPPORTS, readOnly = true)
 open class FeedbackServiceImpl @Autowired constructor(dslContext: DSLContext) : DataTablesPlugin<FeedbackBean>(), FeedbackService {
 
     private val create: DSLContext = dslContext
+
+    @Resource
+    open lateinit var feedbackDao: FeedbackDao
 
     override fun findAllByPage(dataTablesUtils: DataTablesUtils<FeedbackBean>): Result<Record> {
         return dataPagingQueryAll(dataTablesUtils, create, FEEDBACK)
@@ -37,6 +42,10 @@ open class FeedbackServiceImpl @Autowired constructor(dslContext: DSLContext) : 
 
     override fun updateRemark(feedbackId: Int, remake: String) {
         create.update(FEEDBACK).set(FEEDBACK.REMARK, remake).where(FEEDBACK.FEEDBACK_ID.eq(feedbackId)).execute()
+    }
+
+    override fun deleteById(feedbackId: Int) {
+        feedbackDao.deleteById(feedbackId)
     }
 
     /**

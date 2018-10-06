@@ -107,11 +107,37 @@
         <i class="fa fa-angle-up"></i>
     </a>
 </div>
+<!-- 备注Modal -->
+<div class="modal fade" id="remarkModal" tabindex="-1" role="dialog" aria-labelledby="remarkModalLabel" aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="remarkModalLabel">备注</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="remarkForm">
+                    <div class="form-group">
+                        <label for="remark">备注</label>
+                        <input class="form-control" id="remark" name="remark" placeholder="备注">
+                        <input type="hidden" id="feedbackId" name="feedbackId" />
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="remarkSave">保存</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+            </div>
+        </div>
+    </div>
+</div>
 
 <!--定义操作列按钮模板-->
 <script id="operator_button" type="text/x-handlebars-template">
     {{#each func}}
-    <button type="button" class="btn btn-{{this.type}} btn-sm {{this.css}}" data-id="{{this.id}}">{{this.name}}
+    <button type="button" class="btn btn-{{this.type}} btn-sm {{this.css}}" data-id="{{this.id}}" data-remark="{{this.remark}}">{{this.name}}
     </button>
     {{/each}}
 </script>

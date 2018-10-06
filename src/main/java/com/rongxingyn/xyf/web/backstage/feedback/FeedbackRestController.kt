@@ -5,21 +5,20 @@ import com.rongxingyn.xyf.service.utils.DateTimeUtils
 import com.rongxingyn.xyf.web.bean.backstage.feedback.FeedbackBean
 import com.rongxingyn.xyf.web.utils.AjaxUtils
 import com.rongxingyn.xyf.web.utils.DataTablesUtils
+import com.rongxingyn.xyf.web.utils.SmallPropsUtils
 import com.rongxingyn.xyf.web.vo.backstage.feedback.FeedbackDealVo
 import com.rongxingyn.xyf.web.vo.backstage.feedback.FeedbackRemarkVo
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.util.ObjectUtils
 import org.springframework.validation.BindingResult
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.PutMapping
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 import org.springframework.web.server.ServerWebExchange
 import reactor.core.publisher.Mono
 import java.util.*
 import javax.annotation.Resource
 import javax.validation.Valid
+import javax.websocket.server.PathParam
 
 @RestController
 @RequestMapping("/web/backstage/feedback")
@@ -93,6 +92,25 @@ open class FeedbackRestController {
             ajaxUtils.success().msg("更新成功")
         } else {
             ajaxUtils.fail().msg(bindingResult.fieldError!!.defaultMessage!!)
+        }
+        return Mono.just(ResponseEntity(ajaxUtils.send(), HttpStatus.OK))
+    }
+
+    /**
+     * 删除
+     *
+     * @param feedbackIds 数据
+     * @return true or false
+     */
+    @DeleteMapping("/delete/{feedbackIds}")
+    fun delete(@PathVariable("feedbackIds") feedbackIds: String): Mono<ResponseEntity<Map<String, Any>>> {
+        val ajaxUtils = AjaxUtils.of()
+        if (SmallPropsUtils.StringIdsIsNumber(feedbackIds)) {
+            val ids = SmallPropsUtils.StringIdsToList(feedbackIds)
+            ids.forEach { id -> feedbackService.deleteById(id) }
+            ajaxUtils.success().msg("删除成功")
+        } else {
+            ajaxUtils.fail().msg("删除失败")
         }
         return Mono.just(ResponseEntity(ajaxUtils.send(), HttpStatus.OK))
     }

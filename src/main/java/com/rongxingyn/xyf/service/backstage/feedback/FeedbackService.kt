@@ -44,4 +44,11 @@ interface FeedbackService {
      * @param remake 状态
      */
     fun updateRemark(feedbackId: Int, remake: String)
+
+    /**
+     * 根据ID删除
+     *
+     * @param feedbackId id
+     */
+    fun deleteById(feedbackId: Int)
 }

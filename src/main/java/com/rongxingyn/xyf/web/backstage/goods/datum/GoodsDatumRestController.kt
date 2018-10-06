@@ -126,7 +126,7 @@ open class GoodsDatumRestController {
      * @return true or false
      */
     @GetMapping("/datum/del_pic")
-    fun delPic(@PathParam("goodsPic") goodsPic: String): Mono<ResponseEntity<Map<String, Any>>> {
+    fun delPic(@RequestParam("goodsPic") goodsPic: String): Mono<ResponseEntity<Map<String, Any>>> {
         val ajaxUtils = AjaxUtils.of().success().msg("删除成功")
         fileSystemService.delete(goodsPic)
         return Mono.just(ResponseEntity(ajaxUtils.send(), HttpStatus.OK))

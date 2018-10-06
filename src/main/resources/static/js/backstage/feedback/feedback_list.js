@@ -15,6 +15,8 @@ $(document).ready(function () {
         return {
             feedbacks: '/web/backstage/feedback/data',
             state: '/web/backstage/feedback/state',
+            remark: '/web/backstage/feedback/remark',
+            del: '/web/backstage/feedback/delete',
             tableTime: '/web/backstage/table/FEEDBACK'
         };
     }
@@ -151,19 +153,22 @@ $(document).ready(function () {
                                         "name": "已处理",
                                         "css": "hasDeal",
                                         "type": "primary",
-                                        "id": c.feedbackId
+                                        "id": c.feedbackId,
+                                        "remark": c.remark
                                     },
                                     {
                                         "name": "备注",
                                         "css": "remark",
                                         "type": "default",
-                                        "id": c.feedbackId
+                                        "id": c.feedbackId,
+                                        "remark": c.remark
                                     },
                                     {
                                         "name": "删除",
                                         "css": "del",
                                         "type": "danger",
-                                        "id": c.feedbackId
+                                        "id": c.feedbackId,
+                                        "remark": c.remark
                                     }
                                 ]
                             };
@@ -175,19 +180,22 @@ $(document).ready(function () {
                                         "name": "未处理",
                                         "css": "noDeal",
                                         "type": "primary",
-                                        "id": c.feedbackId
+                                        "id": c.feedbackId,
+                                        "remark": c.remark
                                     },
                                     {
                                         "name": "备注",
                                         "css": "remark",
                                         "type": "default",
-                                        "id": c.feedbackId
+                                        "id": c.feedbackId,
+                                        "remark": c.remark
                                     },
                                     {
                                         "name": "删除",
                                         "css": "del",
                                         "type": "danger",
-                                        "id": c.feedbackId
+                                        "id": c.feedbackId,
+                                        "remark": c.remark
                                     }
                                 ]
                             };
@@ -245,7 +253,7 @@ $(document).ready(function () {
             });
 
             tableElement.delegate('.remark', "click", function () {
-                remark($(this).attr('data-id'));
+                remark($(this).attr('data-id'), $(this).attr('data-remark'));
             });
 
             tableElement.delegate('.del', "click", function () {
@@ -309,7 +317,7 @@ $(document).ready(function () {
             type: 'put',
             data: {feedbackId: feedbackId, hasDeal: state},
             success: function (data) {
-                if(data.state){
+                if (data.state) {
                     myTable.ajax.reload();
                 }
                 Messenger().post({
@@ -326,6 +334,43 @@ $(document).ready(function () {
             }
         });
     }
+
+    function remark(feedbackId, remark) {
+        $('#remark').val(remark);
+        $('#feedbackId').val(feedbackId);
+        $('#remarkModal').modal('show');
+    }
+
+    $('#remarkModal').on('shown.bs.modal', function () {
+        $('#remark').trigger('focus');
+    });
+
+    $('#remarkSave').click(function () {
+        Messenger().run({
+            progressMessage: '正在更新数据...'
+        }, {
+            url: web_path + getAjaxUrl().remark,
+            type: 'put',
+            data: $('#remarkForm').serialize(),
+            success: function (data) {
+                if (data.state) {
+                    myTable.ajax.reload();
+                    $('#remarkModal').modal('hide');
+                }
+                Messenger().post({
+                    message: data.msg,
+                    type: data.state ? 'info' : 'error',
+                    showCloseButton: true
+                });
+            },
+            error: function (xhr) {
+                if ((xhr != null ? xhr.status : void 0) === 404) {
+                    return "请求错误";
+                }
+                return true;
+            }
+        });
+    });
 
     /*
    批量删除
@@ -347,7 +392,7 @@ $(document).ready(function () {
                         phrase: 'Retrying TIME',
                         action: function () {
                             msg.cancel();
-                            dels(goodsIds);
+                            dels(feedbackIds);
                         }
                     },
                     cancel: {
@@ -399,13 +444,13 @@ $(document).ready(function () {
 
     /**
      * 删除ajax
-     * @param feedbackId
+     * @param feedbackIds
      */
-    function sendDelAjax(feedbackId) {
+    function sendDelAjax(feedbackIds) {
         Messenger().run({
             progressMessage: '正在删除条目....'
         }, {
-            url: web_path + getAjaxUrl().del + '/' + feedbackId,
+            url: web_path + getAjaxUrl().del + '/' + feedbackIds,
             type: 'delete',
             success: function (data) {
                 if (data.state) {
