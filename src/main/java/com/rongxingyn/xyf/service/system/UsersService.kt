@@ -16,9 +16,9 @@ interface UsersService {
     fun findByUsername(username: String): Users?
 
     /**
-     * 从session中获取用户完整信息
+     * 更新
      *
-     * @return session中的用户信息
+     * @param users 数据
      */
-    fun getUsernameFromSession(): String?
+    fun update(users:Users)
 }

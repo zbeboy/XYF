@@ -3,7 +3,6 @@ package com.rongxingyn.xyf.config
 import com.rongxingyn.xyf.filter.SecurityFluxLoginFilter
 import com.rongxingyn.xyf.security.AjaxFluxAuthenticationFailureHandler
 import com.rongxingyn.xyf.security.AjaxFluxAuthenticationSuccessHandler
-import com.rongxingyn.xyf.security.AjaxFluxLogoutSuccessHandler
 import com.rongxingyn.xyf.security.MyReactiveUserDetailsServiceImpl
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.autoconfigure.security.reactive.PathRequest
@@ -27,9 +26,6 @@ open class SecurityFluxConfiguration {
 
     @Inject
     open lateinit var ajaxFluxAuthenticationFailureHandler: AjaxFluxAuthenticationFailureHandler
-
-    @Inject
-    open lateinit var ajaxFluxLogoutSuccessHandler: AjaxFluxLogoutSuccessHandler
 
     @Autowired
     private lateinit var myReactiveUserDetailsService: MyReactiveUserDetailsServiceImpl
@@ -59,7 +55,6 @@ open class SecurityFluxConfiguration {
                 .authenticationFailureHandler(ajaxFluxAuthenticationFailureHandler)
                 .and()
                 .logout()
-                .logoutSuccessHandler(ajaxFluxLogoutSuccessHandler)
                 .and()
                 .build()
     }

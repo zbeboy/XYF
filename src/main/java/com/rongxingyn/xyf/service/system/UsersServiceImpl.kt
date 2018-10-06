@@ -2,12 +2,9 @@ package com.rongxingyn.xyf.service.system
 
 import com.rongxingyn.xyf.domain.tables.daos.UsersDao
 import com.rongxingyn.xyf.domain.tables.pojos.Users
-import org.springframework.security.core.context.SecurityContextHolder
-import org.springframework.security.core.userdetails.UserDetails
 import org.springframework.stereotype.Service
 import org.springframework.transaction.annotation.Propagation
 import org.springframework.transaction.annotation.Transactional
-import org.springframework.util.ObjectUtils
 import javax.annotation.Resource
 
 
@@ -25,12 +22,7 @@ open class UsersServiceImpl : UsersService {
         return usersDao.findById(username)
     }
 
-    override fun getUsernameFromSession(): String? {
-        val principal = SecurityContextHolder.getContext().authentication.principal
-        var username: String? = null
-        if (!ObjectUtils.isEmpty(principal) && principal is UserDetails) {
-            username = principal.username
-        }
-        return username
+    override fun update(users: Users) {
+        usersDao.update(users)
     }
 }
