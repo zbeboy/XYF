@@ -1,5 +1,8 @@
 $(document).ready(function () {
 
+    // 导航
+    $('#collapseGoods').collapse('show');
+
     /*
    ajax url
    */
@@ -7,7 +10,9 @@ $(document).ready(function () {
         return {
             banners: '/web/backstage/goods/banner/data',
             file_upload_url: '/web/backstage/goods/banner/upload',
-            hide_url: '/web/backstage/goods/banner/hide'
+            hide_url: '/web/backstage/goods/banner/hide',
+            serial_url: '/web/backstage/goods/banner/serial',
+            del: '/web/backstage/goods/banner/delete'
         };
     }
 
@@ -120,6 +125,20 @@ $(document).ready(function () {
         hideAsk($(this).attr('data-id'), 1, "隐藏");
     });
 
+    datas.delegate('.serial', "click", function () {
+        $('#bannerSerial').val($(this).attr('data-serial'));
+        $('#bannerId').val($(this).attr('data-id'));
+        $('#serialModal').modal('show');
+    });
+
+    $('#serialModal').on('shown.bs.modal', function () {
+        $('#bannerSerial').trigger('focus');
+    });
+
+    datas.delegate('.del', "click", function () {
+        delAsk($(this).attr('data-id'));
+    });
+
     function hideAsk(bannerId, hide, message) {
         var msg;
         msg = Messenger().post({
@@ -131,6 +150,29 @@ $(document).ready(function () {
                     action: function () {
                         msg.cancel();
                         sendHideAjax(bannerId, hide);
+                    }
+                },
+                cancel: {
+                    label: '取消',
+                    action: function () {
+                        return msg.cancel();
+                    }
+                }
+            }
+        });
+    }
+
+    function delAsk(bannerId) {
+        var msg;
+        msg = Messenger().post({
+            message: "确定要删除该banner吗?",
+            actions: {
+                retry: {
+                    label: '确定',
+                    phrase: 'Retrying TIME',
+                    action: function () {
+                        msg.cancel();
+                        sendDelAjax(bannerId);
                     }
                 },
                 cancel: {
@@ -168,5 +210,57 @@ $(document).ready(function () {
             }
         });
     }
+
+    function sendDelAjax(bannerId) {
+        Messenger().run({
+            progressMessage: '正在删除数据...'
+        }, {
+            url: web_path + getAjaxUrl().del + '/' + bannerId,
+            type: 'delete',
+            success: function (data) {
+                if (data.state) {
+                    initBanner();
+                }
+                Messenger().post({
+                    message: data.msg,
+                    type: data.state ? 'info' : 'error',
+                    showCloseButton: true
+                });
+            },
+            error: function (xhr) {
+                if ((xhr != null ? xhr.status : void 0) === 404) {
+                    return "请求错误";
+                }
+                return true;
+            }
+        });
+    }
+
+    $('#updateSerial').click(function () {
+        Messenger().run({
+            progressMessage: '正在更新数据...'
+        }, {
+            url: web_path + getAjaxUrl().serial_url,
+            type: 'put',
+            data: $('#serialForm').serialize(),
+            success: function (data) {
+                if (data.state) {
+                    initBanner();
+                    $('#serialModal').modal('hide');
+                }
+                Messenger().post({
+                    message: data.msg,
+                    type: data.state ? 'info' : 'error',
+                    showCloseButton: true
+                });
+            },
+            error: function (xhr) {
+                if ((xhr != null ? xhr.status : void 0) === 404) {
+                    return "请求错误";
+                }
+                return true;
+            }
+        });
+    });
 
 });

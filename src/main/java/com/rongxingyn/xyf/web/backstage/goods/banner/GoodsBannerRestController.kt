@@ -8,6 +8,7 @@ import com.rongxingyn.xyf.service.common.FileSystemService
 import com.rongxingyn.xyf.service.utils.UUIDUtils
 import com.rongxingyn.xyf.web.utils.AjaxUtils
 import com.rongxingyn.xyf.web.vo.backstage.goods.banner.BannerHideVo
+import com.rongxingyn.xyf.web.vo.backstage.goods.banner.BannerSerialVo
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
@@ -90,6 +91,42 @@ open class GoodsBannerRestController {
             ajaxUtils.fail().msg(bindingResult.fieldError!!.defaultMessage!!)
         }
 
+        return Mono.just(ResponseEntity(ajaxUtils.send(), HttpStatus.OK))
+    }
+
+    /**
+     * 更新序号
+     *
+     * @param bannerSerialVo 数据
+     * @param bindingResult 检验
+     * @return true or false
+     */
+    @PutMapping("/banner/serial")
+    fun serial(@Valid bannerSerialVo: BannerSerialVo, bindingResult: BindingResult): Mono<ResponseEntity<Map<String, Any>>> {
+        val ajaxUtils = AjaxUtils.of()
+        if (!bindingResult.hasErrors()) {
+            goodsBannerService.updateSerial(bannerSerialVo.bannerId!!, bannerSerialVo.bannerSerial!!)
+            ajaxUtils.success().msg("更新成功")
+        } else {
+            ajaxUtils.fail().msg(bindingResult.fieldError!!.defaultMessage!!)
+        }
+
+        return Mono.just(ResponseEntity(ajaxUtils.send(), HttpStatus.OK))
+    }
+
+    /**
+     * 删除banner
+     *
+     * @param bannerId id
+     * @return true or false
+     */
+    @DeleteMapping("/banner/delete/{bannerId}")
+    fun delete(@PathVariable("bannerId") bannerId: String): Mono<ResponseEntity<Map<String, Any>>> {
+        val ajaxUtils = AjaxUtils.of()
+        val banner = goodsBannerService.findById(bannerId)
+        fileSystemService.delete(banner.bannerUrl.drop(1))
+        goodsBannerService.deleteById(bannerId)
+        ajaxUtils.success().msg("删除成功")
         return Mono.just(ResponseEntity(ajaxUtils.send(), HttpStatus.OK))
     }
 }

@@ -21,6 +21,10 @@ open class GoodsBannerServiceImpl @Autowired constructor(dslContext: DSLContext)
     @Resource
     open lateinit var bannerDao: BannerDao
 
+    override fun findById(id: String): Banner {
+        return bannerDao.findById(id)
+    }
+
     override fun findAll(): Result<BannerRecord> {
         return create.selectFrom(BANNER).orderBy(BANNER.BANNER_SERIAL).fetch()
     }
@@ -36,5 +40,9 @@ open class GoodsBannerServiceImpl @Autowired constructor(dslContext: DSLContext)
 
     override fun updateSerial(bannerId: String, bannerSerial: Int) {
         create.update(BANNER).set(BANNER.BANNER_SERIAL, bannerSerial).where(BANNER.BANNER_ID.eq(bannerId)).execute()
+    }
+
+    override fun deleteById(bannerId: String) {
+        bannerDao.deleteById(bannerId)
     }
 }

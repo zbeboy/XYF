@@ -1,5 +1,8 @@
 $(document).ready(function () {
 
+    // 导航
+    $('#collapseGoods').collapse('show');
+
     /*
     参数
     */

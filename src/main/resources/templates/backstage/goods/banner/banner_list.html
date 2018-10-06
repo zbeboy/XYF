@@ -50,6 +50,34 @@
     </a>
 </div>
 
+<!-- 序号Modal -->
+<div class="modal fade" id="serialModal" tabindex="-1" role="dialog" aria-labelledby="serialModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="serialModalLabel">序号</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="serialForm">
+                    <div class="form-group">
+                        <label for="bannerSerial">序号</label>
+                        <input type="number" class="form-control" id="bannerSerial" name="bannerSerial" placeholder="序号">
+                        <input type="hidden" id="bannerId" name="bannerId" />
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="updateSerial">确定</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <!--定义操作列按钮模板-->
 <script id="banner-template" type="text/x-handlebars-template">
     {{#each listResult}}
@@ -63,7 +91,7 @@
                 <i class="fa fa-fw fa-{{imgHideCss}}"></i>{{imgHideText}}</a>
             <a class="mr-3 d-inline-block del" data-id="{{this.bannerId}}" href="javascript:">
                 <i class="fa fa-fw fa-trash"></i>删除</a>
-            <a class="mr-3 d-inline-block serial" data-id="{{this.bannerId}}" data-ser="{{this.bannerSerial}}"
+            <a class="mr-3 d-inline-block serial" data-id="{{this.bannerId}}" data-serial="{{this.bannerSerial}}"
                href="javascript:">
                 <i class="fa fa-fw fa-tags"></i>序号</a>
             <p class="pull-right">{{this.bannerSerial}}</p>

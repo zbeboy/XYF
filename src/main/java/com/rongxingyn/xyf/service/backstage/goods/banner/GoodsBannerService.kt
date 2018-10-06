@@ -7,6 +7,14 @@ import org.jooq.Result
 interface GoodsBannerService {
 
     /**
+     * 通过ID查询
+     *
+     * @param id 主键
+     * @return 数据
+     */
+    fun findById(id: String): Banner
+
+    /**
      * 查询全部
      *
      * @return 数据
@@ -35,4 +43,11 @@ interface GoodsBannerService {
      * @param bannerSerial 序号
      */
     fun updateSerial(bannerId: String, bannerSerial: Int)
+
+    /**
+     * 通过ID删除
+     *
+     * @param bannerId id
+     */
+    fun deleteById(bannerId: String)
 }
