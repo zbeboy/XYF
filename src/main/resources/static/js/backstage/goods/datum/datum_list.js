@@ -78,19 +78,6 @@ $(document).ready(function () {
     var tableElement = $('#dataTable');
 
     var myTable = tableElement.DataTable({
-        responsive: {
-            details: {
-                display: $.fn.dataTable.Responsive.display.modal({
-                    header: function (row) {
-                        var data = row.data();
-                        return '详情 ' + data[0] + ' ' + data[1];
-                    }
-                }),
-                renderer: $.fn.dataTable.Responsive.renderer.tableAll({
-                    tableClass: 'table'
-                })
-            }
-        },
         drawCallback: function (oSettings) {
             $('#checkall').prop('checked', false);
             // 调用全选插件

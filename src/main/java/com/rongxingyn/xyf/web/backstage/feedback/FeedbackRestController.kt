@@ -1,5 +1,7 @@
 package com.rongxingyn.xyf.web.backstage.feedback
 
+import com.rongxingyn.xyf.domain.tables.pojos.TableTime
+import com.rongxingyn.xyf.service.backstage.TableTimeService
 import com.rongxingyn.xyf.service.backstage.feedback.FeedbackService
 import com.rongxingyn.xyf.service.utils.DateTimeUtils
 import com.rongxingyn.xyf.web.bean.backstage.feedback.FeedbackBean
@@ -15,10 +17,10 @@ import org.springframework.validation.BindingResult
 import org.springframework.web.bind.annotation.*
 import org.springframework.web.server.ServerWebExchange
 import reactor.core.publisher.Mono
+import java.sql.Timestamp
 import java.util.*
 import javax.annotation.Resource
 import javax.validation.Valid
-import javax.websocket.server.PathParam
 
 @RestController
 @RequestMapping("/web/backstage/feedback")
@@ -26,6 +28,9 @@ open class FeedbackRestController {
 
     @Resource
     open lateinit var feedbackService: FeedbackService
+
+    @Resource
+    open lateinit var tableTimeService: TableTimeService
 
     /**
      * 反馈列表数据
@@ -70,6 +75,7 @@ open class FeedbackRestController {
         val ajaxUtils = AjaxUtils.of()
         if (!bindingResult.hasErrors()) {
             feedbackService.updateState(feedbackDealVo.feedbackId!!, feedbackDealVo.hasDeal!!)
+            saveTableTime()
             ajaxUtils.success().msg("更新成功")
         } else {
             ajaxUtils.fail().msg(bindingResult.fieldError!!.defaultMessage!!)
@@ -89,6 +95,7 @@ open class FeedbackRestController {
         val ajaxUtils = AjaxUtils.of()
         if (!bindingResult.hasErrors()) {
             feedbackService.updateRemark(feedbackRemarkVo.feedbackId!!, feedbackRemarkVo.remark!!)
+            saveTableTime()
             ajaxUtils.success().msg("更新成功")
         } else {
             ajaxUtils.fail().msg(bindingResult.fieldError!!.defaultMessage!!)
@@ -108,10 +115,21 @@ open class FeedbackRestController {
         if (SmallPropsUtils.StringIdsIsNumber(feedbackIds)) {
             val ids = SmallPropsUtils.StringIdsToList(feedbackIds)
             ids.forEach { id -> feedbackService.deleteById(id) }
+            saveTableTime()
             ajaxUtils.success().msg("删除成功")
         } else {
             ajaxUtils.fail().msg("删除失败")
         }
         return Mono.just(ResponseEntity(ajaxUtils.send(), HttpStatus.OK))
+    }
+
+    /**
+     * 保存时间到tableTime
+     */
+    private fun saveTableTime() {
+        val tableTime = TableTime()
+        tableTime.tableName = "FEEDBACK"
+        tableTime.dealTime = Timestamp(System.currentTimeMillis())
+        tableTimeService.save(tableTime)
     }
 }
