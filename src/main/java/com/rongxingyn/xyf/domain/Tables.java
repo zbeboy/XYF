@@ -11,7 +11,6 @@ import com.rongxingyn.xyf.domain.tables.DataInfo;
 import com.rongxingyn.xyf.domain.tables.Feedback;
 import com.rongxingyn.xyf.domain.tables.Goods;
 import com.rongxingyn.xyf.domain.tables.GoodsPics;
-import com.rongxingyn.xyf.domain.tables.ShopInfo;
 import com.rongxingyn.xyf.domain.tables.TableTime;
 import com.rongxingyn.xyf.domain.tables.Users;
 
@@ -65,11 +64,6 @@ public class Tables {
      * The table <code>xyf.goods_pics</code>.
      */
     public static final GoodsPics GOODS_PICS = com.rongxingyn.xyf.domain.tables.GoodsPics.GOODS_PICS;
-
-    /**
-     * The table <code>xyf.shop_info</code>.
-     */
-    public static final ShopInfo SHOP_INFO = com.rongxingyn.xyf.domain.tables.ShopInfo.SHOP_INFO;
 
     /**
      * The table <code>xyf.table_time</code>.

@@ -11,7 +11,6 @@ import com.rongxingyn.xyf.domain.tables.DataInfo;
 import com.rongxingyn.xyf.domain.tables.Feedback;
 import com.rongxingyn.xyf.domain.tables.Goods;
 import com.rongxingyn.xyf.domain.tables.GoodsPics;
-import com.rongxingyn.xyf.domain.tables.ShopInfo;
 import com.rongxingyn.xyf.domain.tables.TableTime;
 import com.rongxingyn.xyf.domain.tables.Users;
 
@@ -39,7 +38,7 @@ import org.jooq.impl.SchemaImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Xyf extends SchemaImpl {
 
-    private static final long serialVersionUID = -1643031037;
+    private static final long serialVersionUID = 1658675779;
 
     /**
      * The reference instance of <code>xyf</code>
@@ -80,11 +79,6 @@ public class Xyf extends SchemaImpl {
      * The table <code>xyf.goods_pics</code>.
      */
     public final GoodsPics GOODS_PICS = com.rongxingyn.xyf.domain.tables.GoodsPics.GOODS_PICS;
-
-    /**
-     * The table <code>xyf.shop_info</code>.
-     */
-    public final ShopInfo SHOP_INFO = com.rongxingyn.xyf.domain.tables.ShopInfo.SHOP_INFO;
 
     /**
      * The table <code>xyf.table_time</code>.
@@ -128,7 +122,6 @@ public class Xyf extends SchemaImpl {
             Feedback.FEEDBACK,
             Goods.GOODS,
             GoodsPics.GOODS_PICS,
-            ShopInfo.SHOP_INFO,
             TableTime.TABLE_TIME,
             Users.USERS);
     }

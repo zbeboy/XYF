@@ -46,12 +46,6 @@ CREATE TABLE banner(
   banner_is_hide BOOLEAN NOT NULL DEFAULT 0
 );
 
-CREATE TABLE shop_info(
-  shop_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY ,
-  shop_name VARCHAR(200) NOT NULL,
-  shop_brief TEXT
-);
-
 CREATE TABLE data_info(
   data_key VARCHAR(200) NOT NULL PRIMARY KEY,
   data_value VARCHAR(200) NOT NULL

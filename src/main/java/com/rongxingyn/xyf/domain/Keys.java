@@ -11,7 +11,6 @@ import com.rongxingyn.xyf.domain.tables.DataInfo;
 import com.rongxingyn.xyf.domain.tables.Feedback;
 import com.rongxingyn.xyf.domain.tables.Goods;
 import com.rongxingyn.xyf.domain.tables.GoodsPics;
-import com.rongxingyn.xyf.domain.tables.ShopInfo;
 import com.rongxingyn.xyf.domain.tables.TableTime;
 import com.rongxingyn.xyf.domain.tables.Users;
 import com.rongxingyn.xyf.domain.tables.records.AuthoritiesRecord;
@@ -21,7 +20,6 @@ import com.rongxingyn.xyf.domain.tables.records.DataInfoRecord;
 import com.rongxingyn.xyf.domain.tables.records.FeedbackRecord;
 import com.rongxingyn.xyf.domain.tables.records.GoodsPicsRecord;
 import com.rongxingyn.xyf.domain.tables.records.GoodsRecord;
-import com.rongxingyn.xyf.domain.tables.records.ShopInfoRecord;
 import com.rongxingyn.xyf.domain.tables.records.TableTimeRecord;
 import com.rongxingyn.xyf.domain.tables.records.UsersRecord;
 
@@ -54,7 +52,6 @@ public class Keys {
     public static final Identity<ClassifyRecord, Integer> IDENTITY_CLASSIFY = Identities0.IDENTITY_CLASSIFY;
     public static final Identity<FeedbackRecord, Integer> IDENTITY_FEEDBACK = Identities0.IDENTITY_FEEDBACK;
     public static final Identity<GoodsPicsRecord, Integer> IDENTITY_GOODS_PICS = Identities0.IDENTITY_GOODS_PICS;
-    public static final Identity<ShopInfoRecord, Integer> IDENTITY_SHOP_INFO = Identities0.IDENTITY_SHOP_INFO;
 
     // -------------------------------------------------------------------------
     // UNIQUE and PRIMARY KEY definitions
@@ -69,7 +66,6 @@ public class Keys {
     public static final UniqueKey<GoodsRecord> KEY_GOODS_PRIMARY = UniqueKeys0.KEY_GOODS_PRIMARY;
     public static final UniqueKey<GoodsRecord> KEY_GOODS_GOODS_NAME = UniqueKeys0.KEY_GOODS_GOODS_NAME;
     public static final UniqueKey<GoodsPicsRecord> KEY_GOODS_PICS_PRIMARY = UniqueKeys0.KEY_GOODS_PICS_PRIMARY;
-    public static final UniqueKey<ShopInfoRecord> KEY_SHOP_INFO_PRIMARY = UniqueKeys0.KEY_SHOP_INFO_PRIMARY;
     public static final UniqueKey<TableTimeRecord> KEY_TABLE_TIME_PRIMARY = UniqueKeys0.KEY_TABLE_TIME_PRIMARY;
     public static final UniqueKey<UsersRecord> KEY_USERS_PRIMARY = UniqueKeys0.KEY_USERS_PRIMARY;
 
@@ -89,7 +85,6 @@ public class Keys {
         public static Identity<ClassifyRecord, Integer> IDENTITY_CLASSIFY = Internal.createIdentity(Classify.CLASSIFY, Classify.CLASSIFY.CLASSIFY_ID);
         public static Identity<FeedbackRecord, Integer> IDENTITY_FEEDBACK = Internal.createIdentity(Feedback.FEEDBACK, Feedback.FEEDBACK.FEEDBACK_ID);
         public static Identity<GoodsPicsRecord, Integer> IDENTITY_GOODS_PICS = Internal.createIdentity(GoodsPics.GOODS_PICS, GoodsPics.GOODS_PICS.PIC_ID);
-        public static Identity<ShopInfoRecord, Integer> IDENTITY_SHOP_INFO = Internal.createIdentity(ShopInfo.SHOP_INFO, ShopInfo.SHOP_INFO.SHOP_ID);
     }
 
     private static class UniqueKeys0 {
@@ -102,7 +97,6 @@ public class Keys {
         public static final UniqueKey<GoodsRecord> KEY_GOODS_PRIMARY = Internal.createUniqueKey(Goods.GOODS, "KEY_goods_PRIMARY", Goods.GOODS.GOODS_ID);
         public static final UniqueKey<GoodsRecord> KEY_GOODS_GOODS_NAME = Internal.createUniqueKey(Goods.GOODS, "KEY_goods_goods_name", Goods.GOODS.GOODS_NAME);
         public static final UniqueKey<GoodsPicsRecord> KEY_GOODS_PICS_PRIMARY = Internal.createUniqueKey(GoodsPics.GOODS_PICS, "KEY_goods_pics_PRIMARY", GoodsPics.GOODS_PICS.PIC_ID);
-        public static final UniqueKey<ShopInfoRecord> KEY_SHOP_INFO_PRIMARY = Internal.createUniqueKey(ShopInfo.SHOP_INFO, "KEY_shop_info_PRIMARY", ShopInfo.SHOP_INFO.SHOP_ID);
         public static final UniqueKey<TableTimeRecord> KEY_TABLE_TIME_PRIMARY = Internal.createUniqueKey(TableTime.TABLE_TIME, "KEY_table_time_PRIMARY", TableTime.TABLE_TIME.TABLE_NAME);
         public static final UniqueKey<UsersRecord> KEY_USERS_PRIMARY = Internal.createUniqueKey(Users.USERS, "KEY_users_PRIMARY", Users.USERS.USERNAME);
     }

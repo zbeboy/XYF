@@ -11,7 +11,6 @@ import com.rongxingyn.xyf.domain.tables.DataInfo;
 import com.rongxingyn.xyf.domain.tables.Feedback;
 import com.rongxingyn.xyf.domain.tables.Goods;
 import com.rongxingyn.xyf.domain.tables.GoodsPics;
-import com.rongxingyn.xyf.domain.tables.ShopInfo;
 import com.rongxingyn.xyf.domain.tables.TableTime;
 import com.rongxingyn.xyf.domain.tables.Users;
 
@@ -50,7 +49,6 @@ public class Indexes {
     public static final Index GOODS_PRIMARY = Indexes0.GOODS_PRIMARY;
     public static final Index GOODS_PICS_GOODS_ID = Indexes0.GOODS_PICS_GOODS_ID;
     public static final Index GOODS_PICS_PRIMARY = Indexes0.GOODS_PICS_PRIMARY;
-    public static final Index SHOP_INFO_PRIMARY = Indexes0.SHOP_INFO_PRIMARY;
     public static final Index TABLE_TIME_PRIMARY = Indexes0.TABLE_TIME_PRIMARY;
     public static final Index USERS_PRIMARY = Indexes0.USERS_PRIMARY;
 
@@ -70,7 +68,6 @@ public class Indexes {
         public static Index GOODS_PRIMARY = Internal.createIndex("PRIMARY", Goods.GOODS, new OrderField[] { Goods.GOODS.GOODS_ID }, true);
         public static Index GOODS_PICS_GOODS_ID = Internal.createIndex("goods_id", GoodsPics.GOODS_PICS, new OrderField[] { GoodsPics.GOODS_PICS.GOODS_ID }, false);
         public static Index GOODS_PICS_PRIMARY = Internal.createIndex("PRIMARY", GoodsPics.GOODS_PICS, new OrderField[] { GoodsPics.GOODS_PICS.PIC_ID }, true);
-        public static Index SHOP_INFO_PRIMARY = Internal.createIndex("PRIMARY", ShopInfo.SHOP_INFO, new OrderField[] { ShopInfo.SHOP_INFO.SHOP_ID }, true);
         public static Index TABLE_TIME_PRIMARY = Internal.createIndex("PRIMARY", TableTime.TABLE_TIME, new OrderField[] { TableTime.TABLE_TIME.TABLE_NAME }, true);
         public static Index USERS_PRIMARY = Internal.createIndex("PRIMARY", Users.USERS, new OrderField[] { Users.USERS.USERNAME }, true);
     }
