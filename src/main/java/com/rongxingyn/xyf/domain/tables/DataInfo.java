@@ -38,7 +38,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class DataInfo extends TableImpl<DataInfoRecord> {
 
-    private static final long serialVersionUID = -1075870772;
+    private static final long serialVersionUID = 1309045064;
 
     /**
      * The reference instance of <code>xyf.data_info</code>
@@ -61,7 +61,7 @@ public class DataInfo extends TableImpl<DataInfoRecord> {
     /**
      * The column <code>xyf.data_info.data_value</code>.
      */
-    public final TableField<DataInfoRecord, String> DATA_VALUE = createField("data_value", org.jooq.impl.SQLDataType.VARCHAR(200).nullable(false), this, "");
+    public final TableField<DataInfoRecord, String> DATA_VALUE = createField("data_value", org.jooq.impl.SQLDataType.VARCHAR(600).nullable(false), this, "");
 
     /**
      * Create a <code>xyf.data_info</code> table reference

@@ -48,7 +48,7 @@ CREATE TABLE banner(
 
 CREATE TABLE data_info(
   data_key VARCHAR(200) NOT NULL PRIMARY KEY,
-  data_value VARCHAR(200) NOT NULL
+  data_value VARCHAR(600) NOT NULL
 );
 
 CREATE TABLE feedback(

@@ -24,7 +24,7 @@ import javax.validation.constraints.Size;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class DataInfo implements Serializable {
 
-    private static final long serialVersionUID = 667968497;
+    private static final long serialVersionUID = 845836397;
 
     private String dataKey;
     private String dataValue;
@@ -55,7 +55,7 @@ public class DataInfo implements Serializable {
     }
 
     @NotNull
-    @Size(max = 200)
+    @Size(max = 600)
     public String getDataValue() {
         return this.dataValue;
     }
