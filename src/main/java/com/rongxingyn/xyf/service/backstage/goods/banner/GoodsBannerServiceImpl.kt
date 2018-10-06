@@ -29,4 +29,12 @@ open class GoodsBannerServiceImpl @Autowired constructor(dslContext: DSLContext)
     override fun save(banner: Banner) {
         bannerDao.insert(banner)
     }
+
+    override fun updateHide(bannerId: String, bannerIsHide: Byte) {
+        create.update(BANNER).set(BANNER.BANNER_IS_HIDE, bannerIsHide).where(BANNER.BANNER_ID.eq(bannerId)).execute()
+    }
+
+    override fun updateSerial(bannerId: String, bannerSerial: Int) {
+        create.update(BANNER).set(BANNER.BANNER_SERIAL, bannerSerial).where(BANNER.BANNER_ID.eq(bannerId)).execute()
+    }
 }

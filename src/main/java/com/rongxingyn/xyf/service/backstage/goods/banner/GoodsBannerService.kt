@@ -19,4 +19,20 @@ interface GoodsBannerService {
      * @param banner 数据
      */
     fun save(banner: Banner)
+
+    /**
+     * 更新隐藏状态
+     *
+     * @param bannerId id
+     * @param bannerIsHide 是否隐藏
+     */
+    fun updateHide(bannerId: String, bannerIsHide: Byte)
+
+    /**
+     * 更新序号
+     *
+     * @param bannerId id
+     * @param bannerSerial 序号
+     */
+    fun updateSerial(bannerId: String, bannerSerial: Int)
 }

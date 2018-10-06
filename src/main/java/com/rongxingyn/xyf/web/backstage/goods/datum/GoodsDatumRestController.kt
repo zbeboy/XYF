@@ -207,13 +207,13 @@ open class GoodsDatumRestController {
     }
 
     /**
-     * 商品添加
+     * 商品更新
      *
      * @param datumEditVo 请求数据
      * @param bindingResult 校验
      * @return true or false
      */
-    @PostMapping("/datum/update")
+    @PutMapping("/datum/update")
     fun edit(@Valid datumEditVo: DatumEditVo, bindingResult: BindingResult): Mono<ResponseEntity<Map<String, Any>>> {
         val ajaxUtils = AjaxUtils.of()
         if (!bindingResult.hasErrors()) {

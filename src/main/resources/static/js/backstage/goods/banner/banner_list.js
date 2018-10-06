@@ -6,7 +6,8 @@ $(document).ready(function () {
     function getAjaxUrl() {
         return {
             banners: '/web/backstage/goods/banner/data',
-            file_upload_url: '/web/backstage/goods/banner/upload'
+            file_upload_url: '/web/backstage/goods/banner/upload',
+            hide_url: '/web/backstage/goods/banner/hide'
         };
     }
 
@@ -16,9 +17,11 @@ $(document).ready(function () {
         initBanner();
     }
 
+    var datas = $('#datas');
+
     function initBanner() {
         $.get(web_path + getAjaxUrl().banners, function (data) {
-            $('#datas').empty();
+            datas.empty();
             bannerData(data);
         });
     }
@@ -66,7 +69,7 @@ $(document).ready(function () {
             return new Handlebars.SafeString(Handlebars.escapeExpression(hideText));
         });
 
-        $('#datas').prepend(template(data));
+        datas.prepend(template(data));
     }
 
     // 上传组件
@@ -108,5 +111,62 @@ $(document).ready(function () {
         });
         return isOk;
     });
+
+    datas.delegate('.showImg', "click", function () {
+        hideAsk($(this).attr('data-id'), 0, "显示");
+    });
+
+    datas.delegate('.hideImg', "click", function () {
+        hideAsk($(this).attr('data-id'), 1, "隐藏");
+    });
+
+    function hideAsk(bannerId, hide, message) {
+        var msg;
+        msg = Messenger().post({
+            message: "确定" + message + "该banner吗?",
+            actions: {
+                retry: {
+                    label: '确定',
+                    phrase: 'Retrying TIME',
+                    action: function () {
+                        msg.cancel();
+                        sendHideAjax(bannerId, hide);
+                    }
+                },
+                cancel: {
+                    label: '取消',
+                    action: function () {
+                        return msg.cancel();
+                    }
+                }
+            }
+        });
+    }
+
+    function sendHideAjax(bannerId, hide) {
+        Messenger().run({
+            progressMessage: '正在更新数据...'
+        }, {
+            url: web_path + getAjaxUrl().hide_url,
+            type: 'put',
+            data: {bannerId: bannerId, bannerIsHide: hide},
+            success: function (data) {
+                if (data.state) {
+                    initBanner();
+                }
+                Messenger().post({
+                    message: data.msg,
+                    type: data.state ? 'info' : 'error',
+                    showCloseButton: true
+                });
+            },
+            error: function (xhr) {
+                if ((xhr != null ? xhr.status : void 0) === 404) {
+                    return "请求错误";
+                }
+                return true;
+            }
+        });
+    }
 
 });

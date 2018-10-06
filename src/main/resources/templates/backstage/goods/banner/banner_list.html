@@ -58,13 +58,14 @@
             <img class="card-img-top img-fluid w-100" src="{{imgSrc}}" alt="">
         </div>
         <div class="card-body py-2">
-            <a class="mr-3 d-inline-block" href="javascript:">
-                <i class="fa fa-fw fa-{{imgHideCss}} {{imgHideClass}}" data-hide="{{imgHide}}"
-                   data-id="{{this.bannerId}}"></i>{{imgHideText}}</a>
-            <a class="mr-3 d-inline-block" href="javascript:">
-                <i class="fa fa-fw fa-trash del" data-id="{{this.bannerId}}"></i>删除</a>
-            <a class="mr-3 d-inline-block" href="javascript:">
-                <i class="fa fa-fw fa-tags ser" data-id="{{this.bannerId}}" data-ser="{{this.bannerSerial}}"></i>序号</a>
+            <a class="mr-3 d-inline-block {{imgHideClass}}" data-hide="{{imgHide}}" data-id="{{this.bannerId}}"
+               href="javascript:">
+                <i class="fa fa-fw fa-{{imgHideCss}}"></i>{{imgHideText}}</a>
+            <a class="mr-3 d-inline-block del" data-id="{{this.bannerId}}" href="javascript:">
+                <i class="fa fa-fw fa-trash"></i>删除</a>
+            <a class="mr-3 d-inline-block serial" data-id="{{this.bannerId}}" data-ser="{{this.bannerSerial}}"
+               href="javascript:">
+                <i class="fa fa-fw fa-tags"></i>序号</a>
             <p class="pull-right">{{this.bannerSerial}}</p>
         </div>
     </div>

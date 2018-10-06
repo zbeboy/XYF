@@ -7,14 +7,17 @@ import com.rongxingyn.xyf.service.backstage.goods.banner.GoodsBannerService
 import com.rongxingyn.xyf.service.common.FileSystemService
 import com.rongxingyn.xyf.service.utils.UUIDUtils
 import com.rongxingyn.xyf.web.utils.AjaxUtils
+import com.rongxingyn.xyf.web.vo.backstage.goods.banner.BannerHideVo
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
 import org.springframework.http.codec.multipart.FilePart
+import org.springframework.validation.BindingResult
 import org.springframework.web.bind.annotation.*
 import reactor.core.publisher.Mono
 import java.util.*
 import javax.annotation.Resource
+import javax.validation.Valid
 
 @RestController
 @RequestMapping("/web/backstage/goods")
@@ -67,6 +70,26 @@ open class GoodsBannerRestController {
         } else {
             ajaxUtils.fail().msg("上传文件失败")
         }
+        return Mono.just(ResponseEntity(ajaxUtils.send(), HttpStatus.OK))
+    }
+
+    /**
+     * 是否隐藏
+     *
+     * @param bannerHideVo 数据
+     * @param bindingResult 检验
+     * @return true or false
+     */
+    @PutMapping("/banner/hide")
+    fun hide(@Valid bannerHideVo: BannerHideVo, bindingResult: BindingResult): Mono<ResponseEntity<Map<String, Any>>> {
+        val ajaxUtils = AjaxUtils.of()
+        if (!bindingResult.hasErrors()) {
+            goodsBannerService.updateHide(bannerHideVo.bannerId!!, bannerHideVo.bannerIsHide!!)
+            ajaxUtils.success().msg("更新状态成功")
+        } else {
+            ajaxUtils.fail().msg(bindingResult.fieldError!!.defaultMessage!!)
+        }
+
         return Mono.just(ResponseEntity(ajaxUtils.send(), HttpStatus.OK))
     }
 }

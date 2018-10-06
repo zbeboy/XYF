@@ -322,7 +322,7 @@ $(document).ready(function () {
             progressMessage: '正在保存数据....'
         }, {
             url: web_path + ajax_url.update,
-            type: 'post',
+            type: 'put',
             data: param,
             success: function (data) {
                 if (data.state) {
