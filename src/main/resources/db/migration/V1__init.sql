@@ -56,6 +56,7 @@ CREATE TABLE feedback(
   customer_name VARCHAR(20) NOT NULL ,
   customer_contact VARCHAR(100) NOT NULL ,
   content VARCHAR(500) NOT NULL,
+  create_date DATETIME NOT NULL,
   has_deal BOOLEAN NOT NULL DEFAULT 0,
   remark VARCHAR(200)
 );

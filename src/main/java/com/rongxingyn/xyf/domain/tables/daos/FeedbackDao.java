@@ -7,6 +7,7 @@ package com.rongxingyn.xyf.domain.tables.daos;
 import com.rongxingyn.xyf.domain.tables.Feedback;
 import com.rongxingyn.xyf.domain.tables.records.FeedbackRecord;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 import javax.annotation.Generated;
@@ -87,6 +88,13 @@ public class FeedbackDao extends DAOImpl<FeedbackRecord, com.rongxingyn.xyf.doma
      */
     public List<com.rongxingyn.xyf.domain.tables.pojos.Feedback> fetchByContent(String... values) {
         return fetch(Feedback.FEEDBACK.CONTENT, values);
+    }
+
+    /**
+     * Fetch records that have <code>create_date IN (values)</code>
+     */
+    public List<com.rongxingyn.xyf.domain.tables.pojos.Feedback> fetchByCreateDate(Timestamp... values) {
+        return fetch(Feedback.FEEDBACK.CREATE_DATE, values);
     }
 
     /**

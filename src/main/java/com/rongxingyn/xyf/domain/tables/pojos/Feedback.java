@@ -5,6 +5,7 @@ package com.rongxingyn.xyf.domain.tables.pojos;
 
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 
 import javax.annotation.Generated;
 import javax.validation.constraints.NotNull;
@@ -24,14 +25,15 @@ import javax.validation.constraints.Size;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Feedback implements Serializable {
 
-    private static final long serialVersionUID = -1269198639;
+    private static final long serialVersionUID = 1234771759;
 
-    private Integer feedbackId;
-    private String  customerName;
-    private String  customerContact;
-    private String  content;
-    private Byte    hasDeal;
-    private String  remark;
+    private Integer   feedbackId;
+    private String    customerName;
+    private String    customerContact;
+    private String    content;
+    private Timestamp createDate;
+    private Byte      hasDeal;
+    private String    remark;
 
     public Feedback() {}
 
@@ -40,22 +42,25 @@ public class Feedback implements Serializable {
         this.customerName = value.customerName;
         this.customerContact = value.customerContact;
         this.content = value.content;
+        this.createDate = value.createDate;
         this.hasDeal = value.hasDeal;
         this.remark = value.remark;
     }
 
     public Feedback(
-        Integer feedbackId,
-        String  customerName,
-        String  customerContact,
-        String  content,
-        Byte    hasDeal,
-        String  remark
+        Integer   feedbackId,
+        String    customerName,
+        String    customerContact,
+        String    content,
+        Timestamp createDate,
+        Byte      hasDeal,
+        String    remark
     ) {
         this.feedbackId = feedbackId;
         this.customerName = customerName;
         this.customerContact = customerContact;
         this.content = content;
+        this.createDate = createDate;
         this.hasDeal = hasDeal;
         this.remark = remark;
     }
@@ -98,6 +103,15 @@ public class Feedback implements Serializable {
         this.content = content;
     }
 
+    @NotNull
+    public Timestamp getCreateDate() {
+        return this.createDate;
+    }
+
+    public void setCreateDate(Timestamp createDate) {
+        this.createDate = createDate;
+    }
+
     public Byte getHasDeal() {
         return this.hasDeal;
     }
@@ -123,6 +137,7 @@ public class Feedback implements Serializable {
         sb.append(", ").append(customerName);
         sb.append(", ").append(customerContact);
         sb.append(", ").append(content);
+        sb.append(", ").append(createDate);
         sb.append(", ").append(hasDeal);
         sb.append(", ").append(remark);
 

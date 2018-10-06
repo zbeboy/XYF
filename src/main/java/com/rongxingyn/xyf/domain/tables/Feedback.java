@@ -9,6 +9,7 @@ import com.rongxingyn.xyf.domain.Keys;
 import com.rongxingyn.xyf.domain.Xyf;
 import com.rongxingyn.xyf.domain.tables.records.FeedbackRecord;
 
+import java.sql.Timestamp;
 import java.util.Arrays;
 import java.util.List;
 
@@ -39,7 +40,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Feedback extends TableImpl<FeedbackRecord> {
 
-    private static final long serialVersionUID = 621396186;
+    private static final long serialVersionUID = 246339695;
 
     /**
      * The reference instance of <code>xyf.feedback</code>
@@ -73,6 +74,11 @@ public class Feedback extends TableImpl<FeedbackRecord> {
      * The column <code>xyf.feedback.content</code>.
      */
     public final TableField<FeedbackRecord, String> CONTENT = createField("content", org.jooq.impl.SQLDataType.VARCHAR(500).nullable(false), this, "");
+
+    /**
+     * The column <code>xyf.feedback.create_date</code>.
+     */
+    public final TableField<FeedbackRecord, Timestamp> CREATE_DATE = createField("create_date", org.jooq.impl.SQLDataType.TIMESTAMP.nullable(false), this, "");
 
     /**
      * The column <code>xyf.feedback.has_deal</code>.
