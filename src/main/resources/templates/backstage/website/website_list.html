@@ -31,6 +31,10 @@
             <div class="col-12">
                 <form id="dataForm">
                     <div class="form-group">
+                        <label for="websiteContacts">联系人</label>
+                        <input type="text" th:value="${WEBSITE_CONTACTS}" class="form-control" id="websiteContacts" name="websiteContacts" placeholder="联系人">
+                    </div>
+                    <div class="form-group">
                         <label for="websitePhone">电话</label>
                         <input type="text" th:value="${WEBSITE_PHONE}" class="form-control" id="websitePhone" name="websitePhone" placeholder="电话">
                     </div>

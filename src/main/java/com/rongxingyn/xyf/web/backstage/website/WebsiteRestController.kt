@@ -25,19 +25,24 @@ open class WebsiteRestController {
         val ajaxUtils = AjaxUtils.of()
         val list = ArrayList<DataInfo>()
         val data1 = DataInfo()
-        data1.dataKey = DataKey.WEBSITE_PHONE.name
-        data1.dataValue = websiteEditVo.websitePhone
+        data1.dataKey = DataKey.WEBSITE_CONTACTS.name
+        data1.dataValue = websiteEditVo.websiteContacts
         list.add(data1)
 
         val data2 = DataInfo()
-        data2.dataKey = DataKey.WEBSITE_EMAIL.name
-        data2.dataValue = websiteEditVo.websiteEmail
+        data2.dataKey = DataKey.WEBSITE_PHONE.name
+        data2.dataValue = websiteEditVo.websitePhone
         list.add(data2)
 
         val data3 = DataInfo()
-        data3.dataKey = DataKey.WEBSITE_ADDRESS.name
-        data3.dataValue = websiteEditVo.websiteAddress
+        data3.dataKey = DataKey.WEBSITE_EMAIL.name
+        data3.dataValue = websiteEditVo.websiteEmail
         list.add(data3)
+
+        val data4 = DataInfo()
+        data4.dataKey = DataKey.WEBSITE_ADDRESS.name
+        data4.dataValue = websiteEditVo.websiteAddress
+        list.add(data4)
 
         dataInfoService.save(list)
         ajaxUtils.success().msg("保存成功")
