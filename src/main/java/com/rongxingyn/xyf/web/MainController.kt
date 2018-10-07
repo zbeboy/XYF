@@ -1,14 +1,18 @@
 package com.rongxingyn.xyf.web
 
+import com.rongxingyn.xyf.service.reception.ReceptionService
 import org.springframework.stereotype.Controller
+import org.springframework.ui.Model
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RequestMethod
 import reactor.core.publisher.Mono
-import javax.servlet.http.HttpServletRequest
+import javax.annotation.Resource
 
 @Controller
 open class MainController {
+
+    @Resource
+    open lateinit var receptionService: ReceptionService
 
     /**
      * main page
@@ -16,7 +20,10 @@ open class MainController {
      * @return main page
      */
     @RequestMapping("/")
-    fun root(): Mono<String> {
+    fun root(model: Model): Mono<String> {
+        model.addAttribute("banners", receptionService.getBanners())
+        model.addAttribute("classifies", receptionService.getClassifies())
+        receptionService.getWebsiteInfo(model)
         return Mono.just("index")
     }
 
@@ -26,7 +33,10 @@ open class MainController {
      * @return home page
      */
     @RequestMapping("/index")
-    fun index(): Mono<String> {
+    fun index(model: Model): Mono<String> {
+        model.addAttribute("banners", receptionService.getBanners())
+        model.addAttribute("classifies", receptionService.getClassifies())
+        receptionService.getWebsiteInfo(model)
         return Mono.just("index")
     }
 
