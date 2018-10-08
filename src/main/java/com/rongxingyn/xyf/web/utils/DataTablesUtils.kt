@@ -2,6 +2,7 @@ package com.rongxingyn.xyf.web.utils
 
 import com.alibaba.fastjson.JSON
 import com.alibaba.fastjson.JSONObject
+import com.rongxingyn.xyf.web.bean.reception.PaginationBean
 import org.apache.commons.lang3.StringUtils
 import org.apache.commons.lang3.math.NumberUtils
 import org.springframework.http.server.reactive.ServerHttpRequest
@@ -135,6 +136,29 @@ open class DataTablesUtils<T> {
             this.draw = NumberUtils.toInt(dramParam)
         }
 
+    }
+
+    constructor(paginationBean: PaginationBean) {
+        var pageNumber = paginationBean.pageNumber!!
+        val pageSize = paginationBean.pageSize!!
+        val sortName = paginationBean.sortName
+        val sortOrder = paginationBean.sortOrder
+        val extraSearch = paginationBean.extraSearch
+
+        if (pageNumber == 0) {
+            pageNumber = 1
+        }
+
+        this.start = (pageNumber - 1) * pageSize
+
+        this.length = pageSize
+
+        this.orderColumnName = sortName
+
+        this.orderDir = sortOrder
+
+        this.extraSearch = extraSearch
+        this.search = JSON.parseObject(extraSearch)
     }
 
     fun getiTotalRecords(): Long {

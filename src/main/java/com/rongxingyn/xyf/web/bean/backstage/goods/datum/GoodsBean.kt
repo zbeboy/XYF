@@ -4,4 +4,5 @@ import com.rongxingyn.xyf.domain.tables.pojos.Goods
 
 class GoodsBean : Goods() {
     var classifyName: String? = null
+    var picUrl: String? = null
 }

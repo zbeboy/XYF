@@ -1,7 +1,6 @@
 package com.rongxingyn.xyf.service.backstage.goods.datum
 
-import com.rongxingyn.xyf.domain.Tables.CLASSIFY
-import com.rongxingyn.xyf.domain.Tables.GOODS
+import com.rongxingyn.xyf.domain.Tables.*
 import com.rongxingyn.xyf.domain.tables.daos.GoodsDao
 import com.rongxingyn.xyf.domain.tables.pojos.Goods
 import com.rongxingyn.xyf.domain.tables.records.GoodsRecord
@@ -9,6 +8,7 @@ import com.rongxingyn.xyf.service.plugin.DataTablesPlugin
 import com.rongxingyn.xyf.service.utils.SQLQueryUtils
 import com.rongxingyn.xyf.web.bean.backstage.goods.datum.GoodsBean
 import com.rongxingyn.xyf.web.utils.DataTablesUtils
+import org.apache.commons.lang3.math.NumberUtils
 import org.jooq.*
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
@@ -16,6 +16,7 @@ import org.springframework.transaction.annotation.Propagation
 import org.springframework.transaction.annotation.Transactional
 import org.springframework.util.ObjectUtils
 import org.springframework.util.StringUtils
+import java.util.*
 import javax.annotation.Resource
 
 @Service("goodsDatumService")
@@ -29,6 +30,17 @@ open class GoodsDatumServiceImpl @Autowired constructor(dslContext: DSLContext) 
 
     override fun findById(id: String): Goods {
         return goodsDao.findById(id)
+    }
+
+    override fun findByIdRelation(id: String): Optional<Record> {
+        return create.select()
+                .from(GOODS)
+                .join(CLASSIFY)
+                .on(GOODS.CLASSIFY_ID.eq(CLASSIFY.CLASSIFY_ID))
+                .join(GOODS_PICS)
+                .on(GOODS.GOODS_ID.eq(GOODS_PICS.GOODS_ID))
+                .where(GOODS.GOODS_ID.eq(id))
+                .fetchOptional()
     }
 
     override fun findByGoodsName(goodsName: String): List<Goods> {
@@ -48,6 +60,8 @@ open class GoodsDatumServiceImpl @Autowired constructor(dslContext: DSLContext) 
                     .from(GOODS)
                     .join(CLASSIFY)
                     .on(GOODS.CLASSIFY_ID.eq(CLASSIFY.CLASSIFY_ID))
+                    .join(GOODS_PICS)
+                    .on(GOODS.GOODS_ID.eq(GOODS_PICS.GOODS_ID))
             sortCondition(dataTablesUtils, null, selectJoinStep, DataTablesPlugin.JOIN_TYPE)
             pagination(dataTablesUtils, null, selectJoinStep, DataTablesPlugin.JOIN_TYPE)
             selectJoinStep.fetch()
@@ -56,6 +70,8 @@ open class GoodsDatumServiceImpl @Autowired constructor(dslContext: DSLContext) 
                     .from(GOODS)
                     .join(CLASSIFY)
                     .on(GOODS.CLASSIFY_ID.eq(CLASSIFY.CLASSIFY_ID))
+                    .join(GOODS_PICS)
+                    .on(GOODS.GOODS_ID.eq(GOODS_PICS.GOODS_ID))
                     .where(a)
             sortCondition(dataTablesUtils, selectConditionStep, null, DataTablesPlugin.CONDITION_TYPE)
             pagination(dataTablesUtils, selectConditionStep, null, DataTablesPlugin.CONDITION_TYPE)
@@ -78,6 +94,8 @@ open class GoodsDatumServiceImpl @Autowired constructor(dslContext: DSLContext) 
                     .from(GOODS)
                     .join(CLASSIFY)
                     .on(GOODS.CLASSIFY_ID.eq(CLASSIFY.CLASSIFY_ID))
+                    .join(GOODS_PICS)
+                    .on(GOODS.GOODS_ID.eq(GOODS_PICS.GOODS_ID))
                     .where(a).fetchOne()
         }
         return count.value1()
@@ -106,12 +124,20 @@ open class GoodsDatumServiceImpl @Autowired constructor(dslContext: DSLContext) 
      */
     override fun searchCondition(dataTablesUtils: DataTablesUtils<GoodsBean>): Condition? {
         var a: Condition? = null
-
         val search = dataTablesUtils.search
         if (!ObjectUtils.isEmpty(search)) {
             val goodsName = StringUtils.trimWhitespace(search!!.getString("goodsName"))
+            val classifyId = StringUtils.trimWhitespace(search.getString("classifyId"))
             if (StringUtils.hasLength(goodsName)) {
                 a = GOODS.GOODS_NAME.like(SQLQueryUtils.likeAllParam(goodsName))
+            }
+
+            if (StringUtils.hasLength(classifyId)) {
+                a = if (ObjectUtils.isEmpty(a)) {
+                    CLASSIFY.CLASSIFY_ID.eq(NumberUtils.toInt(classifyId))
+                } else {
+                    a!!.and(CLASSIFY.CLASSIFY_ID.eq(NumberUtils.toInt(classifyId)))
+                }
             }
         }
         return a

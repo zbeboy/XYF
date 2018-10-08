@@ -24,7 +24,8 @@
                         th:each="banner,row:${banners}" th:class="${row.count == 1?'active':''}"></li>
                 </ol>
                 <div class="carousel-inner" role="listbox">
-                    <div th:each="banner,row:${banners}" th:class="${row.count == 1?'carousel-item active':'carousel-item'}">
+                    <div th:each="banner,row:${banners}"
+                         th:class="${row.count == 1?'carousel-item active':'carousel-item'}">
                         <img class="d-block img-fluid" th:src="@{${banner.bannerUrl}}" alt="banner">
                     </div>
                 </div>
@@ -38,110 +39,7 @@
                 </a>
             </div>
 
-            <div class="row">
-
-                <div class="col-lg-4 col-md-6 mb-4">
-                    <div class="card h-100">
-                        <a href="item.html"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
-                        <div class="card-body">
-                            <h4 class="card-title">
-                                <a href="item.html">Item One</a>
-                            </h4>
-                            <h5>$24.99</h5>
-                            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam
-                                aspernatur!</p>
-                        </div>
-                        <div class="card-footer">
-                            <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-4 col-md-6 mb-4">
-                    <div class="card h-100">
-                        <a href="item.html"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
-                        <div class="card-body">
-                            <h4 class="card-title">
-                                <a href="item.html">Item Two</a>
-                            </h4>
-                            <h5>$24.99</h5>
-                            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam
-                                aspernatur! Lorem ipsum dolor sit amet.</p>
-                        </div>
-                        <div class="card-footer">
-                            <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-4 col-md-6 mb-4">
-                    <div class="card h-100">
-                        <a href="item.html"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
-                        <div class="card-body">
-                            <h4 class="card-title">
-                                <a href="item.html">Item Three</a>
-                            </h4>
-                            <h5>$24.99</h5>
-                            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam
-                                aspernatur!</p>
-                        </div>
-                        <div class="card-footer">
-                            <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-4 col-md-6 mb-4">
-                    <div class="card h-100">
-                        <a href="item.html"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
-                        <div class="card-body">
-                            <h4 class="card-title">
-                                <a href="item.html">Item Four</a>
-                            </h4>
-                            <h5>$24.99</h5>
-                            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam
-                                aspernatur!</p>
-                        </div>
-                        <div class="card-footer">
-                            <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-4 col-md-6 mb-4">
-                    <div class="card h-100">
-                        <a href="item.html"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
-                        <div class="card-body">
-                            <h4 class="card-title">
-                                <a href="item.html">Item Five</a>
-                            </h4>
-                            <h5>$24.99</h5>
-                            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam
-                                aspernatur! Lorem ipsum dolor sit amet.</p>
-                        </div>
-                        <div class="card-footer">
-                            <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
-                        </div>
-                    </div>
-                </div>
-
-                <div class="col-lg-4 col-md-6 mb-4">
-                    <div class="card h-100">
-                        <a href="item.html"><img class="card-img-top" src="http://placehold.it/700x400" alt=""></a>
-                        <div class="card-body">
-                            <h4 class="card-title">
-                                <a href="item.html">Item Six</a>
-                            </h4>
-                            <h5>$24.99</h5>
-                            <p class="card-text">Lorem ipsum dolor sit amet, consectetur adipisicing elit. Amet numquam
-                                aspernatur!</p>
-                        </div>
-                        <div class="card-footer">
-                            <small class="text-muted">&#9733; &#9733; &#9733; &#9733; &#9734;</small>
-                        </div>
-                    </div>
-                </div>
-
+            <div class="row" id="goods">
             </div>
             <!-- /.row -->
 
@@ -155,8 +53,9 @@
         <div class="col-lg-3">
 
             <h1 class="my-4">店 铺</h1>
-            <div class="list-group" th:unless="${#lists.isEmpty(classifies)}">
-                <a th:each="classify : ${classifies}" href="javascript:" class="list-group-item" th:text="${classify.classifyName}"></a>
+            <div class="list-group" id="classifies" th:unless="${#lists.isEmpty(classifies)}">
+                <a th:each="classify : ${classifies}" href="javascript:" th:data-id="${classify.classifyId}" class="list-group-item classify"
+                   th:text="${classify.classifyName}"></a>
             </div>
 
             <!-- Search Widget -->
@@ -199,11 +98,73 @@
 <!-- Footer -->
 <footer class="py-5 bg-dark" th:include="footer::receptionFooter"></footer>
 
+<!-- item modal -->
+<div class="modal fade" id="itemModal" tabindex="-1" role="dialog" aria-labelledby="itemModalLabelTitle" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body" id="itemInfo">
+                <div class="card mt-4">
+                    <img class="card-img-top img-fluid" id="itemPic" alt="商品">
+                    <div class="card-body">
+                        <h3 class="card-title" id="itemTitle"></h3>
+                        <h4 id="itemPrice"></h4>
+                        <p class="card-text" id="itemBrief"></p>
+                        <span class="text-warning" id="itemRecommend">&#9733; &#9733; &#9733; &#9733; &#9734;</span>
+                        <span id="stars"></span>
+                    </div>
+                </div>
+                <!-- /.card -->
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+            </div>
+        </div>
+    </div>
+</div>
+
+<!--定义操作列按钮模板-->
+<script id="goods-template" type="text/x-handlebars-template">
+    {{#each data}}
+    <div class="col-lg-4 col-md-6 mb-4">
+        <div class="card h-100">
+            <a href="javascript:" class="goods-item"><img class="card-img-top" data-id="{{this.goodsId}}" src="{{goodsPic}}" alt=""></a>
+            <div class="card-body">
+                <h4 class="card-title">
+                    <a href="javascript:" data-id="{{this.goodsId}}" class="goods-item">{{this.goodsName}}</a>
+                </h4>
+                <h5>￥{{this.goodsPrice}}</h5>
+                <p class="card-text">{{goodsBrief}}</p>
+            </div>
+            <div class="card-footer">
+                <div class="row">
+                    <div class="col-6">
+                        <small class="text-muted">
+                            {{goodsRecommend}}
+                        </small>
+                    </div>
+                    <div class="col-6 text-right">
+                        类别：{{this.classifyName}}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    {{/each}}
+</script>
 <!-- Bootstrap core JavaScript -->
+<script th:inline="javascript">
+    var web_path = /*[[${webPath}]]*/ '';
+</script>
 <script src="js/jquery.min.js" th:src="@{/webjars/jquery/jquery.min.js}"></script>
 <script src="js/popper.min.js" th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
 <script src="js/bootstrap.min.js" th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
 <script th:src="@{/plugin/jquery-simple_pagination/jquery.simplePagination.js}"></script>
+<script th:src="@{/webjars/handlebars/handlebars.min.js}"></script>
 <script th:src="@{/js/reception/index.js}"></script>
 </body>
 </html>

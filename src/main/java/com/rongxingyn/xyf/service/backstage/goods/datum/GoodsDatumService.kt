@@ -6,6 +6,7 @@ import com.rongxingyn.xyf.web.bean.backstage.goods.datum.GoodsBean
 import com.rongxingyn.xyf.web.utils.DataTablesUtils
 import org.jooq.Record
 import org.jooq.Result
+import java.util.*
 
 interface GoodsDatumService {
 
@@ -16,6 +17,14 @@ interface GoodsDatumService {
      * @return 数据
      */
     fun findById(id: String): Goods
+
+    /**
+     * 通过ID关联查询
+     *
+     * @param id 主键
+     * @return 数据
+     */
+    fun findByIdRelation(id: String): Optional<Record>
 
     /**
      * 根据商品名查询

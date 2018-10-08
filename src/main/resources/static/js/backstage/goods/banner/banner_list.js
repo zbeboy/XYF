@@ -26,7 +26,6 @@ $(document).ready(function () {
 
     function initBanner() {
         $.get(web_path + getAjaxUrl().banners, function (data) {
-            datas.empty();
             bannerData(data);
         });
     }
@@ -74,7 +73,7 @@ $(document).ready(function () {
             return new Handlebars.SafeString(Handlebars.escapeExpression(hideText));
         });
 
-        datas.prepend(template(data));
+        datas.html(template(data));
     }
 
     // 上传组件
