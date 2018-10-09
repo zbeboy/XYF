@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="header :: no-metas-header(~{::title},~{::link})">
+    <title>关于-兴易坊</title>
+    <!-- Custom styles for this template -->
+    <link href="css/shop-contact.css" rel="stylesheet" th:href="@{/css/reception/shop-contact.css}"/>
+</head>
+<body>
+<!-- Navigation -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" th:include="nav::reception">
+</nav>
+
+<div class="jumbotron">
+    <h1 class="display-4">反馈问题</h1>
+</div>
+
+<!-- Page Content -->
+<div class="container">
+
+    <div class="row">
+        <div class="col-lg-6 offset-md-3 text-center">
+            <p id="msg"></p>
+            <form class="m-5" id="contactForm">
+                <div class="form-group">
+                    <input class="form-control form-control-lg" id="customerName" name="customerName" placeholder="您的姓名">
+                    <div class="invalid-feedback" id="customer_name_error_msg"></div>
+                </div>
+                <div class="form-group">
+                    <input class="form-control form-control-lg" id="customerContact" name="customerContact" placeholder="邮箱/QQ/微信">
+                    <div class="invalid-feedback" id="customer_contact_error_msg"></div>
+                </div>
+                <div class="form-group">
+                    <textarea name="content" rows="6" id="content" class="form-control form-control-lg" placeholder="您想说的内容..."></textarea>
+                    <div class="invalid-feedback" id="content_error_msg"></div>
+                </div>
+                <button type="button" class="btn btn-secondary btn-lg btn-block" id="send">发送</button>
+            </form>
+        </div>
+
+    </div>
+</div>
+<!-- /.container -->
+
+<!-- Footer -->
+<footer class="py-5 bg-dark my-footer" th:include="footer::receptionFooter"></footer>
+<script th:inline="javascript">
+    var web_path = /*[[${webPath}]]*/ '';
+</script>
+<script src="js/jquery.min.js" th:src="@{/webjars/jquery/jquery.min.js}"></script>
+<script src="js/popper.min.js" th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
+<script src="js/bootstrap.min.js" th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+<script th:src="@{/js/nav.js}"></script>
+<script th:src="@{/webjars/lodash/dist/lodash.js}"></script>
+<script th:src="@{/js/reception/contact.js}"></script>
+</body>
+</html>

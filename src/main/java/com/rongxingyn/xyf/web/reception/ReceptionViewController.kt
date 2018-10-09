@@ -21,8 +21,18 @@ open class ReceptionViewController {
      * @return about page
      */
     @GetMapping("/about")
-    fun list(model: Model): Mono<String> {
+    fun about(model: Model): Mono<String> {
         receptionService.getShopInfo(model)
-        return Mono.just("reception/about")
+        return Mono.just("reception/shop-about")
+    }
+
+    /**
+     * 联系我们
+     *
+     * @return contact page
+     */
+    @GetMapping("/contact")
+    fun contact(): Mono<String> {
+        return Mono.just("reception/shop-contact")
     }
 }

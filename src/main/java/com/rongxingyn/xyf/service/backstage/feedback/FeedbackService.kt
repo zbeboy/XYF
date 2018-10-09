@@ -1,5 +1,6 @@
 package com.rongxingyn.xyf.service.backstage.feedback
 
+import com.rongxingyn.xyf.domain.tables.pojos.Feedback
 import com.rongxingyn.xyf.web.bean.backstage.feedback.FeedbackBean
 import com.rongxingyn.xyf.web.utils.DataTablesUtils
 import org.jooq.Record
@@ -51,4 +52,11 @@ interface FeedbackService {
      * @param feedbackId id
      */
     fun deleteById(feedbackId: Int)
+
+    /**
+     * 保存
+     *
+     * @param feedback 数据
+     */
+    fun save(feedback: Feedback)
 }

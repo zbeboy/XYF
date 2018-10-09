@@ -2,6 +2,7 @@ package com.rongxingyn.xyf.service.backstage.feedback
 
 import com.rongxingyn.xyf.domain.Tables.FEEDBACK
 import com.rongxingyn.xyf.domain.tables.daos.FeedbackDao
+import com.rongxingyn.xyf.domain.tables.pojos.Feedback
 import com.rongxingyn.xyf.service.plugin.DataTablesPlugin
 import com.rongxingyn.xyf.service.utils.SQLQueryUtils
 import com.rongxingyn.xyf.web.bean.backstage.feedback.FeedbackBean
@@ -46,6 +47,11 @@ open class FeedbackServiceImpl @Autowired constructor(dslContext: DSLContext) : 
 
     override fun deleteById(feedbackId: Int) {
         feedbackDao.deleteById(feedbackId)
+    }
+
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
+    override fun save(feedback: Feedback) {
+        feedbackDao.insert(feedback)
     }
 
     /**
