@@ -49,4 +49,13 @@ open class ReceptionServiceImpl @Autowired constructor(dslContext: DSLContext) :
             }
         }
     }
+
+    override fun getShopInfo(model: Model) {
+        val data = dataInfoService.findByPrefix(DataKey.SHOP.name)
+        if (data.isNotEmpty) {
+            data.forEach { i ->
+                model.addAttribute(i.dataKey, i.dataValue)
+            }
+        }
+    }
 }

@@ -20,4 +20,9 @@ interface ReceptionService {
      * 获取网站信息
      */
     fun getWebsiteInfo(model: Model)
+
+    /**
+     * 获取店铺信息
+     */
+    fun getShopInfo(model: Model)
 }

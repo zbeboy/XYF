@@ -1,0 +1,33 @@
+<!DOCTYPE html>
+<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<head th:replace="header :: no-metas-header(~{::title},~{::link})">
+    <title>关于-兴易坊</title>
+    <!-- Custom styles for this template -->
+    <link href="css/shop-homepage.css" rel="stylesheet" th:href="@{/css/reception/shop-homepage.css}"/>
+</head>
+<body>
+<!-- Navigation -->
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top" th:include="nav::reception">
+</nav>
+
+<!-- Page Content -->
+<div class="container">
+
+    <!-- Introduction Row -->
+    <h1 class="my-4">
+        <small th:text="${SHOP_NAME}"></small>
+    </h1>
+    <p th:text="${SHOP_BRIEF}"></p>
+
+</div>
+<!-- /.container -->
+
+<!-- Footer -->
+<footer class="py-5 bg-dark" th:include="footer::receptionFooter"></footer>
+
+<script src="js/jquery.min.js" th:src="@{/webjars/jquery/jquery.min.js}"></script>
+<script src="js/popper.min.js" th:src="@{/webjars/popper.js/umd/popper.min.js}"></script>
+<script src="js/bootstrap.min.js" th:src="@{/webjars/bootstrap/js/bootstrap.min.js}"></script>
+<script th:src="@{/js/nav.js}"></script>
+</body>
+</html>
