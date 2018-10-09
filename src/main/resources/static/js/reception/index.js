@@ -156,7 +156,7 @@ $(document).ready(function () {
                 $('#itemRecommend').text(recommend(data.goods.goodsRecommend));
                 $('#stars').text(data.goods.goodsRecommend + ' 星');
             } else {
-                $('#itemInfo').html('未查询到商品信息');
+                $('#itemTitle').text('未查询到商品信息');
             }
 
             $('#itemModal').modal('show');
