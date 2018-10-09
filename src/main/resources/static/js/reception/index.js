@@ -150,14 +150,17 @@ $(document).ready(function () {
         $.get(web_path + ajax_url.item + '/' + $(this).attr('data-id'), function (data) {
             if(data.state){
                 $('#itemTitle').text(data.goods.goodsName);
-                $('#itemPic').attr('src',web_path + data.goods.picUrl);
+                $('#itemPic').show().attr('src',web_path + data.goods.picUrl);
                 $('#itemPrice').text('￥' + data.goods.goodsPrice);
                 $('#itemBrief').text(data.goods.goodsBrief);
                 $('#itemRecommend').text(recommend(data.goods.goodsRecommend));
                 $('#stars').text(data.goods.goodsRecommend + ' 星');
             } else {
+                $('#itemPic').hide();
                 $('#itemTitle').text('未查询到商品信息');
             }
+
+
 
             $('#itemModal').modal('show');
 
