@@ -159,9 +159,6 @@ $(document).ready(function () {
                 $('#itemPic').hide();
                 $('#itemTitle').text('未查询到商品信息');
             }
-
-
-
             $('#itemModal').modal('show');
 
         });
