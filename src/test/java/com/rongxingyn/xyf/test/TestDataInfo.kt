@@ -6,7 +6,7 @@ import org.junit.Test
 open class TestDataInfo {
 
     @Test
-    fun testKey(){
-       println(DataKey.SHOP_BRIEF.name)
+    fun testKey() {
+        println(DataKey.SHOP_BRIEF.name)
     }
 }

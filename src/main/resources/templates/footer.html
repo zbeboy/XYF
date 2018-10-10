@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="zh-CN">
 <head>
     <meta charset="UTF-8"/>
     <title>Footer</title>
@@ -8,7 +8,8 @@
 <!-- Footer -->
 <footer class="py-5 bg-dark" th:fragment="receptionFooter">
     <div class="container">
-        <p class="m-0 text-center text-white">Copyright &copy; <span th:text="#{web.footer.info}"></span> <span th:text="${#calendars.format(#dates.createToday(), 'yyyy')}"></span></p>
+        <p class="m-0 text-center text-white">Copyright &copy; <span th:text="#{web.footer.info}"></span> <span
+                th:text="${#calendars.format(#dates.createToday(), 'yyyy')}"></span></p>
     </div>
     <!-- /.container -->
 </footer>
@@ -16,7 +17,8 @@
 <footer class="py-5 bg-dark" th:fragment="backstageFooter">
     <div class="container">
         <div class="text-center">
-            <small>Copyright &copy; <span th:text="#{web.footer.info}"></span> <span th:text="${#calendars.format(#dates.createToday(), 'yyyy')}"></span></small>
+            <small>Copyright &copy; <span th:text="#{web.footer.info}"></span> <span
+                    th:text="${#calendars.format(#dates.createToday(), 'yyyy')}"></span></small>
         </div>
     </div>
     <!-- /.container -->

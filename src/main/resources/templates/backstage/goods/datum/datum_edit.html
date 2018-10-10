@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="zh-CN">
 <head th:replace="header :: header(~{::meta},~{::title},~{::link})">
     <!-- csrf -->
     <meta name="_csrf" content="" th:content="${_csrf.token}"/>
@@ -43,22 +43,26 @@
                     </div>
                     <div class="form-group">
                         <label for="goodsName">商品名</label>
-                        <input type="text" class="form-control" id="goodsName" placeholder="商品名" th:value="${goods.goodsName}">
+                        <input type="text" class="form-control" id="goodsName" placeholder="商品名"
+                               th:value="${goods.goodsName}">
                         <div class="invalid-feedback" id="goods_name_error_msg"></div>
                     </div>
                     <div class="form-group">
                         <label for="goodsPrice">价格</label>
-                        <input type="number" class="form-control" id="goodsPrice" placeholder="价格" th:value="${goods.goodsPrice}">
+                        <input type="number" class="form-control" id="goodsPrice" placeholder="价格"
+                               th:value="${goods.goodsPrice}">
                     </div>
                     <div class="form-group">
                         <label for="goodsRecommend">推荐度</label>
-                        <input type="number" max="5" class="form-control" id="goodsRecommend" placeholder="推荐度" th:value="${goods.goodsRecommend}">
+                        <input type="number" max="5" class="form-control" id="goodsRecommend" placeholder="推荐度"
+                               th:value="${goods.goodsRecommend}">
                         <div class="invalid-feedback" id="goods_recommend_error_msg"></div>
                         <small class="form-text text-muted">推荐度最大为5</small>
                     </div>
                     <div class="form-group">
                         <label for="goodsSerial">序号</label>
-                        <input type="number" class="form-control" id="goodsSerial" placeholder="序号" th:value="${goods.goodsSerial}">
+                        <input type="number" class="form-control" id="goodsSerial" placeholder="序号"
+                               th:value="${goods.goodsSerial}">
                     </div>
                     <div class="form-check">
                         <input type="checkbox" class="form-check-input" style="margin-left: 0" name="goodsIsDel"
@@ -88,11 +92,13 @@
                                 </div>
                             </div>
                         </div>
-                        <input type="hidden" id="goodsPic" name="goodsPic" th:value="${goodsPic.picUrl}" class="form-control"/>
+                        <input type="hidden" id="goodsPic" name="goodsPic" th:value="${goodsPic.picUrl}"
+                               class="form-control"/>
                     </div>
                     <div class="form-group">
                         <label for="goodsBrief">简介</label>
-                        <textarea class="form-control" id="goodsBrief" rows="3" placeholder="商品简介" th:text="${goods.goodsBrief}"></textarea>
+                        <textarea class="form-control" id="goodsBrief" rows="3" placeholder="商品简介"
+                                  th:text="${goods.goodsBrief}"></textarea>
                     </div>
                     <div class="text-center">
                         <button type="button" class="btn btn-primary" id="save">提交</button>

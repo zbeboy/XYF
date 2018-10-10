@@ -159,7 +159,7 @@
             var p_error_msg = $('#error_msg');
             switch (data) {
                 case error_code.AU_ERROR_CODE:
-                    p_error_msg.prop('hidden',false).text('密码错误');
+                    p_error_msg.prop('hidden', false).text('密码错误');
                     // 去除遮罩
                     endLoading();
                     break;
@@ -167,37 +167,37 @@
                     window.location.href = web_path + ajax_url.backstage;
                     break;
                 case error_code.PASSWORD_IS_BLANK:
-                    p_error_msg.prop('hidden',false).text('请填写密码');
+                    p_error_msg.prop('hidden', false).text('请填写密码');
                     // 去除遮罩
                     endLoading();
                     break;
                 case error_code.USERNAME_IS_BLANK:
-                    p_error_msg.prop('hidden',false).text('请填写账号');
+                    p_error_msg.prop('hidden', false).text('请填写账号');
                     // 去除遮罩
                     endLoading();
                     break;
                 case error_code.USERNAME_IS_ENABLES:
-                    p_error_msg.prop('hidden',false).text('您的账号已被注销，请联系管理员');
+                    p_error_msg.prop('hidden', false).text('您的账号已被注销，请联系管理员');
                     // 去除遮罩
                     endLoading();
                     break;
                 case error_code.USERNAME_IS_EXPIRED:
-                    p_error_msg.prop('hidden',false).text('您的账号已过期，请联系管理员');
+                    p_error_msg.prop('hidden', false).text('您的账号已过期，请联系管理员');
                     // 去除遮罩
                     endLoading();
                     break;
                 case error_code.USERNAME_IS_LOCKED:
-                    p_error_msg.prop('hidden',false).text('您的账号已锁，请联系管理员');
+                    p_error_msg.prop('hidden', false).text('您的账号已锁，请联系管理员');
                     // 去除遮罩
                     endLoading();
                     break;
                 case error_code.CREDENTIALS_EXPIRED:
-                    p_error_msg.prop('hidden',false).text('您的账号凭证已过期，请联系管理员');
+                    p_error_msg.prop('hidden', false).text('您的账号凭证已过期，请联系管理员');
                     // 去除遮罩
                     endLoading();
                     break;
                 default:
-                    p_error_msg.prop('hidden',false).text('登录失败');
+                    p_error_msg.prop('hidden', false).text('登录失败');
                     // 去除遮罩
                     endLoading();
             }

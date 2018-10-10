@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="zh-CN">
 <head th:replace="header :: no-metas-header(~{::title},~{::link})">
     <title>兴易坊</title>
     <!-- Custom styles for this template -->
@@ -54,7 +54,8 @@
 
             <h1 class="my-4">店 铺</h1>
             <div class="list-group" id="classifies" th:unless="${#lists.isEmpty(classifies)}">
-                <a th:each="classify : ${classifies}" href="javascript:" th:data-id="${classify.classifyId}" class="list-group-item classify"
+                <a th:each="classify : ${classifies}" href="javascript:" th:data-id="${classify.classifyId}"
+                   class="list-group-item classify"
                    th:text="${classify.classifyName}"></a>
             </div>
 
@@ -99,7 +100,8 @@
 <footer class="py-5 bg-dark" th:include="footer::receptionFooter"></footer>
 
 <!-- item modal -->
-<div class="modal fade" id="itemModal" tabindex="-1" role="dialog" aria-labelledby="itemModalLabelTitle" aria-hidden="true">
+<div class="modal fade" id="itemModal" tabindex="-1" role="dialog" aria-labelledby="itemModalLabelTitle"
+     aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
@@ -132,7 +134,8 @@
     {{#each data}}
     <div class="col-lg-4 col-md-6 mb-4">
         <div class="card h-100">
-            <a href="javascript:" class="goods-item"><img class="card-img-top" data-id="{{this.goodsId}}" src="{{goodsPic}}" alt=""></a>
+            <a href="javascript:" class="goods-item"><img class="card-img-top" data-id="{{this.goodsId}}"
+                                                          src="{{goodsPic}}" alt=""></a>
             <div class="card-body">
                 <h4 class="card-title">
                     <a href="javascript:" data-id="{{this.goodsId}}" class="goods-item">{{this.goodsName}}</a>

@@ -5,20 +5,20 @@
  */
 
 body {
-  padding-top: 54px;
+    padding-top: 54px;
 }
 
 @media (min-width: 992px) {
-  body {
-    padding-top: 56px;
-  }
+    body {
+        padding-top: 56px;
+    }
 }
 
-footer{
-  position: absolute;
-  z-index: 9;
-  bottom: 0;
-  left: 0;
-  right: 0;
-  margin: auto;
+footer {
+    position: absolute;
+    z-index: 9;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
 }

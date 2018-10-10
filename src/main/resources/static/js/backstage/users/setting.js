@@ -161,7 +161,7 @@ $(document).ready(function () {
             type: 'put',
             data: $('#data_form').serialize(),
             success: function (data) {
-                if(data.state){
+                if (data.state) {
                     $(paramId.newPassword).val('');
                     $(paramId.okPassword).val('');
                     $('#passwordModal').modal('hide');

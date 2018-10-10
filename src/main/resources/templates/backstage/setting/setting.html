@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="zh-CN">
 <head th:replace="header :: header(~{::meta},~{::title},~{::link})">
     <!-- csrf -->
     <meta name="_csrf" content="" th:content="${_csrf.token}"/>
@@ -65,12 +65,14 @@
                 <form id="data_form">
                     <div class="form-group">
                         <label for="newPassword">新密码</label>
-                        <input class="form-control" id="newPassword" type="password" name="newPassword" placeholder="新密码">
+                        <input class="form-control" id="newPassword" type="password" name="newPassword"
+                               placeholder="新密码">
                         <div class="invalid-feedback" id="new_password_error_msg"></div>
                     </div>
                     <div class="form-group">
                         <label for="okPassword">确认密码</label>
-                        <input class="form-control" id="okPassword" type="password" name="okPassword" placeholder="确认密码">
+                        <input class="form-control" id="okPassword" type="password" name="okPassword"
+                               placeholder="确认密码">
                         <div class="invalid-feedback" id="ok_password_error_msg"></div>
                     </div>
                 </form>

@@ -17,5 +17,5 @@ open class DatumAddVo {
     var classifyId: Int? = null
     @NotBlank(message = "商品图片不能为空")
     @Size(max = 500, message = "商品图片在150个字符以内")
-    var goodsPic:String? = null
+    var goodsPic: String? = null
 }

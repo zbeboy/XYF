@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="zh-CN">
 <head th:replace="header :: header(~{::meta},~{::title},~{::link})">
     <!-- csrf -->
     <meta name="_csrf" content="" th:content="${_csrf.token}"/>
@@ -65,8 +65,9 @@
                 <form id="serialForm">
                     <div class="form-group">
                         <label for="bannerSerial">序号</label>
-                        <input type="number" class="form-control" id="bannerSerial" name="bannerSerial" placeholder="序号">
-                        <input type="hidden" id="bannerId" name="bannerId" />
+                        <input type="number" class="form-control" id="bannerSerial" name="bannerSerial"
+                               placeholder="序号">
+                        <input type="hidden" id="bannerId" name="bannerId"/>
                     </div>
                 </form>
             </div>

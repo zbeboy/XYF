@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="zh-CN">
 <head th:replace="header :: header(~{::meta},~{::title},~{::link})">
     <!-- csrf -->
     <meta name="_csrf" content="" th:content="${_csrf.token}"/>
@@ -32,19 +32,23 @@
                 <form id="dataForm">
                     <div class="form-group">
                         <label for="websiteContacts">联系人</label>
-                        <input type="text" th:value="${WEBSITE_CONTACTS}" class="form-control" id="websiteContacts" name="websiteContacts" placeholder="联系人">
+                        <input type="text" th:value="${WEBSITE_CONTACTS}" class="form-control" id="websiteContacts"
+                               name="websiteContacts" placeholder="联系人">
                     </div>
                     <div class="form-group">
                         <label for="websitePhone">电话</label>
-                        <input type="text" th:value="${WEBSITE_PHONE}" class="form-control" id="websitePhone" name="websitePhone" placeholder="电话">
+                        <input type="text" th:value="${WEBSITE_PHONE}" class="form-control" id="websitePhone"
+                               name="websitePhone" placeholder="电话">
                     </div>
                     <div class="form-group">
                         <label for="websiteEmail">邮箱</label>
-                        <input type="text" th:value="${WEBSITE_EMAIL}" class="form-control" id="websiteEmail" name="websiteEmail" placeholder="邮箱">
+                        <input type="text" th:value="${WEBSITE_EMAIL}" class="form-control" id="websiteEmail"
+                               name="websiteEmail" placeholder="邮箱">
                     </div>
                     <div class="form-group">
                         <label for="websiteAddress">地址</label>
-                        <input type="text" th:value="${WEBSITE_ADDRESS}" class="form-control" id="websiteAddress" name="websiteAddress" placeholder="地址">
+                        <input type="text" th:value="${WEBSITE_ADDRESS}" class="form-control" id="websiteAddress"
+                               name="websiteAddress" placeholder="地址">
                     </div>
                     <div class="text-center">
                         <button type="button" class="btn btn-primary" id="save">提交</button>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="zh-CN">
 <head>
     <meta charset="UTF-8"/>
     <title>Nav</title>
@@ -68,7 +68,8 @@
                 <div class="dropdown-menu dropdown-menu-right" aria-labelledby="dropdownMenuLink">
                     <a class="dropdown-item" href="#" th:href="@{/web/backstage/users/setting}"><i
                             class="fa fa-fw fa-gear"></i> 设置</a>
-                    <a class="dropdown-item" href="javascript:$('#logout').submit();"><i class="fa fa-fw fa-sign-out"></i> 退出</a>
+                    <a class="dropdown-item" href="javascript:$('#logout').submit();"><i
+                            class="fa fa-fw fa-sign-out"></i> 退出</a>
                     <div hidden="hidden">
                         <form th:action="@{/logout}" method="POST" id="logout">
                             <input type="submit"/>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="zh-CN">
 <head th:include="header :: no-metas-header(~{::title},~{::link})">
     <title>Error</title>
     <!-- Custom CSS-->
@@ -18,7 +18,8 @@
 
 <footer class="footer">
     <div class="container">
-        <span class="text-muted">Copyright &copy; <span th:text="#{web.footer.info}"></span> <span th:text="${#calendars.format(#dates.createToday(), 'yyyy')}"></span></span>
+        <span class="text-muted">Copyright &copy; <span th:text="#{web.footer.info}"></span> <span
+                th:text="${#calendars.format(#dates.createToday(), 'yyyy')}"></span></span>
     </div>
 </footer>
 </body>

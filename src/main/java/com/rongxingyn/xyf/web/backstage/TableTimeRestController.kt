@@ -1,6 +1,5 @@
 package com.rongxingyn.xyf.web.backstage
 
-import com.rongxingyn.xyf.domain.tables.pojos.TableTime
 import com.rongxingyn.xyf.service.backstage.TableTimeService
 import com.rongxingyn.xyf.service.utils.DateTimeUtils
 import com.rongxingyn.xyf.web.bean.backstage.goods.classify.TableTimeBean

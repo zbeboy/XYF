@@ -38,7 +38,7 @@ open class GoodsClassifyServiceImpl @Autowired constructor(dslContext: DSLContex
         return classifyDao.fetchByClassifyName(classifyName)
     }
 
-    override fun findByClassifyNameNeClassifyId(classifyName: String, classifyId: Int): Result<ClassifyRecord>{
+    override fun findByClassifyNameNeClassifyId(classifyName: String, classifyId: Int): Result<ClassifyRecord> {
         return create.selectFrom<ClassifyRecord>(CLASSIFY)
                 .where(CLASSIFY.CLASSIFY_NAME.eq(classifyName).and(CLASSIFY.CLASSIFY_ID.ne(classifyId)))
                 .fetch()

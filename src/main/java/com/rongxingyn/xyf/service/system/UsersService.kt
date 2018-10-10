@@ -20,5 +20,5 @@ interface UsersService {
      *
      * @param users 数据
      */
-    fun update(users:Users)
+    fun update(users: Users)
 }

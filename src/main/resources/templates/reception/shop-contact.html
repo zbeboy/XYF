@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="zh-CN">
 <head th:replace="header :: no-metas-header(~{::title},~{::link})">
     <title>关于-兴易坊</title>
     <!-- Custom styles for this template -->
@@ -22,15 +22,18 @@
             <p id="msg"></p>
             <form class="m-5" id="contactForm">
                 <div class="form-group">
-                    <input class="form-control form-control-lg" id="customerName" name="customerName" placeholder="您的姓名">
+                    <input class="form-control form-control-lg" id="customerName" name="customerName"
+                           placeholder="您的姓名">
                     <div class="invalid-feedback" id="customer_name_error_msg"></div>
                 </div>
                 <div class="form-group">
-                    <input class="form-control form-control-lg" id="customerContact" name="customerContact" placeholder="邮箱/QQ/微信">
+                    <input class="form-control form-control-lg" id="customerContact" name="customerContact"
+                           placeholder="邮箱/QQ/微信">
                     <div class="invalid-feedback" id="customer_contact_error_msg"></div>
                 </div>
                 <div class="form-group">
-                    <textarea name="content" rows="6" id="content" class="form-control form-control-lg" placeholder="您想说的内容..."></textarea>
+                    <textarea name="content" rows="6" id="content" class="form-control form-control-lg"
+                              placeholder="您想说的内容..."></textarea>
                     <div class="invalid-feedback" id="content_error_msg"></div>
                 </div>
                 <button type="button" class="btn btn-secondary btn-lg btn-block" id="send">发送</button>

@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
+<html xmlns:th="http://www.thymeleaf.org" lang="zh-CN">
 <head th:replace="header :: header(~{::meta},~{::title},~{::link})">
     <!-- csrf -->
     <meta name="_csrf" content="" th:content="${_csrf.token}"/>
@@ -108,7 +108,8 @@
     </a>
 </div>
 <!-- 备注Modal -->
-<div class="modal fade" id="remarkModal" tabindex="-1" role="dialog" aria-labelledby="remarkModalLabel" aria-hidden="true">
+<div class="modal fade" id="remarkModal" tabindex="-1" role="dialog" aria-labelledby="remarkModalLabel"
+     aria-hidden="true">
     <div class="modal-dialog" role="document">
         <div class="modal-content">
             <div class="modal-header">
@@ -122,7 +123,7 @@
                     <div class="form-group">
                         <label for="remark">备注</label>
                         <input class="form-control" id="remark" name="remark" placeholder="备注">
-                        <input type="hidden" id="feedbackId" name="feedbackId" />
+                        <input type="hidden" id="feedbackId" name="feedbackId"/>
                     </div>
                 </form>
             </div>
@@ -137,7 +138,8 @@
 <!--定义操作列按钮模板-->
 <script id="operator_button" type="text/x-handlebars-template">
     {{#each func}}
-    <button type="button" class="btn btn-{{this.type}} btn-sm {{this.css}}" data-id="{{this.id}}" data-remark="{{this.remark}}">{{this.name}}
+    <button type="button" class="btn btn-{{this.type}} btn-sm {{this.css}}" data-id="{{this.id}}"
+            data-remark="{{this.remark}}">{{this.name}}
     </button>
     {{/each}}
 </script>
