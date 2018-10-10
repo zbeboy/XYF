@@ -35,4 +35,15 @@ open class ReceptionViewController {
     fun contact(): Mono<String> {
         return Mono.just("reception/shop-contact")
     }
+
+    /**
+     * 搜索
+     *
+     * @return search page
+     */
+    @GetMapping("/search")
+    fun search(goodsName: String?, model: Model): Mono<String> {
+        model.addAttribute("goodsName", goodsName)
+        return Mono.just("reception/shop-search")
+    }
 }

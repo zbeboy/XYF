@@ -1,12 +1,10 @@
 $(document).ready(function () {
-
     /*
-   ajax url.
-   */
+    ajax url.
+    */
     var ajax_url = {
         datas: '/data/goods/list',
-        item: '/data/goods/item',
-        search: '/user/search'
+        item: '/data/goods/item'
     };
 
     /*
@@ -17,7 +15,7 @@ $(document).ready(function () {
         pageSize: 6,
         sortName: 'goods_serial',
         sortOrder: 'desc',
-        extraSearch: ''
+        extraSearch: JSON.stringify({goodsName: $('#goodsName').val()})
     };
 
     init();
@@ -29,6 +27,11 @@ $(document).ready(function () {
         $.get(web_path + ajax_url.datas, param, function (data) {
             createPage(data);
             listData(data);
+            if (data.iTotalDisplayRecords > 0) {
+                $('footer').css('position', 'inherit');
+            } else {
+                $('footer').css('position', 'absolute');
+            }
         });
     }
 
@@ -127,24 +130,13 @@ $(document).ready(function () {
         });
     }
 
-    $('.classify').click(function () {
+    $('#search').click(function () {
         param.pageNumber = 0;
-        if ($(this).hasClass('active')) {
-            param.extraSearch = "";
-            init();
-            $(this).removeClass('active');
-        } else {
-            var searchParam = {
-                classifyId: $(this).attr('data-id')
-            };
-            param.extraSearch = JSON.stringify(searchParam);
-            init();
-            var cl = $('#classifies').children();
-            for (var i = 0; i < cl.length; i++) {
-                $(cl[i]).removeClass('active');
-            }
-            $(this).addClass('active');
-        }
+        var searchParam = {
+            goodsName: $('#goodsName').val()
+        };
+        param.extraSearch = JSON.stringify(searchParam);
+        init();
     });
 
     $('#goods').delegate('.goods-item', "click", function () {
@@ -166,7 +158,4 @@ $(document).ready(function () {
 
     });
 
-    $('#search').click(function () {
-        window.location.href = web_path + ajax_url.search + '?goodsName=' + encodeURIComponent($('#goodsName').val());
-    });
 });

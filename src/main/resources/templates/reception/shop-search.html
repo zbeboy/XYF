@@ -1,9 +1,9 @@
 <!DOCTYPE html>
 <html lang="zh-CN" xmlns:th="http://www.thymeleaf.org">
 <head th:replace="header :: no-metas-header(~{::title},~{::link})">
-    <title>兴易坊</title>
+    <title>搜索-兴易坊</title>
     <!-- Custom styles for this template -->
-    <link href="css/shop-homepage.css" rel="stylesheet" th:href="@{/css/reception/shop-homepage.css}"/>
+    <link href="css/shop-search.css" rel="stylesheet" th:href="@{/css/reception/shop-search.css}"/>
 </head>
 <body>
 <!-- Navigation -->
@@ -13,91 +13,29 @@
 <!-- Page Content -->
 <div class="container">
 
-    <div class="row">
-
-        <div class="col-lg-9">
-
-            <div id="carouselExampleIndicators" class="carousel slide my-4" data-ride="carousel"
-                 th:unless="${#lists.isEmpty(banners)}">
-                <ol class="carousel-indicators">
-                    <li data-target="#carouselExampleIndicators" data-slide-to="0" th:data-slide-to="${row.count-1}"
-                        th:each="banner,row:${banners}" th:class="${row.count == 1?'active':''}"></li>
-                </ol>
-                <div class="carousel-inner" role="listbox">
-                    <div th:each="banner,row:${banners}"
-                         th:class="${row.count == 1?'carousel-item active':'carousel-item'}">
-                        <img class="d-block img-fluid" th:src="@{${banner.bannerUrl}}" alt="banner">
-                    </div>
-                </div>
-                <a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">
-                    <span class="carousel-control-prev-icon" aria-hidden="true"></span>
-                    <span class="sr-only">Previous</span>
-                </a>
-                <a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">
-                    <span class="carousel-control-next-icon" aria-hidden="true"></span>
-                    <span class="sr-only">Next</span>
-                </a>
+    <!-- Page Heading -->
+    <h1 class="my-4">
+        <div class="input-group mb-3">
+            <input type="text" class="form-control" id="goodsName" placeholder="商品..." th:value="${goodsName}">
+            <div class="input-group-append">
+                <button class="btn btn-outline-secondary" type="button" id="search">搜索</button>
             </div>
-
-            <div class="row" id="goods">
-            </div>
-            <!-- /.row -->
-
-            <nav aria-label="Page navigation example" id="pagination">
-            </nav>
-            <!-- /.pagination -->
-
         </div>
-        <!-- /.col-lg-9 -->
+    </h1>
 
-        <div class="col-lg-3">
-
-            <h1 class="my-4">店 铺</h1>
-            <div class="list-group" id="classifies" th:unless="${#lists.isEmpty(classifies)}">
-                <a th:each="classify : ${classifies}" href="javascript:" th:data-id="${classify.classifyId}" class="list-group-item classify"
-                   th:text="${classify.classifyName}"></a>
-            </div>
-
-            <!-- Search Widget -->
-            <div class="card my-4">
-                <h5 class="card-header">搜索</h5>
-                <div class="card-body">
-                    <div class="input-group">
-                        <input type="text" class="form-control" placeholder="商品..." id="goodsName">
-                        <span class="input-group-append">
-                  <button class="btn btn-secondary" type="button" id="search">搜索</button>
-                </span>
-                    </div>
-                </div>
-            </div>
-
-            <!-- Contact Widget -->
-            <h2 class="mt-4">联系方式</h2>
-            <address>
-                <strong th:text="${WEBSITE_CONTACTS}"></strong>
-                <br><span th:text="${WEBSITE_ADDRESS}"></span>
-                <br>
-            </address>
-            <address>
-                <abbr title="Phone">电话:</abbr>
-                <span th:text="${WEBSITE_PHONE}"></span>
-                <br>
-                <abbr title="Email">邮箱:</abbr>
-                <a href="mailto:#" th:text="${WEBSITE_EMAIL}" th:href="'mailto:' + ${WEBSITE_EMAIL}"></a>
-            </address>
-
-        </div>
-        <!-- /.col-lg-3 -->
-
+    <div class="row" id="goods">
     </div>
     <!-- /.row -->
+
+    <!-- Pagination -->
+    <div id="pagination">
+    </div>
 
 </div>
 <!-- /.container -->
 
 <!-- Footer -->
 <footer class="py-5 bg-dark" th:include="footer::receptionFooter"></footer>
-
 <!-- item modal -->
 <div class="modal fade" id="itemModal" tabindex="-1" role="dialog" aria-labelledby="itemModalLabelTitle" aria-hidden="true">
     <div class="modal-dialog modal-lg">
@@ -156,6 +94,7 @@
     </div>
     {{/each}}
 </script>
+
 <!-- Bootstrap core JavaScript -->
 <script th:inline="javascript">
     var web_path = /*[[${webPath}]]*/ '';
@@ -166,6 +105,6 @@
 <script th:src="@{/js/nav.js}"></script>
 <script th:src="@{/plugin/jquery-simple_pagination/jquery.simplePagination.js}"></script>
 <script th:src="@{/webjars/handlebars/handlebars.min.js}"></script>
-<script th:src="@{/js/reception/index.js}"></script>
+<script th:src="@{/js/reception/search.js}"></script>
 </body>
 </html>
