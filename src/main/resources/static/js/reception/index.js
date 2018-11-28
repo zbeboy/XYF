@@ -27,8 +27,10 @@ $(document).ready(function () {
      */
     function init() {
         $.get(web_path + ajax_url.datas, param, function (data) {
-            createPage(data);
-            listData(data);
+            if (data.data.length > 0) {
+                createPage(data);
+                listData(data);
+            }
         });
     }
 
