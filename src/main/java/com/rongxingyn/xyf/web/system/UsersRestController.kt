@@ -6,16 +6,16 @@ import com.rongxingyn.xyf.web.utils.AjaxUtils
 import com.rongxingyn.xyf.web.vo.backstage.setting.ResetPasswordVo
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
-import org.springframework.stereotype.Controller
 import org.springframework.validation.BindingResult
 import org.springframework.web.bind.annotation.PutMapping
 import org.springframework.web.bind.annotation.RequestMapping
+import org.springframework.web.bind.annotation.RestController
 import reactor.core.publisher.Mono
 import java.security.Principal
 import javax.annotation.Resource
 import javax.validation.Valid
 
-@Controller
+@RestController
 @RequestMapping("/web/backstage/users")
 open class UsersRestController {
 
