@@ -29,4 +29,8 @@ open class AuthoritiesServiceImpl : AuthoritiesService {
         return !ObjectUtils.isEmpty(authentication) && AuthenticationTrustResolverImpl().isAnonymous(authentication)
     }
 
+    override fun save(authorities: Authorities) {
+        authoritiesDao.insert(authorities)
+    }
+
 }

@@ -25,4 +25,9 @@ open class UsersServiceImpl : UsersService {
     override fun update(users: Users) {
         usersDao.update(users)
     }
+
+    @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
+    override fun save(users: Users) {
+        usersDao.insert(users)
+    }
 }

@@ -21,4 +21,11 @@ interface UsersService {
      * @param users 数据
      */
     fun update(users: Users)
+
+    /**
+     * 保存
+     *
+     * @param users 数据
+     */
+    fun save(users: Users)
 }

@@ -21,4 +21,11 @@ interface AuthoritiesService {
      * @return true or false
      */
     fun isAnonymousAuthenticated(): Boolean
+
+    /**
+     * 保存
+     *
+     * @param authorities 数据
+     */
+    fun save(authorities: Authorities)
 }
