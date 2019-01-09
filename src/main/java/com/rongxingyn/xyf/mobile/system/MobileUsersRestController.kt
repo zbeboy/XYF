@@ -11,6 +11,7 @@ import com.rongxingyn.xyf.service.utils.BCryptUtils
 import com.rongxingyn.xyf.web.utils.AjaxUtils
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
+import org.springframework.util.StringUtils
 import org.springframework.validation.BindingResult
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
@@ -68,19 +69,25 @@ open class MobileUsersRestController {
     fun register(@Valid registerVo: RegisterVo, bindingResult: BindingResult): Mono<ResponseEntity<Map<String, Any>>> {
         val ajaxUtils = AjaxUtils.of()
         if (!bindingResult.hasErrors()) {
-            val users = Users()
-            users.username = registerVo.username
-            users.password = BCryptUtils.bCryptPassword(registerVo.password!!)
-            users.disabled = 0
-            users.accountExpired = 0
-            users.accountLocked = 0
-            users.credentialsExpired = 0
-            usersService.save(users)
-            val authorities = Authorities()
-            authorities.username = registerVo.username
-            authorities.authority = AuthBook.ROLE_USERS.name
-            authoritiesService.save(authorities)
-            ajaxUtils.success().msg("注册成功")
+            val name = StringUtils.trimWhitespace(registerVo.username!!)
+            val checkUsers = usersService.findByUsername(name)
+            if (Objects.isNull(checkUsers)) {
+                val users = Users()
+                users.username = registerVo.username
+                users.password = BCryptUtils.bCryptPassword(registerVo.password!!)
+                users.disabled = 0
+                users.accountExpired = 0
+                users.accountLocked = 0
+                users.credentialsExpired = 0
+                usersService.save(users)
+                val authorities = Authorities()
+                authorities.username = registerVo.username
+                authorities.authority = AuthBook.ROLE_USERS.name
+                authoritiesService.save(authorities)
+                ajaxUtils.success().msg("注册成功")
+            } else {
+                ajaxUtils.fail().msg("该账号已被注册")
+            }
         } else {
             ajaxUtils.fail().msg(bindingResult.fieldError!!.defaultMessage!!)
         }
