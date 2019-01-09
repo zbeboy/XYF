@@ -14,8 +14,14 @@ class XYFProperties {
 
     private val constants = Constants()
 
+    private val security = Security()
+
     fun getConstants(): Constants {
         return constants
+    }
+
+    fun getSecurity(): Security {
+        return security
     }
 
     /**
@@ -30,6 +36,13 @@ class XYFProperties {
         var fileMaxSize: Long? = null
 
         var staticImages: String? = null
+    }
+
+    /**
+     * Security初始化参数
+     */
+    class Security {
+        var desDefaultKey: String? = null
     }
 
 }

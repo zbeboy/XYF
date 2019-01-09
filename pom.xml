@@ -153,6 +153,12 @@
             <version>${commons-lang3.version}</version>
         </dependency>
 
+        <!-- commons-codec -->
+        <dependency>
+            <groupId>commons-codec</groupId>
+            <artifactId>commons-codec</artifactId>
+        </dependency>
+
         <!-- alibaba fastjson -->
         <dependency>
             <groupId>com.alibaba</groupId>
