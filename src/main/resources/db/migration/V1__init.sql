@@ -49,7 +49,8 @@ CREATE TABLE banner(
   banner_id VARCHAR(64) NOT NULL PRIMARY KEY ,
   banner_serial INT NOT NULL DEFAULT 0,
   banner_url VARCHAR(500) NOT NULL ,
-  banner_is_hide BOOLEAN NOT NULL DEFAULT 0
+  banner_is_hide BOOLEAN NOT NULL DEFAULT 0,
+  banner_item INT NOT NULL DEFAULT 0
 );
 
 CREATE TABLE data_info(

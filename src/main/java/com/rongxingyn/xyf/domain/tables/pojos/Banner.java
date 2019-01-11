@@ -24,12 +24,13 @@ import javax.validation.constraints.Size;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Banner implements Serializable {
 
-    private static final long serialVersionUID = 276549266;
+    private static final long serialVersionUID = 305342565;
 
     private String  bannerId;
     private Integer bannerSerial;
     private String  bannerUrl;
     private Byte    bannerIsHide;
+    private Integer bannerItem;
 
     public Banner() {}
 
@@ -38,18 +39,21 @@ public class Banner implements Serializable {
         this.bannerSerial = value.bannerSerial;
         this.bannerUrl = value.bannerUrl;
         this.bannerIsHide = value.bannerIsHide;
+        this.bannerItem = value.bannerItem;
     }
 
     public Banner(
         String  bannerId,
         Integer bannerSerial,
         String  bannerUrl,
-        Byte    bannerIsHide
+        Byte    bannerIsHide,
+        Integer bannerItem
     ) {
         this.bannerId = bannerId;
         this.bannerSerial = bannerSerial;
         this.bannerUrl = bannerUrl;
         this.bannerIsHide = bannerIsHide;
+        this.bannerItem = bannerItem;
     }
 
     @NotNull
@@ -88,6 +92,14 @@ public class Banner implements Serializable {
         this.bannerIsHide = bannerIsHide;
     }
 
+    public Integer getBannerItem() {
+        return this.bannerItem;
+    }
+
+    public void setBannerItem(Integer bannerItem) {
+        this.bannerItem = bannerItem;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder("Banner (");
@@ -96,6 +108,7 @@ public class Banner implements Serializable {
         sb.append(", ").append(bannerSerial);
         sb.append(", ").append(bannerUrl);
         sb.append(", ").append(bannerIsHide);
+        sb.append(", ").append(bannerItem);
 
         sb.append(")");
         return sb.toString();
