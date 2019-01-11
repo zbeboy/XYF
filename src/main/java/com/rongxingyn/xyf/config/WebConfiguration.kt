@@ -5,6 +5,7 @@ import org.springframework.boot.web.embedded.undertow.UndertowServletWebServerFa
 import org.springframework.context.annotation.Bean
 import org.springframework.context.annotation.Configuration
 import org.springframework.core.env.Environment
+import org.springframework.web.reactive.config.CorsRegistry
 import org.springframework.web.reactive.config.WebFluxConfigurer
 import java.io.File
 import javax.inject.Inject
@@ -30,6 +31,15 @@ open class WebConfiguration : WebFluxConfigurer {
             undertow.documentRoot = documentRoot
         }
         return undertow
+    }
+
+    // app 跨域请求
+    override fun addCorsMappings(registry: CorsRegistry) {
+        registry.addMapping("/mobile/**")
+                .allowedOrigins("*")
+                .allowedHeaders("*")
+                .allowedMethods("*")
+                .allowCredentials(true)
     }
 
 }

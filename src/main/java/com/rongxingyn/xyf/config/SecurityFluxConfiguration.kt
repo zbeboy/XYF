@@ -41,9 +41,6 @@ open class SecurityFluxConfiguration {
     @Bean
     open fun springSecurityFilterChain(http: ServerHttpSecurity): SecurityWebFilterChain {
         return http
-                .headers()
-                .frameOptions().disable()
-                .and()
                 .authorizeExchange()
                 .matchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                 .pathMatchers("/pic/**").permitAll()
