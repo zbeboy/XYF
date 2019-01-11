@@ -6,20 +6,26 @@ package com.rongxingyn.xyf.domain;
 
 import com.rongxingyn.xyf.domain.tables.Authorities;
 import com.rongxingyn.xyf.domain.tables.Banner;
+import com.rongxingyn.xyf.domain.tables.ChannelInfo;
 import com.rongxingyn.xyf.domain.tables.Classify;
 import com.rongxingyn.xyf.domain.tables.DataInfo;
 import com.rongxingyn.xyf.domain.tables.Feedback;
 import com.rongxingyn.xyf.domain.tables.Goods;
 import com.rongxingyn.xyf.domain.tables.GoodsPics;
+import com.rongxingyn.xyf.domain.tables.RequestLog;
+import com.rongxingyn.xyf.domain.tables.SystemApi;
 import com.rongxingyn.xyf.domain.tables.TableTime;
 import com.rongxingyn.xyf.domain.tables.Users;
 import com.rongxingyn.xyf.domain.tables.records.AuthoritiesRecord;
 import com.rongxingyn.xyf.domain.tables.records.BannerRecord;
+import com.rongxingyn.xyf.domain.tables.records.ChannelInfoRecord;
 import com.rongxingyn.xyf.domain.tables.records.ClassifyRecord;
 import com.rongxingyn.xyf.domain.tables.records.DataInfoRecord;
 import com.rongxingyn.xyf.domain.tables.records.FeedbackRecord;
 import com.rongxingyn.xyf.domain.tables.records.GoodsPicsRecord;
 import com.rongxingyn.xyf.domain.tables.records.GoodsRecord;
+import com.rongxingyn.xyf.domain.tables.records.RequestLogRecord;
+import com.rongxingyn.xyf.domain.tables.records.SystemApiRecord;
 import com.rongxingyn.xyf.domain.tables.records.TableTimeRecord;
 import com.rongxingyn.xyf.domain.tables.records.UsersRecord;
 
@@ -52,6 +58,7 @@ public class Keys {
     public static final Identity<ClassifyRecord, Integer> IDENTITY_CLASSIFY = Identities0.IDENTITY_CLASSIFY;
     public static final Identity<FeedbackRecord, Integer> IDENTITY_FEEDBACK = Identities0.IDENTITY_FEEDBACK;
     public static final Identity<GoodsPicsRecord, Integer> IDENTITY_GOODS_PICS = Identities0.IDENTITY_GOODS_PICS;
+    public static final Identity<SystemApiRecord, Integer> IDENTITY_SYSTEM_API = Identities0.IDENTITY_SYSTEM_API;
 
     // -------------------------------------------------------------------------
     // UNIQUE and PRIMARY KEY definitions
@@ -59,6 +66,8 @@ public class Keys {
 
     public static final UniqueKey<AuthoritiesRecord> KEY_AUTHORITIES_PRIMARY = UniqueKeys0.KEY_AUTHORITIES_PRIMARY;
     public static final UniqueKey<BannerRecord> KEY_BANNER_PRIMARY = UniqueKeys0.KEY_BANNER_PRIMARY;
+    public static final UniqueKey<ChannelInfoRecord> KEY_CHANNEL_INFO_PRIMARY = UniqueKeys0.KEY_CHANNEL_INFO_PRIMARY;
+    public static final UniqueKey<ChannelInfoRecord> KEY_CHANNEL_INFO_CHANNEL_NAME = UniqueKeys0.KEY_CHANNEL_INFO_CHANNEL_NAME;
     public static final UniqueKey<ClassifyRecord> KEY_CLASSIFY_PRIMARY = UniqueKeys0.KEY_CLASSIFY_PRIMARY;
     public static final UniqueKey<ClassifyRecord> KEY_CLASSIFY_CLASSIFY_NAME = UniqueKeys0.KEY_CLASSIFY_CLASSIFY_NAME;
     public static final UniqueKey<DataInfoRecord> KEY_DATA_INFO_PRIMARY = UniqueKeys0.KEY_DATA_INFO_PRIMARY;
@@ -66,6 +75,8 @@ public class Keys {
     public static final UniqueKey<GoodsRecord> KEY_GOODS_PRIMARY = UniqueKeys0.KEY_GOODS_PRIMARY;
     public static final UniqueKey<GoodsRecord> KEY_GOODS_GOODS_NAME = UniqueKeys0.KEY_GOODS_GOODS_NAME;
     public static final UniqueKey<GoodsPicsRecord> KEY_GOODS_PICS_PRIMARY = UniqueKeys0.KEY_GOODS_PICS_PRIMARY;
+    public static final UniqueKey<RequestLogRecord> KEY_REQUEST_LOG_PRIMARY = UniqueKeys0.KEY_REQUEST_LOG_PRIMARY;
+    public static final UniqueKey<SystemApiRecord> KEY_SYSTEM_API_PRIMARY = UniqueKeys0.KEY_SYSTEM_API_PRIMARY;
     public static final UniqueKey<TableTimeRecord> KEY_TABLE_TIME_PRIMARY = UniqueKeys0.KEY_TABLE_TIME_PRIMARY;
     public static final UniqueKey<UsersRecord> KEY_USERS_PRIMARY = UniqueKeys0.KEY_USERS_PRIMARY;
 
@@ -85,11 +96,14 @@ public class Keys {
         public static Identity<ClassifyRecord, Integer> IDENTITY_CLASSIFY = Internal.createIdentity(Classify.CLASSIFY, Classify.CLASSIFY.CLASSIFY_ID);
         public static Identity<FeedbackRecord, Integer> IDENTITY_FEEDBACK = Internal.createIdentity(Feedback.FEEDBACK, Feedback.FEEDBACK.FEEDBACK_ID);
         public static Identity<GoodsPicsRecord, Integer> IDENTITY_GOODS_PICS = Internal.createIdentity(GoodsPics.GOODS_PICS, GoodsPics.GOODS_PICS.PIC_ID);
+        public static Identity<SystemApiRecord, Integer> IDENTITY_SYSTEM_API = Internal.createIdentity(SystemApi.SYSTEM_API, SystemApi.SYSTEM_API.API_ID);
     }
 
     private static class UniqueKeys0 {
         public static final UniqueKey<AuthoritiesRecord> KEY_AUTHORITIES_PRIMARY = Internal.createUniqueKey(Authorities.AUTHORITIES, "KEY_authorities_PRIMARY", Authorities.AUTHORITIES.USERNAME, Authorities.AUTHORITIES.AUTHORITY);
         public static final UniqueKey<BannerRecord> KEY_BANNER_PRIMARY = Internal.createUniqueKey(Banner.BANNER, "KEY_banner_PRIMARY", Banner.BANNER.BANNER_ID);
+        public static final UniqueKey<ChannelInfoRecord> KEY_CHANNEL_INFO_PRIMARY = Internal.createUniqueKey(ChannelInfo.CHANNEL_INFO, "KEY_channel_info_PRIMARY", ChannelInfo.CHANNEL_INFO.CHANNEL_ID);
+        public static final UniqueKey<ChannelInfoRecord> KEY_CHANNEL_INFO_CHANNEL_NAME = Internal.createUniqueKey(ChannelInfo.CHANNEL_INFO, "KEY_channel_info_channel_name", ChannelInfo.CHANNEL_INFO.CHANNEL_NAME);
         public static final UniqueKey<ClassifyRecord> KEY_CLASSIFY_PRIMARY = Internal.createUniqueKey(Classify.CLASSIFY, "KEY_classify_PRIMARY", Classify.CLASSIFY.CLASSIFY_ID);
         public static final UniqueKey<ClassifyRecord> KEY_CLASSIFY_CLASSIFY_NAME = Internal.createUniqueKey(Classify.CLASSIFY, "KEY_classify_classify_name", Classify.CLASSIFY.CLASSIFY_NAME);
         public static final UniqueKey<DataInfoRecord> KEY_DATA_INFO_PRIMARY = Internal.createUniqueKey(DataInfo.DATA_INFO, "KEY_data_info_PRIMARY", DataInfo.DATA_INFO.DATA_KEY);
@@ -97,6 +111,8 @@ public class Keys {
         public static final UniqueKey<GoodsRecord> KEY_GOODS_PRIMARY = Internal.createUniqueKey(Goods.GOODS, "KEY_goods_PRIMARY", Goods.GOODS.GOODS_ID);
         public static final UniqueKey<GoodsRecord> KEY_GOODS_GOODS_NAME = Internal.createUniqueKey(Goods.GOODS, "KEY_goods_goods_name", Goods.GOODS.GOODS_NAME);
         public static final UniqueKey<GoodsPicsRecord> KEY_GOODS_PICS_PRIMARY = Internal.createUniqueKey(GoodsPics.GOODS_PICS, "KEY_goods_pics_PRIMARY", GoodsPics.GOODS_PICS.PIC_ID);
+        public static final UniqueKey<RequestLogRecord> KEY_REQUEST_LOG_PRIMARY = Internal.createUniqueKey(RequestLog.REQUEST_LOG, "KEY_request_log_PRIMARY", RequestLog.REQUEST_LOG.LOG_ID);
+        public static final UniqueKey<SystemApiRecord> KEY_SYSTEM_API_PRIMARY = Internal.createUniqueKey(SystemApi.SYSTEM_API, "KEY_system_api_PRIMARY", SystemApi.SYSTEM_API.API_ID);
         public static final UniqueKey<TableTimeRecord> KEY_TABLE_TIME_PRIMARY = Internal.createUniqueKey(TableTime.TABLE_TIME, "KEY_table_time_PRIMARY", TableTime.TABLE_TIME.TABLE_NAME);
         public static final UniqueKey<UsersRecord> KEY_USERS_PRIMARY = Internal.createUniqueKey(Users.USERS, "KEY_users_PRIMARY", Users.USERS.USERNAME);
     }

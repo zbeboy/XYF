@@ -24,7 +24,7 @@ import javax.validation.constraints.Size;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Users implements Serializable {
 
-    private static final long serialVersionUID = -866517887;
+    private static final long serialVersionUID = 113037991;
 
     private String username;
     private String password;
@@ -32,6 +32,10 @@ public class Users implements Serializable {
     private Byte   accountExpired;
     private Byte   accountLocked;
     private Byte   credentialsExpired;
+    private String address;
+    private String realName;
+    private String sex;
+    private String contact;
 
     public Users() {}
 
@@ -42,6 +46,10 @@ public class Users implements Serializable {
         this.accountExpired = value.accountExpired;
         this.accountLocked = value.accountLocked;
         this.credentialsExpired = value.credentialsExpired;
+        this.address = value.address;
+        this.realName = value.realName;
+        this.sex = value.sex;
+        this.contact = value.contact;
     }
 
     public Users(
@@ -50,7 +58,11 @@ public class Users implements Serializable {
         Byte   disabled,
         Byte   accountExpired,
         Byte   accountLocked,
-        Byte   credentialsExpired
+        Byte   credentialsExpired,
+        String address,
+        String realName,
+        String sex,
+        String contact
     ) {
         this.username = username;
         this.password = password;
@@ -58,6 +70,10 @@ public class Users implements Serializable {
         this.accountExpired = accountExpired;
         this.accountLocked = accountLocked;
         this.credentialsExpired = credentialsExpired;
+        this.address = address;
+        this.realName = realName;
+        this.sex = sex;
+        this.contact = contact;
     }
 
     @NotNull
@@ -112,6 +128,42 @@ public class Users implements Serializable {
         this.credentialsExpired = credentialsExpired;
     }
 
+    @Size(max = 200)
+    public String getAddress() {
+        return this.address;
+    }
+
+    public void setAddress(String address) {
+        this.address = address;
+    }
+
+    @Size(max = 10)
+    public String getRealName() {
+        return this.realName;
+    }
+
+    public void setRealName(String realName) {
+        this.realName = realName;
+    }
+
+    @Size(max = 2)
+    public String getSex() {
+        return this.sex;
+    }
+
+    public void setSex(String sex) {
+        this.sex = sex;
+    }
+
+    @Size(max = 20)
+    public String getContact() {
+        return this.contact;
+    }
+
+    public void setContact(String contact) {
+        this.contact = contact;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder("Users (");
@@ -122,6 +174,10 @@ public class Users implements Serializable {
         sb.append(", ").append(accountExpired);
         sb.append(", ").append(accountLocked);
         sb.append(", ").append(credentialsExpired);
+        sb.append(", ").append(address);
+        sb.append(", ").append(realName);
+        sb.append(", ").append(sex);
+        sb.append(", ").append(contact);
 
         sb.append(")");
         return sb.toString();

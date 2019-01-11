@@ -6,11 +6,14 @@ package com.rongxingyn.xyf.domain;
 
 import com.rongxingyn.xyf.domain.tables.Authorities;
 import com.rongxingyn.xyf.domain.tables.Banner;
+import com.rongxingyn.xyf.domain.tables.ChannelInfo;
 import com.rongxingyn.xyf.domain.tables.Classify;
 import com.rongxingyn.xyf.domain.tables.DataInfo;
 import com.rongxingyn.xyf.domain.tables.Feedback;
 import com.rongxingyn.xyf.domain.tables.Goods;
 import com.rongxingyn.xyf.domain.tables.GoodsPics;
+import com.rongxingyn.xyf.domain.tables.RequestLog;
+import com.rongxingyn.xyf.domain.tables.SystemApi;
 import com.rongxingyn.xyf.domain.tables.TableTime;
 import com.rongxingyn.xyf.domain.tables.Users;
 
@@ -41,6 +44,11 @@ public class Tables {
     public static final Banner BANNER = com.rongxingyn.xyf.domain.tables.Banner.BANNER;
 
     /**
+     * The table <code>xyf.channel_info</code>.
+     */
+    public static final ChannelInfo CHANNEL_INFO = com.rongxingyn.xyf.domain.tables.ChannelInfo.CHANNEL_INFO;
+
+    /**
      * The table <code>xyf.classify</code>.
      */
     public static final Classify CLASSIFY = com.rongxingyn.xyf.domain.tables.Classify.CLASSIFY;
@@ -64,6 +72,16 @@ public class Tables {
      * The table <code>xyf.goods_pics</code>.
      */
     public static final GoodsPics GOODS_PICS = com.rongxingyn.xyf.domain.tables.GoodsPics.GOODS_PICS;
+
+    /**
+     * The table <code>xyf.request_log</code>.
+     */
+    public static final RequestLog REQUEST_LOG = com.rongxingyn.xyf.domain.tables.RequestLog.REQUEST_LOG;
+
+    /**
+     * The table <code>xyf.system_api</code>.
+     */
+    public static final SystemApi SYSTEM_API = com.rongxingyn.xyf.domain.tables.SystemApi.SYSTEM_API;
 
     /**
      * The table <code>xyf.table_time</code>.

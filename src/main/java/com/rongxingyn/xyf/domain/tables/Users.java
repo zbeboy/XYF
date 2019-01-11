@@ -38,7 +38,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Users extends TableImpl<UsersRecord> {
 
-    private static final long serialVersionUID = -943726578;
+    private static final long serialVersionUID = 76529621;
 
     /**
      * The reference instance of <code>xyf.users</code>
@@ -82,6 +82,26 @@ public class Users extends TableImpl<UsersRecord> {
      * The column <code>xyf.users.credentials_expired</code>.
      */
     public final TableField<UsersRecord, Byte> CREDENTIALS_EXPIRED = createField("credentials_expired", org.jooq.impl.SQLDataType.TINYINT.defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.TINYINT)), this, "");
+
+    /**
+     * The column <code>xyf.users.address</code>.
+     */
+    public final TableField<UsersRecord, String> ADDRESS = createField("address", org.jooq.impl.SQLDataType.VARCHAR(200), this, "");
+
+    /**
+     * The column <code>xyf.users.real_name</code>.
+     */
+    public final TableField<UsersRecord, String> REAL_NAME = createField("real_name", org.jooq.impl.SQLDataType.VARCHAR(10), this, "");
+
+    /**
+     * The column <code>xyf.users.sex</code>.
+     */
+    public final TableField<UsersRecord, String> SEX = createField("sex", org.jooq.impl.SQLDataType.VARCHAR(2), this, "");
+
+    /**
+     * The column <code>xyf.users.contact</code>.
+     */
+    public final TableField<UsersRecord, String> CONTACT = createField("contact", org.jooq.impl.SQLDataType.VARCHAR(20), this, "");
 
     /**
      * Create a <code>xyf.users</code> table reference

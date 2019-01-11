@@ -6,11 +6,14 @@ package com.rongxingyn.xyf.domain;
 
 import com.rongxingyn.xyf.domain.tables.Authorities;
 import com.rongxingyn.xyf.domain.tables.Banner;
+import com.rongxingyn.xyf.domain.tables.ChannelInfo;
 import com.rongxingyn.xyf.domain.tables.Classify;
 import com.rongxingyn.xyf.domain.tables.DataInfo;
 import com.rongxingyn.xyf.domain.tables.Feedback;
 import com.rongxingyn.xyf.domain.tables.Goods;
 import com.rongxingyn.xyf.domain.tables.GoodsPics;
+import com.rongxingyn.xyf.domain.tables.RequestLog;
+import com.rongxingyn.xyf.domain.tables.SystemApi;
 import com.rongxingyn.xyf.domain.tables.TableTime;
 import com.rongxingyn.xyf.domain.tables.Users;
 
@@ -40,6 +43,8 @@ public class Indexes {
 
     public static final Index AUTHORITIES_PRIMARY = Indexes0.AUTHORITIES_PRIMARY;
     public static final Index BANNER_PRIMARY = Indexes0.BANNER_PRIMARY;
+    public static final Index CHANNEL_INFO_CHANNEL_NAME = Indexes0.CHANNEL_INFO_CHANNEL_NAME;
+    public static final Index CHANNEL_INFO_PRIMARY = Indexes0.CHANNEL_INFO_PRIMARY;
     public static final Index CLASSIFY_CLASSIFY_NAME = Indexes0.CLASSIFY_CLASSIFY_NAME;
     public static final Index CLASSIFY_PRIMARY = Indexes0.CLASSIFY_PRIMARY;
     public static final Index DATA_INFO_PRIMARY = Indexes0.DATA_INFO_PRIMARY;
@@ -49,6 +54,8 @@ public class Indexes {
     public static final Index GOODS_PRIMARY = Indexes0.GOODS_PRIMARY;
     public static final Index GOODS_PICS_GOODS_ID = Indexes0.GOODS_PICS_GOODS_ID;
     public static final Index GOODS_PICS_PRIMARY = Indexes0.GOODS_PICS_PRIMARY;
+    public static final Index REQUEST_LOG_PRIMARY = Indexes0.REQUEST_LOG_PRIMARY;
+    public static final Index SYSTEM_API_PRIMARY = Indexes0.SYSTEM_API_PRIMARY;
     public static final Index TABLE_TIME_PRIMARY = Indexes0.TABLE_TIME_PRIMARY;
     public static final Index USERS_PRIMARY = Indexes0.USERS_PRIMARY;
 
@@ -59,6 +66,8 @@ public class Indexes {
     private static class Indexes0 {
         public static Index AUTHORITIES_PRIMARY = Internal.createIndex("PRIMARY", Authorities.AUTHORITIES, new OrderField[] { Authorities.AUTHORITIES.USERNAME, Authorities.AUTHORITIES.AUTHORITY }, true);
         public static Index BANNER_PRIMARY = Internal.createIndex("PRIMARY", Banner.BANNER, new OrderField[] { Banner.BANNER.BANNER_ID }, true);
+        public static Index CHANNEL_INFO_CHANNEL_NAME = Internal.createIndex("channel_name", ChannelInfo.CHANNEL_INFO, new OrderField[] { ChannelInfo.CHANNEL_INFO.CHANNEL_NAME }, true);
+        public static Index CHANNEL_INFO_PRIMARY = Internal.createIndex("PRIMARY", ChannelInfo.CHANNEL_INFO, new OrderField[] { ChannelInfo.CHANNEL_INFO.CHANNEL_ID }, true);
         public static Index CLASSIFY_CLASSIFY_NAME = Internal.createIndex("classify_name", Classify.CLASSIFY, new OrderField[] { Classify.CLASSIFY.CLASSIFY_NAME }, true);
         public static Index CLASSIFY_PRIMARY = Internal.createIndex("PRIMARY", Classify.CLASSIFY, new OrderField[] { Classify.CLASSIFY.CLASSIFY_ID }, true);
         public static Index DATA_INFO_PRIMARY = Internal.createIndex("PRIMARY", DataInfo.DATA_INFO, new OrderField[] { DataInfo.DATA_INFO.DATA_KEY }, true);
@@ -68,6 +77,8 @@ public class Indexes {
         public static Index GOODS_PRIMARY = Internal.createIndex("PRIMARY", Goods.GOODS, new OrderField[] { Goods.GOODS.GOODS_ID }, true);
         public static Index GOODS_PICS_GOODS_ID = Internal.createIndex("goods_id", GoodsPics.GOODS_PICS, new OrderField[] { GoodsPics.GOODS_PICS.GOODS_ID }, false);
         public static Index GOODS_PICS_PRIMARY = Internal.createIndex("PRIMARY", GoodsPics.GOODS_PICS, new OrderField[] { GoodsPics.GOODS_PICS.PIC_ID }, true);
+        public static Index REQUEST_LOG_PRIMARY = Internal.createIndex("PRIMARY", RequestLog.REQUEST_LOG, new OrderField[] { RequestLog.REQUEST_LOG.LOG_ID }, true);
+        public static Index SYSTEM_API_PRIMARY = Internal.createIndex("PRIMARY", SystemApi.SYSTEM_API, new OrderField[] { SystemApi.SYSTEM_API.API_ID }, true);
         public static Index TABLE_TIME_PRIMARY = Internal.createIndex("PRIMARY", TableTime.TABLE_TIME, new OrderField[] { TableTime.TABLE_TIME.TABLE_NAME }, true);
         public static Index USERS_PRIMARY = Internal.createIndex("PRIMARY", Users.USERS, new OrderField[] { Users.USERS.USERNAME }, true);
     }

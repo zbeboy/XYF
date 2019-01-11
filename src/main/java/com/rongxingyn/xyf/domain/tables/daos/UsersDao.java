@@ -102,4 +102,32 @@ public class UsersDao extends DAOImpl<UsersRecord, com.rongxingyn.xyf.domain.tab
     public List<com.rongxingyn.xyf.domain.tables.pojos.Users> fetchByCredentialsExpired(Byte... values) {
         return fetch(Users.USERS.CREDENTIALS_EXPIRED, values);
     }
+
+    /**
+     * Fetch records that have <code>address IN (values)</code>
+     */
+    public List<com.rongxingyn.xyf.domain.tables.pojos.Users> fetchByAddress(String... values) {
+        return fetch(Users.USERS.ADDRESS, values);
+    }
+
+    /**
+     * Fetch records that have <code>real_name IN (values)</code>
+     */
+    public List<com.rongxingyn.xyf.domain.tables.pojos.Users> fetchByRealName(String... values) {
+        return fetch(Users.USERS.REAL_NAME, values);
+    }
+
+    /**
+     * Fetch records that have <code>sex IN (values)</code>
+     */
+    public List<com.rongxingyn.xyf.domain.tables.pojos.Users> fetchBySex(String... values) {
+        return fetch(Users.USERS.SEX, values);
+    }
+
+    /**
+     * Fetch records that have <code>contact IN (values)</code>
+     */
+    public List<com.rongxingyn.xyf.domain.tables.pojos.Users> fetchByContact(String... values) {
+        return fetch(Users.USERS.CONTACT, values);
+    }
 }

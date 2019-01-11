@@ -39,7 +39,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Goods extends TableImpl<GoodsRecord> {
 
-    private static final long serialVersionUID = -1659897274;
+    private static final long serialVersionUID = -262269010;
 
     /**
      * The reference instance of <code>xyf.goods</code>
@@ -88,6 +88,16 @@ public class Goods extends TableImpl<GoodsRecord> {
      * The column <code>xyf.goods.goods_is_del</code>.
      */
     public final TableField<GoodsRecord, Byte> GOODS_IS_DEL = createField("goods_is_del", org.jooq.impl.SQLDataType.TINYINT.nullable(false).defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.TINYINT)), this, "");
+
+    /**
+     * The column <code>xyf.goods.goods_item</code>.
+     */
+    public final TableField<GoodsRecord, Integer> GOODS_ITEM = createField("goods_item", org.jooq.impl.SQLDataType.INTEGER.nullable(false).defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.INTEGER)), this, "");
+
+    /**
+     * The column <code>xyf.goods.goods_is_stick</code>.
+     */
+    public final TableField<GoodsRecord, Byte> GOODS_IS_STICK = createField("goods_is_stick", org.jooq.impl.SQLDataType.TINYINT.nullable(false).defaultValue(org.jooq.impl.DSL.inline("0", org.jooq.impl.SQLDataType.TINYINT)), this, "");
 
     /**
      * The column <code>xyf.goods.classify_id</code>.

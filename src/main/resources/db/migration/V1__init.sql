@@ -4,7 +4,11 @@ CREATE TABLE users (
   disabled  BOOLEAN DEFAULT 0,
   account_expired BOOLEAN DEFAULT 0,
   account_locked BOOLEAN DEFAULT 0,
-  credentials_expired BOOLEAN DEFAULT 0
+  credentials_expired BOOLEAN DEFAULT 0,
+  address VARCHAR(200),
+  real_name VARCHAR(10),
+  sex VARCHAR(2),
+  contact VARCHAR(20)
 );
 
 CREATE TABLE authorities (
@@ -28,6 +32,8 @@ CREATE TABLE goods(
   goods_recommend INT NOT NULL DEFAULT 0,
   goods_serial INT NOT NULL DEFAULT 0,
   goods_is_del BOOLEAN NOT NULL DEFAULT 0,
+  goods_item INT NOT NULL DEFAULT 0,
+  goods_is_stick BOOLEAN NOT NULL DEFAULT 0,
   classify_id INT NOT NULL ,
   FOREIGN KEY (classify_id) REFERENCES classify(classify_id)
 );
@@ -66,6 +72,31 @@ CREATE TABLE table_time(
   deal_time DATETIME NOT NULL
 );
 
+CREATE TABLE channel_info(
+  channel_id VARCHAR(64) NOT NULL PRIMARY KEY ,
+  channel_name VARCHAR(20) NOT NULL UNIQUE
+);
+
+CREATE TABLE request_log(
+  log_id VARCHAR(64) NOT NULL PRIMARY KEY ,
+  request_url VARCHAR(100) ,
+  request_param VARCHAR(500),
+  result VARCHAR(500),
+  channel_name VARCHAR(20),
+  request_date DATETIME NOT NULL
+);
+
+CREATE TABLE system_api(
+  api_id INT NOT NULL AUTO_INCREMENT PRIMARY KEY ,
+  param VARCHAR(200) ,
+  remark VARCHAR(500)
+);
+
 INSERT INTO users (username, password)
 VALUES ('govern', '$2a$10$wICea4jxjGeqeL99vXQBnO5dKtvT4Q2EbELrRoNZWCwuXJiLGNgE.');
 INSERT INTO authorities (username, authority) VALUES ('govern', 'ROLE_ADMIN');
+
+INSERT INTO channel_info(channel_id, channel_name) VALUES
+('28ecaae3e6ef47c68698a20b13c271ce','PC');
+INSERT INTO channel_info(channel_id, channel_name) VALUES
+('dcaf68564f0242aba9d03d20cd9fef60','APP');

@@ -24,7 +24,7 @@ import javax.validation.constraints.Size;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Goods implements Serializable {
 
-    private static final long serialVersionUID = 135068332;
+    private static final long serialVersionUID = -1010289721;
 
     private String  goodsId;
     private String  goodsName;
@@ -33,6 +33,8 @@ public class Goods implements Serializable {
     private Integer goodsRecommend;
     private Integer goodsSerial;
     private Byte    goodsIsDel;
+    private Integer goodsItem;
+    private Byte    goodsIsStick;
     private Integer classifyId;
 
     public Goods() {}
@@ -45,6 +47,8 @@ public class Goods implements Serializable {
         this.goodsRecommend = value.goodsRecommend;
         this.goodsSerial = value.goodsSerial;
         this.goodsIsDel = value.goodsIsDel;
+        this.goodsItem = value.goodsItem;
+        this.goodsIsStick = value.goodsIsStick;
         this.classifyId = value.classifyId;
     }
 
@@ -56,6 +60,8 @@ public class Goods implements Serializable {
         Integer goodsRecommend,
         Integer goodsSerial,
         Byte    goodsIsDel,
+        Integer goodsItem,
+        Byte    goodsIsStick,
         Integer classifyId
     ) {
         this.goodsId = goodsId;
@@ -65,6 +71,8 @@ public class Goods implements Serializable {
         this.goodsRecommend = goodsRecommend;
         this.goodsSerial = goodsSerial;
         this.goodsIsDel = goodsIsDel;
+        this.goodsItem = goodsItem;
+        this.goodsIsStick = goodsIsStick;
         this.classifyId = classifyId;
     }
 
@@ -129,6 +137,22 @@ public class Goods implements Serializable {
         this.goodsIsDel = goodsIsDel;
     }
 
+    public Integer getGoodsItem() {
+        return this.goodsItem;
+    }
+
+    public void setGoodsItem(Integer goodsItem) {
+        this.goodsItem = goodsItem;
+    }
+
+    public Byte getGoodsIsStick() {
+        return this.goodsIsStick;
+    }
+
+    public void setGoodsIsStick(Byte goodsIsStick) {
+        this.goodsIsStick = goodsIsStick;
+    }
+
     @NotNull
     public Integer getClassifyId() {
         return this.classifyId;
@@ -149,6 +173,8 @@ public class Goods implements Serializable {
         sb.append(", ").append(goodsRecommend);
         sb.append(", ").append(goodsSerial);
         sb.append(", ").append(goodsIsDel);
+        sb.append(", ").append(goodsItem);
+        sb.append(", ").append(goodsIsStick);
         sb.append(", ").append(classifyId);
 
         sb.append(")");
