@@ -8,7 +8,10 @@ CREATE TABLE users (
   address VARCHAR(200),
   real_name VARCHAR(10),
   sex VARCHAR(2),
-  contact VARCHAR(20)
+  contact VARCHAR(20),
+  access_token VARCHAR(64),
+  token_expired_date DATETIME,
+  photo VARCHAR(100)
 );
 
 CREATE TABLE authorities (

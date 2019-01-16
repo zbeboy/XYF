@@ -127,9 +127,18 @@ open class GoodsDatumServiceImpl @Autowired constructor(dslContext: DSLContext) 
         val search = dataTablesUtils.search
         if (!ObjectUtils.isEmpty(search)) {
             val goodsName = StringUtils.trimWhitespace(search!!.getString("goodsName"))
+            val goodsItem = StringUtils.trimWhitespace(search.getString("goodsItem"))
             val classifyId = StringUtils.trimWhitespace(search.getString("classifyId"))
             if (StringUtils.hasLength(goodsName)) {
                 a = GOODS.GOODS_NAME.like(SQLQueryUtils.likeAllParam(goodsName))
+            }
+
+            if (StringUtils.hasLength(goodsItem)) {
+                a = if (ObjectUtils.isEmpty(a)) {
+                    GOODS.GOODS_ITEM.eq(NumberUtils.toInt(goodsItem))
+                } else {
+                    a!!.and(GOODS.GOODS_ITEM.eq(NumberUtils.toInt(goodsItem)))
+                }
             }
 
             if (StringUtils.hasLength(classifyId)) {

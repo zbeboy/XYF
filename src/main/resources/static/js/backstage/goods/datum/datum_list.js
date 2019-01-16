@@ -7,7 +7,8 @@ $(document).ready(function () {
     参数
     */
     var param = {
-        goodsName: ''
+        goodsName: '',
+        goodsItem: ''
     };
 
     /*
@@ -28,7 +29,8 @@ $(document).ready(function () {
     */
     function getParamId() {
         return {
-            goodsName: '#search_goods'
+            goodsName: '#search_goods',
+            goodsItem: '#search_goods_item'
         };
     }
 
@@ -44,6 +46,7 @@ $(document).ready(function () {
      */
     function initParam() {
         param.goodsName = $(getParamId().goodsName).val();
+        param.goodsItem = $(getParamId().goodsItem).val();
     }
 
     init();
@@ -223,6 +226,11 @@ $(document).ready(function () {
 
     var html = '<div class="input-group">' +
         '<input type="text" id="search_goods" class="form-control form-control-sm" placeholder="商品名" />' +
+        '<select class="form-control form-control-sm" id="search_goods_item">' +
+        '<option value="">请选择商品端</option>' +
+        '<option value="1">APP</option>' +
+        '<option value="0">APP</option>' +
+        '</select>' +
         '<div class="input-group-append">' +
         '<button type="button" id="search" class="btn btn-outline btn-default btn-sm"><i class="fa fa-search"></i>搜索</button>' +
         '<button type="button" id="reset_search" class="btn btn-outline btn-default btn-sm"><i class="fa fa-repeat"></i>重置</button>' +

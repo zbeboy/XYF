@@ -187,7 +187,9 @@ open class GoodsDatumRestController {
             goods.goodsPrice = datumAddVo.goodsPrice
             goods.goodsBrief = datumAddVo.goodsBrief
             goods.goodsRecommend = datumAddVo.goodsRecommend
+            goods.goodsItem = datumAddVo.goodsItem
             goods.goodsSerial = datumAddVo.goodsSerial
+            goods.goodsIsStick = datumAddVo.goodsIsStick
             goods.goodsIsDel = datumAddVo.goodsIsDel
             goods.classifyId = datumAddVo.classifyId
             goodsDatumService.save(goods)
@@ -221,7 +223,9 @@ open class GoodsDatumRestController {
             goods.goodsPrice = datumEditVo.goodsPrice
             goods.goodsBrief = datumEditVo.goodsBrief
             goods.goodsRecommend = datumEditVo.goodsRecommend
+            goods.goodsItem = datumEditVo.goodsItem
             goods.goodsSerial = datumEditVo.goodsSerial
+            goods.goodsIsStick = datumEditVo.goodsIsStick
             goods.goodsIsDel = datumEditVo.goodsIsDel
             goods.classifyId = datumEditVo.classifyId
             goodsDatumService.update(goods)

@@ -7,6 +7,7 @@ package com.rongxingyn.xyf.domain.tables.daos;
 import com.rongxingyn.xyf.domain.tables.Users;
 import com.rongxingyn.xyf.domain.tables.records.UsersRecord;
 
+import java.sql.Timestamp;
 import java.util.List;
 
 import javax.annotation.Generated;
@@ -129,5 +130,26 @@ public class UsersDao extends DAOImpl<UsersRecord, com.rongxingyn.xyf.domain.tab
      */
     public List<com.rongxingyn.xyf.domain.tables.pojos.Users> fetchByContact(String... values) {
         return fetch(Users.USERS.CONTACT, values);
+    }
+
+    /**
+     * Fetch records that have <code>access_token IN (values)</code>
+     */
+    public List<com.rongxingyn.xyf.domain.tables.pojos.Users> fetchByAccessToken(String... values) {
+        return fetch(Users.USERS.ACCESS_TOKEN, values);
+    }
+
+    /**
+     * Fetch records that have <code>token_expired_date IN (values)</code>
+     */
+    public List<com.rongxingyn.xyf.domain.tables.pojos.Users> fetchByTokenExpiredDate(Timestamp... values) {
+        return fetch(Users.USERS.TOKEN_EXPIRED_DATE, values);
+    }
+
+    /**
+     * Fetch records that have <code>photo IN (values)</code>
+     */
+    public List<com.rongxingyn.xyf.domain.tables.pojos.Users> fetchByPhoto(String... values) {
+        return fetch(Users.USERS.PHOTO, values);
     }
 }

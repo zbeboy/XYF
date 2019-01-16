@@ -9,6 +9,7 @@ import com.rongxingyn.xyf.domain.Keys;
 import com.rongxingyn.xyf.domain.Xyf;
 import com.rongxingyn.xyf.domain.tables.records.UsersRecord;
 
+import java.sql.Timestamp;
 import java.util.Arrays;
 import java.util.List;
 
@@ -38,7 +39,7 @@ import org.jooq.impl.TableImpl;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Users extends TableImpl<UsersRecord> {
 
-    private static final long serialVersionUID = 76529621;
+    private static final long serialVersionUID = -1035140581;
 
     /**
      * The reference instance of <code>xyf.users</code>
@@ -102,6 +103,21 @@ public class Users extends TableImpl<UsersRecord> {
      * The column <code>xyf.users.contact</code>.
      */
     public final TableField<UsersRecord, String> CONTACT = createField("contact", org.jooq.impl.SQLDataType.VARCHAR(20), this, "");
+
+    /**
+     * The column <code>xyf.users.access_token</code>.
+     */
+    public final TableField<UsersRecord, String> ACCESS_TOKEN = createField("access_token", org.jooq.impl.SQLDataType.VARCHAR(64), this, "");
+
+    /**
+     * The column <code>xyf.users.token_expired_date</code>.
+     */
+    public final TableField<UsersRecord, Timestamp> TOKEN_EXPIRED_DATE = createField("token_expired_date", org.jooq.impl.SQLDataType.TIMESTAMP, this, "");
+
+    /**
+     * The column <code>xyf.users.photo</code>.
+     */
+    public final TableField<UsersRecord, String> PHOTO = createField("photo", org.jooq.impl.SQLDataType.VARCHAR(100), this, "");
 
     /**
      * Create a <code>xyf.users</code> table reference

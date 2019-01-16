@@ -24,7 +24,7 @@ open class TableTimeRestController {
      * @return 数据
      */
     @GetMapping("/{table}")
-    fun getClassify(@PathVariable table: String): Mono<TableTimeBean> {
+    fun getTable(@PathVariable table: String): Mono<TableTimeBean> {
         var tableTime = TableTimeBean()
         val data = tableTimeService.findById(table)
         if (data.isPresent) {

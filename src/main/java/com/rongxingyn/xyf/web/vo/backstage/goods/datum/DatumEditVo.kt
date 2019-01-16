@@ -12,7 +12,9 @@ open class DatumEditVo {
     var goodsBrief: String? = null
     @Max(5, message = "推荐度最大5")
     var goodsRecommend: Int? = null
+    var goodsItem: Int? = null
     var goodsSerial: Int? = null
+    var goodsIsStick: Byte? = null
     var goodsIsDel: Byte? = null
     @NotNull(message = "类别ID不能为空")
     @Min(1, message = "类别ID不正确")

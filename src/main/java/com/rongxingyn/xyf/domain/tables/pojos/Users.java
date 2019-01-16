@@ -5,6 +5,7 @@ package com.rongxingyn.xyf.domain.tables.pojos;
 
 
 import java.io.Serializable;
+import java.sql.Timestamp;
 
 import javax.annotation.Generated;
 import javax.validation.constraints.NotNull;
@@ -24,18 +25,21 @@ import javax.validation.constraints.Size;
 @SuppressWarnings({ "all", "unchecked", "rawtypes" })
 public class Users implements Serializable {
 
-    private static final long serialVersionUID = 113037991;
+    private static final long serialVersionUID = 1687683443;
 
-    private String username;
-    private String password;
-    private Byte   disabled;
-    private Byte   accountExpired;
-    private Byte   accountLocked;
-    private Byte   credentialsExpired;
-    private String address;
-    private String realName;
-    private String sex;
-    private String contact;
+    private String    username;
+    private String    password;
+    private Byte      disabled;
+    private Byte      accountExpired;
+    private Byte      accountLocked;
+    private Byte      credentialsExpired;
+    private String    address;
+    private String    realName;
+    private String    sex;
+    private String    contact;
+    private String    accessToken;
+    private Timestamp tokenExpiredDate;
+    private String    photo;
 
     public Users() {}
 
@@ -50,19 +54,25 @@ public class Users implements Serializable {
         this.realName = value.realName;
         this.sex = value.sex;
         this.contact = value.contact;
+        this.accessToken = value.accessToken;
+        this.tokenExpiredDate = value.tokenExpiredDate;
+        this.photo = value.photo;
     }
 
     public Users(
-        String username,
-        String password,
-        Byte   disabled,
-        Byte   accountExpired,
-        Byte   accountLocked,
-        Byte   credentialsExpired,
-        String address,
-        String realName,
-        String sex,
-        String contact
+        String    username,
+        String    password,
+        Byte      disabled,
+        Byte      accountExpired,
+        Byte      accountLocked,
+        Byte      credentialsExpired,
+        String    address,
+        String    realName,
+        String    sex,
+        String    contact,
+        String    accessToken,
+        Timestamp tokenExpiredDate,
+        String    photo
     ) {
         this.username = username;
         this.password = password;
@@ -74,6 +84,9 @@ public class Users implements Serializable {
         this.realName = realName;
         this.sex = sex;
         this.contact = contact;
+        this.accessToken = accessToken;
+        this.tokenExpiredDate = tokenExpiredDate;
+        this.photo = photo;
     }
 
     @NotNull
@@ -164,6 +177,32 @@ public class Users implements Serializable {
         this.contact = contact;
     }
 
+    @Size(max = 64)
+    public String getAccessToken() {
+        return this.accessToken;
+    }
+
+    public void setAccessToken(String accessToken) {
+        this.accessToken = accessToken;
+    }
+
+    public Timestamp getTokenExpiredDate() {
+        return this.tokenExpiredDate;
+    }
+
+    public void setTokenExpiredDate(Timestamp tokenExpiredDate) {
+        this.tokenExpiredDate = tokenExpiredDate;
+    }
+
+    @Size(max = 100)
+    public String getPhoto() {
+        return this.photo;
+    }
+
+    public void setPhoto(String photo) {
+        this.photo = photo;
+    }
+
     @Override
     public String toString() {
         StringBuilder sb = new StringBuilder("Users (");
@@ -178,6 +217,9 @@ public class Users implements Serializable {
         sb.append(", ").append(realName);
         sb.append(", ").append(sex);
         sb.append(", ").append(contact);
+        sb.append(", ").append(accessToken);
+        sb.append(", ").append(tokenExpiredDate);
+        sb.append(", ").append(photo);
 
         sb.append(")");
         return sb.toString();

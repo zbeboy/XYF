@@ -22,8 +22,10 @@ $(document).ready(function () {
         classifyId: '#classifyId',
         goodsName: '#goodsName',
         goodsRecommend: '#goodsRecommend',
+        goodsItem: '#goodsItem',
         goodsPrice: '#goodsPrice',
         goodsSerial: '#goodsSerial',
+        goodsIsStick: '#goodsIsStick',
         goodsIsDel: '#goodsIsDel',
         goodsPic: '#goodsPic',
         goodsPicTemp: '#goodsPicTemp',
@@ -37,8 +39,10 @@ $(document).ready(function () {
         classifyId: $(paramId.classifyId).val(),
         goodsName: $(paramId.goodsName).val(),
         goodsRecommend: $(paramId.goodsRecommend).val(),
+        goodsItem:$(paramId.goodsItem).val(),
         goodsPrice: $(paramId.goodsPrice).val(),
         goodsSerial: $(paramId.goodsSerial).val(),
+        goodsIsStick: $("input[name='goodsIsStick']:checked").val(),
         goodsIsDel: $("input[name='goodsIsDel']:checked").val(),
         goodsPic: $(paramId.goodsPic).val(),
         goodsBrief: $(paramId.goodsBrief).val()
@@ -51,8 +55,11 @@ $(document).ready(function () {
         param.classifyId = $(paramId.classifyId).val();
         param.goodsName = $(paramId.goodsName).val();
         param.goodsRecommend = $(paramId.goodsRecommend).val();
+        param.goodsItem = $(paramId.goodsItem).val();
         param.goodsPrice = $(paramId.goodsPrice).val();
         param.goodsSerial = $(paramId.goodsSerial).val();
+        var isStick = $('input[name="goodsIsStick"]:checked').val();
+        param.goodsIsStick = _.isUndefined(isStick) ? 0 : isStick;
         var isDel = $('input[name="goodsIsDel"]:checked').val();
         param.goodsIsDel = _.isUndefined(isDel) ? 0 : isDel;
         param.goodsPic = $(paramId.goodsPic).val();

@@ -9,6 +9,7 @@ import com.rongxingyn.xyf.service.system.AuthoritiesService
 import com.rongxingyn.xyf.service.system.UsersService
 import com.rongxingyn.xyf.service.utils.BCryptUtils
 import com.rongxingyn.xyf.web.utils.AjaxUtils
+import org.apache.commons.lang3.BooleanUtils
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
 import org.springframework.util.StringUtils
@@ -44,10 +45,22 @@ open class MobileUsersRestController {
         if (!bindingResult.hasErrors()) {
             val users = usersService.findByUsername(loginVo.username!!)
             if (Objects.nonNull(users)) {
-                if (BCryptUtils.bCryptPasswordMatches(loginVo.password!!, users!!.password)) {
-                    ajaxUtils.success().msg("登录成功")
+                if (BooleanUtils.isFalse(users!!.accountExpired == 1.toByte())) {
+                    if (BooleanUtils.isFalse(users.accountLocked == 1.toByte())) {
+                        if (BooleanUtils.isFalse(users.credentialsExpired == 1.toByte())) {
+                            if (BCryptUtils.bCryptPasswordMatches(loginVo.password!!, users.password)) {
+                                ajaxUtils.success().msg("登录成功")
+                            } else {
+                                ajaxUtils.fail().msg("密码错误")
+                            }
+                        } else {
+                            ajaxUtils.fail().msg("账号凭证过期")
+                        }
+                    } else {
+                        ajaxUtils.fail().msg("账号已被锁")
+                    }
                 } else {
-                    ajaxUtils.fail().msg("密码错误")
+                    ajaxUtils.fail().msg("账号已过期")
                 }
             } else {
                 ajaxUtils.fail().msg("账号不存在")
@@ -79,6 +92,10 @@ open class MobileUsersRestController {
                 users.accountExpired = 0
                 users.accountLocked = 0
                 users.credentialsExpired = 0
+                users.address = registerVo.address
+                users.realName = registerVo.realName
+                users.sex = registerVo.sex
+                users.contact = registerVo.contact
                 usersService.save(users)
                 val authorities = Authorities()
                 authorities.username = registerVo.username

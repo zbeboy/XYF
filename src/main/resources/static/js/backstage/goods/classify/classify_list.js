@@ -116,7 +116,6 @@ $(document).ready(function () {
     var template = Handlebars.compile($("#operator_button").html());
 
     var tableElement = $('#dataTable');
-    var globalElement = $('#page-top');
 
     var myTable = tableElement.DataTable({
         drawCallback: function (oSettings) {
