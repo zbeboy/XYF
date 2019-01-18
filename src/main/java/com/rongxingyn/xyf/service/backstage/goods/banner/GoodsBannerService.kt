@@ -22,6 +22,15 @@ interface GoodsBannerService {
     fun findAll(): Result<BannerRecord>
 
     /**
+     * 根据渠道取数据
+     *
+     * @param bannerItem 渠道
+     * @param bannerIsHide 是否隐藏
+     * @return 数据
+     */
+    fun findByBannerItemAndBannerIsHide(bannerItem: Int, bannerIsHide: Byte): Result<BannerRecord>
+
+    /**
      * 保存
      *
      * @param banner 数据

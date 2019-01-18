@@ -110,4 +110,29 @@ open class MobileUsersRestController {
         }
         return Mono.just(ResponseEntity(ajaxUtils.send(), HttpStatus.OK))
     }
+
+    /**
+     * 注册
+     *
+     * @param username 数据
+     * @return true or false
+     */
+    @GetMapping("/user")
+    fun user(username: String): Mono<ResponseEntity<Map<String, Any>>> {
+        val ajaxUtils = AjaxUtils.of()
+        val name = StringUtils.trimWhitespace(username)
+        val data = usersService.findByUsername(name)
+        if (Objects.nonNull(data)) {
+            val users = Users()
+            users.username = data!!.username
+            users.address = data.address
+            users.realName = data.realName
+            users.sex = data.sex
+            users.contact = data.contact
+            ajaxUtils.success().put("user", users).msg("获取数据成功")
+        } else {
+            ajaxUtils.fail().msg("获取数据失败")
+        }
+        return Mono.just(ResponseEntity(ajaxUtils.send(), HttpStatus.OK))
+    }
 }

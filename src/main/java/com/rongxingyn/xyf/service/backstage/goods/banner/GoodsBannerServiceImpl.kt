@@ -29,6 +29,10 @@ open class GoodsBannerServiceImpl @Autowired constructor(dslContext: DSLContext)
         return create.selectFrom(BANNER).orderBy(BANNER.BANNER_SERIAL).fetch()
     }
 
+    override fun findByBannerItemAndBannerIsHide(bannerItem: Int, bannerIsHide: Byte): Result<BannerRecord> {
+        return create.selectFrom(BANNER).where(BANNER.BANNER_IS_HIDE.eq(bannerIsHide).and(BANNER.BANNER_ITEM.eq(bannerItem))).orderBy(BANNER.BANNER_SERIAL).fetch()
+    }
+
     @Transactional(propagation = Propagation.REQUIRED, readOnly = false)
     override fun save(banner: Banner) {
         bannerDao.insert(banner)

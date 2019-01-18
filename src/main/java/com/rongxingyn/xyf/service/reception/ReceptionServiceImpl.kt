@@ -24,7 +24,7 @@ open class ReceptionServiceImpl @Autowired constructor(dslContext: DSLContext) :
     open lateinit var dataInfoService: DataInfoService
 
     override fun getBanners(): List<Banner> {
-        val data = create.selectFrom(BANNER).where(BANNER.BANNER_IS_HIDE.ne(1)).orderBy(BANNER.BANNER_SERIAL).fetch()
+        val data = create.selectFrom(BANNER).where(BANNER.BANNER_IS_HIDE.eq(0).and(BANNER.BANNER_ITEM.eq(0))).orderBy(BANNER.BANNER_SERIAL).fetch()
         return if (data.isNotEmpty) {
             data.into(Banner::class.java)
         } else {
