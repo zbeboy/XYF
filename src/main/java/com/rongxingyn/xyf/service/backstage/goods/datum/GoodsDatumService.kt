@@ -86,4 +86,12 @@ interface GoodsDatumService {
      * @param isDel is_del
      */
     fun updateState(ids: List<String>, isDel: Byte)
+
+    /**
+     * 通过id更新置顶状态
+     *
+     * @param ids   ids
+     * @param stick 置顶
+     */
+    fun updateStick(ids: List<String>, stick: Byte)
 }

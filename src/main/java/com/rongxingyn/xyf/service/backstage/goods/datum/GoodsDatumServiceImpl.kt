@@ -116,6 +116,12 @@ open class GoodsDatumServiceImpl @Autowired constructor(dslContext: DSLContext) 
         }
     }
 
+    override fun updateStick(ids: List<String>, stick: Byte) {
+        for (id in ids) {
+            create.update<GoodsRecord>(GOODS).set<Byte>(GOODS.GOODS_IS_STICK, stick).where(GOODS.GOODS_ID.eq(id)).execute()
+        }
+    }
+
     /**
      * 数据全局搜索条件
      *

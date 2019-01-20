@@ -20,6 +20,7 @@ $(document).ready(function () {
             add: '/web/backstage/goods/datum/add',
             edit: '/web/backstage/goods/datum/edit',
             state: '/web/backstage/goods/datum/state',
+            stick: '/web/backstage/goods/datum/stick',
             tableTime: '/web/backstage/table/GOODS'
         };
     }
@@ -90,7 +91,7 @@ $(document).ready(function () {
         searching: false,
         "processing": true, // 打开数据加载时的等待效果
         "serverSide": true,// 打开后台分页
-        "aaSorting": [[5, 'desc']],// 排序
+        "aaSorting": [[6, 'desc']],// 排序
         "ajax": {
             "url": web_path + getAjaxUrl().goods,
             "dataSrc": "data",
@@ -106,8 +107,10 @@ $(document).ready(function () {
             {"data": "goodsPrice"},
             {"data": "goodsRecommend"},
             {"data": "classifyName"},
+            {"data": "goodsItem"},
             {"data": "goodsSerial"},
             {"data": "goodsIsDel"},
+            {"data": "goodsIsStick"},
             {"data": null}
         ],
         columnDefs: [
@@ -119,64 +122,67 @@ $(document).ready(function () {
                 }
             },
             {
-                targets: 7,
+                targets: 9,
                 orderable: false,
                 render: function (a, b, c, d) {
 
-                    var context = null;
-
-                    if (c.goodsIsDel === 0 || c.goodsIsDel == null) {
-                        context =
-                            {
-                                func: [
-                                    {
-                                        "name": "编辑",
-                                        "css": "edit",
-                                        "type": "primary",
-                                        "id": c.goodsId,
-                                        "goods": c.goodsName
-                                    },
-                                    {
-                                        "name": "删除",
-                                        "css": "del",
-                                        "type": "danger",
-                                        "id": c.goodsId,
-                                        "goods": c.goodsName
-                                    }
-                                ]
-                            };
-                    } else {
-                        context =
-                            {
-                                func: [
-                                    {
-                                        "name": "编辑",
-                                        "css": "edit",
-                                        "type": "primary",
-                                        "id": c.goodsId,
-                                        "goods": c.goodsName
-                                    },
-                                    {
-                                        "name": "恢复",
-                                        "css": "recovery",
-                                        "type": "warning",
-                                        "id": c.goodsId,
-                                        "goods": c.goodsName
-                                    }
-                                ]
-                            };
-                    }
+                    var context =
+                        {
+                            func: [
+                                {
+                                    "name": "编辑",
+                                    "css": "edit",
+                                    "type": "primary",
+                                    "id": c.goodsId,
+                                    "goods": c.goodsName
+                                },
+                                {
+                                    "name": c.goodsIsDel === 1 ? "恢复" : "删除",
+                                    "css": c.goodsIsDel === 1 ? "recovery" : "del",
+                                    "type": c.goodsIsDel === 1 ? "warning" : "danger",
+                                    "id": c.goodsId,
+                                    "goods": c.goodsName
+                                },
+                                {
+                                    "name": c.goodsIsStick === 1 ? "取消置顶" : "置顶",
+                                    "css": c.goodsIsStick === 1 ? "cancelStick" : "stick",
+                                    "type": c.goodsIsStick === 1 ? "primary" : "default",
+                                    "id": c.goodsId,
+                                    "goods": c.goodsName
+                                }
+                            ]
+                        };
 
                     return template(context);
                 }
             },
             {
-                targets: 6,
+                targets: 7,
                 render: function (a, b, c, d) {
                     if (c.goodsIsDel === 0 || c.goodsIsDel == null) {
                         return "<span class='text-info'>正常</span>";
                     } else {
                         return "<span class='text-danger'>已删除</span>";
+                    }
+                }
+            },
+            {
+                targets: 8,
+                render: function (a, b, c, d) {
+                    if (c.goodsIsStick === 0 || c.goodsIsStick == null) {
+                        return "否";
+                    } else {
+                        return "是";
+                    }
+                }
+            },
+            {
+                targets: 5,
+                render: function (a, b, c, d) {
+                    if (c.goodsItem === 0) {
+                        return "PC";
+                    } else {
+                        return "APP";
                     }
                 }
             }
@@ -206,7 +212,7 @@ $(document).ready(function () {
                 "sSortDescending": ": 以降序排列此列"
             }
         },
-        "dom": "<'row'<'col-sm-2'l><'#global_button.col-sm-4'><'col-sm-6'<'#mytoolbox'>>r>" +
+        "dom": "<'row'<'col-sm-2'l><'#global_button.col-sm-5'><'col-sm-5'<'#mytoolbox'>>r>" +
             "t" +
             "<'row'<'col-sm-5'i><'col-sm-7'p>>",
         initComplete: function () {
@@ -221,6 +227,14 @@ $(document).ready(function () {
             tableElement.delegate('.recovery', "click", function () {
                 goods_recovery($(this).attr('data-id'), $(this).attr('data-goods'));
             });
+
+            tableElement.delegate('.stick', "click", function () {
+                goods_stick($(this).attr('data-id'), $(this).attr('data-goods'));
+            });
+
+            tableElement.delegate('.cancelStick', "click", function () {
+                goods_cancel_stick($(this).attr('data-id'), $(this).attr('data-goods'));
+            });
         }
     });
 
@@ -229,7 +243,7 @@ $(document).ready(function () {
         '<select class="form-control form-control-sm" id="search_goods_item">' +
         '<option value="">请选择商品端</option>' +
         '<option value="1">APP</option>' +
-        '<option value="0">APP</option>' +
+        '<option value="0">PC</option>' +
         '</select>' +
         '<div class="input-group-append">' +
         '<button type="button" id="search" class="btn btn-outline btn-default btn-sm"><i class="fa fa-search"></i>搜索</button>' +
@@ -239,8 +253,10 @@ $(document).ready(function () {
     $('#mytoolbox').append(html);
 
     var global_button = '<button type="button" id="goods_add" class="btn btn-outline btn-primary btn-sm"><i class="fa fa-plus"></i>添加</button>' +
-        '  <button type="button" id="goods_dels" class="btn btn-outline btn-danger btn-sm"><i class="fa fa-trash-o"></i>批量删除</button>' +
-        '  <button type="button" id="goods_recoveries" class="btn btn-outline btn-warning btn-sm"><i class="fa fa-reply-all"></i>批量恢复</button>' +
+        '  <button type="button" id="goods_dels" class="btn btn-outline btn-danger btn-sm"><i class="fa fa-trash-o"></i>删除</button>' +
+        '  <button type="button" id="goods_recoveries" class="btn btn-outline btn-warning btn-sm"><i class="fa fa-reply-all"></i>恢复</button>' +
+        '  <button type="button" id="goods_sticks" class="btn btn-outline btn-default btn-sm"><i class="fa fa-bookmark"></i>置顶</button>' +
+        '  <button type="button" id="goods_cancel_sticks" class="btn btn-outline btn-default btn-sm"><i class="fa fa-bookmark-o"></i>取消置顶</button>' +
         '  <button type="button" id="refresh" class="btn btn-outline btn-default btn-sm"><i class="fa fa-refresh"></i>刷新</button>';
     $('#global_button').append(global_button);
 
@@ -249,6 +265,7 @@ $(document).ready(function () {
     */
     function cleanParam() {
         $(getParamId().goodsName).val('');
+        $(getParamId().goodsItem).val('');
     }
 
     $(getParamId().goodsName).keyup(function (event) {
@@ -256,6 +273,11 @@ $(document).ready(function () {
             initParam();
             myTable.ajax.reload();
         }
+    });
+
+    $(getParamId().goodsItem).change(function () {
+        initParam();
+        myTable.ajax.reload();
     });
 
     $('#search').click(function () {
@@ -353,6 +375,78 @@ $(document).ready(function () {
     });
 
     /*
+    批量置顶
+    */
+    $('#goods_sticks').click(function () {
+        var goodsIds = [];
+        var ids = $('input[name="check"]:checked');
+        for (var i = 0; i < ids.length; i++) {
+            goodsIds.push($(ids[i]).val());
+        }
+
+        if (goodsIds.length > 0) {
+            var msg;
+            msg = Messenger().post({
+                message: "确定置顶选中的商品吗?",
+                actions: {
+                    retry: {
+                        label: '确定',
+                        phrase: 'Retrying TIME',
+                        action: function () {
+                            msg.cancel();
+                            sticks(goodsIds);
+                        }
+                    },
+                    cancel: {
+                        label: '取消',
+                        action: function () {
+                            return msg.cancel();
+                        }
+                    }
+                }
+            });
+        } else {
+            Messenger().post("未发现有选中的商品!");
+        }
+    });
+
+    /*
+     批量取消置顶
+     */
+    $('#goods_cancel_sticks').click(function () {
+        var goodsIds = [];
+        var ids = $('input[name="check"]:checked');
+        for (var i = 0; i < ids.length; i++) {
+            goodsIds.push($(ids[i]).val());
+        }
+
+        if (goodsIds.length > 0) {
+            var msg;
+            msg = Messenger().post({
+                message: "确定取消置顶选中的商品吗?",
+                actions: {
+                    retry: {
+                        label: '确定',
+                        phrase: 'Retrying TIME',
+                        action: function () {
+                            msg.cancel();
+                            cancelSticks(goodsIds);
+                        }
+                    },
+                    cancel: {
+                        label: '取消',
+                        action: function () {
+                            return msg.cancel();
+                        }
+                    }
+                }
+            });
+        } else {
+            Messenger().post("未发现有选中的商品!");
+        }
+    });
+
+    /*
      编辑
      */
     function edit(goodsId) {
@@ -411,6 +505,58 @@ $(document).ready(function () {
         });
     }
 
+    /*
+   置顶
+   */
+    function goods_stick(goodsId, goodsName) {
+        var msg;
+        msg = Messenger().post({
+            message: "确定置顶商品 '" + goodsName + "' 吗?",
+            actions: {
+                retry: {
+                    label: '确定',
+                    phrase: 'Retrying TIME',
+                    action: function () {
+                        msg.cancel();
+                        stick(goodsId);
+                    }
+                },
+                cancel: {
+                    label: '取消',
+                    action: function () {
+                        return msg.cancel();
+                    }
+                }
+            }
+        });
+    }
+
+    /*
+    取消置顶
+     */
+    function goods_cancel_stick(goodsId, goodsName) {
+        var msg;
+        msg = Messenger().post({
+            message: "确定取消置顶商品 '" + goodsName + "' 吗?",
+            actions: {
+                retry: {
+                    label: '确定',
+                    phrase: 'Retrying TIME',
+                    action: function () {
+                        msg.cancel();
+                        cancelStick(goodsId);
+                    }
+                },
+                cancel: {
+                    label: '取消',
+                    action: function () {
+                        return msg.cancel();
+                    }
+                }
+            }
+        });
+    }
+
     function del(goodsId) {
         sendUpdateDelAjax(goodsId, '删除', 1);
     }
@@ -427,6 +573,22 @@ $(document).ready(function () {
         sendUpdateDelAjax(goodsIds.join(","), '批量恢复', 0);
     }
 
+    function stick(goodsId) {
+        sendStickAjax(goodsId, '置顶', 1);
+    }
+
+    function cancelStick(goodsId) {
+        sendStickAjax(goodsId, '取消置顶', 0);
+    }
+
+    function sticks(goodsIds) {
+        sendStickAjax(goodsIds.join(","), '批量置顶', 1);
+    }
+
+    function cancelSticks(goodsIds) {
+        sendStickAjax(goodsIds.join(","), '批量取消置顶', 0);
+    }
+
     /**
      * 注销或恢复ajax
      * @param goodsId
@@ -440,6 +602,39 @@ $(document).ready(function () {
             url: web_path + getAjaxUrl().state,
             type: 'put',
             data: {goodsIds: goodsId, goodsIsDel: goodsIsDel},
+            success: function (data) {
+                if (data.state) {
+                    myTable.ajax.reload();
+                } else {
+                    Messenger().post({
+                        message: data.msg,
+                        type: 'error',
+                        showCloseButton: true
+                    });
+                }
+            },
+            error: function (xhr) {
+                if ((xhr != null ? xhr.status : void 0) === 404) {
+                    return "请求失败";
+                }
+                return true;
+            }
+        });
+    }
+
+    /**
+     * 置顶或取消ajax
+     * @param goodsId
+     * @param message
+     * @param goodsIsStick
+     */
+    function sendStickAjax(goodsId, message, goodsIsStick) {
+        Messenger().run({
+            progressMessage: '正在' + message + '商品....'
+        }, {
+            url: web_path + getAjaxUrl().stick,
+            type: 'put',
+            data: {goodsIds: goodsId, goodsIsStick: goodsIsStick},
             success: function (data) {
                 if (data.state) {
                     myTable.ajax.reload();
