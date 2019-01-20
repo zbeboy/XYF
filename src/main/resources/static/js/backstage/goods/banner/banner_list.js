@@ -12,6 +12,7 @@ $(document).ready(function () {
             file_upload_url: '/web/backstage/goods/banner/upload',
             hide_url: '/web/backstage/goods/banner/hide',
             serial_url: '/web/backstage/goods/banner/serial',
+            item_url: '/web/backstage/goods/banner/item',
             del: '/web/backstage/goods/banner/delete'
         };
     }
@@ -73,6 +74,14 @@ $(document).ready(function () {
             return new Handlebars.SafeString(Handlebars.escapeExpression(hideText));
         });
 
+        Handlebars.registerHelper('item', function () {
+            var itemText = 'APP';
+            if (this.bannerItem !== 1) {
+                itemText = 'PC';
+            }
+            return new Handlebars.SafeString(Handlebars.escapeExpression(itemText));
+        });
+
         datas.html(template(data));
     }
 
@@ -128,6 +137,12 @@ $(document).ready(function () {
         $('#bannerSerial').val($(this).attr('data-serial'));
         $('#bannerId').val($(this).attr('data-id'));
         $('#serialModal').modal('show');
+    });
+
+    datas.delegate('.item', "click", function () {
+        $('#bannerItem').val($(this).attr('data-item'));
+        $('#itemBannerId').val($(this).attr('data-id'));
+        $('#itemModal').modal('show');
     });
 
     $('#serialModal').on('shown.bs.modal', function () {
@@ -246,6 +261,33 @@ $(document).ready(function () {
                 if (data.state) {
                     initBanner();
                     $('#serialModal').modal('hide');
+                }
+                Messenger().post({
+                    message: data.msg,
+                    type: data.state ? 'info' : 'error',
+                    showCloseButton: true
+                });
+            },
+            error: function (xhr) {
+                if ((xhr != null ? xhr.status : void 0) === 404) {
+                    return "请求错误";
+                }
+                return true;
+            }
+        });
+    });
+
+    $('#updateItem').click(function () {
+        Messenger().run({
+            progressMessage: '正在更新数据...'
+        }, {
+            url: web_path + getAjaxUrl().item_url,
+            type: 'put',
+            data: $('#itemForm').serialize(),
+            success: function (data) {
+                if (data.state) {
+                    initBanner();
+                    $('#itemModal').modal('hide');
                 }
                 Messenger().post({
                     message: data.msg,

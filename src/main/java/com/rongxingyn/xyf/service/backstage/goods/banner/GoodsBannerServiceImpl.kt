@@ -46,6 +46,10 @@ open class GoodsBannerServiceImpl @Autowired constructor(dslContext: DSLContext)
         create.update(BANNER).set(BANNER.BANNER_SERIAL, bannerSerial).where(BANNER.BANNER_ID.eq(bannerId)).execute()
     }
 
+    override fun updateItem(bannerId: String, bannerItem: Int) {
+        create.update(BANNER).set(BANNER.BANNER_ITEM, bannerItem).where(BANNER.BANNER_ID.eq(bannerId)).execute()
+    }
+
     override fun deleteById(bannerId: String) {
         bannerDao.deleteById(bannerId)
     }

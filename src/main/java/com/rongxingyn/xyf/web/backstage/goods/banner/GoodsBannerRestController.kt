@@ -8,6 +8,7 @@ import com.rongxingyn.xyf.service.common.FileSystemService
 import com.rongxingyn.xyf.service.utils.UUIDUtils
 import com.rongxingyn.xyf.web.utils.AjaxUtils
 import com.rongxingyn.xyf.web.vo.backstage.goods.banner.BannerHideVo
+import com.rongxingyn.xyf.web.vo.backstage.goods.banner.BannerItemVo
 import com.rongxingyn.xyf.web.vo.backstage.goods.banner.BannerSerialVo
 import org.springframework.http.HttpStatus
 import org.springframework.http.MediaType
@@ -65,6 +66,7 @@ open class GoodsBannerRestController {
             banner.bannerId = UUIDUtils.getUUID()
             banner.bannerIsHide = 0
             banner.bannerSerial = 0
+            banner.bannerItem = 0
             banner.bannerUrl = Workbook.DIRECTORY_SPLIT + path + fileData.get().newName
             goodsBannerService.save(banner)
             ajaxUtils.success().msg("上传文件成功")
@@ -106,6 +108,26 @@ open class GoodsBannerRestController {
         val ajaxUtils = AjaxUtils.of()
         if (!bindingResult.hasErrors()) {
             goodsBannerService.updateSerial(bannerSerialVo.bannerId!!, bannerSerialVo.bannerSerial!!)
+            ajaxUtils.success().msg("更新成功")
+        } else {
+            ajaxUtils.fail().msg(bindingResult.fieldError!!.defaultMessage!!)
+        }
+
+        return Mono.just(ResponseEntity(ajaxUtils.send(), HttpStatus.OK))
+    }
+
+    /**
+     * 更新商品端
+     *
+     * @param bannerItemVo 数据
+     * @param bindingResult 检验
+     * @return true or false
+     */
+    @PutMapping("/banner/item")
+    fun item(@Valid bannerItemVo: BannerItemVo, bindingResult: BindingResult): Mono<ResponseEntity<Map<String, Any>>> {
+        val ajaxUtils = AjaxUtils.of()
+        if (!bindingResult.hasErrors()) {
+            goodsBannerService.updateItem(bannerItemVo.bannerId!!, bannerItemVo.bannerItem!!)
             ajaxUtils.success().msg("更新成功")
         } else {
             ajaxUtils.fail().msg(bindingResult.fieldError!!.defaultMessage!!)

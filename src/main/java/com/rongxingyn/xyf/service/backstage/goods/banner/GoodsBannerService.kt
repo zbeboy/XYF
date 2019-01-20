@@ -54,6 +54,14 @@ interface GoodsBannerService {
     fun updateSerial(bannerId: String, bannerSerial: Int)
 
     /**
+     * 更新商品端
+     *
+     * @param bannerId id
+     * @param bannerItem 商品端
+     */
+    fun updateItem(bannerId: String, bannerItem: Int)
+
+    /**
      * 通过ID删除
      *
      * @param bannerId id

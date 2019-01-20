@@ -79,6 +79,37 @@
     </div>
 </div>
 
+<!-- 商品端Modal -->
+<div class="modal fade" id="itemModal" tabindex="-1" role="dialog" aria-labelledby="itemModalLabel"
+     aria-hidden="true">
+    <div class="modal-dialog" role="document">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title" id="itemModalLabel">商品端</h5>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                    <span aria-hidden="true">&times;</span>
+                </button>
+            </div>
+            <div class="modal-body">
+                <form id="itemForm">
+                    <div class="form-group">
+                        <label for="bannerItem">商品端</label>
+                        <select class="form-control" id="bannerItem">
+                            <option value="1">APP</option>
+                            <option value="0">PC</option>
+                        </select>
+                        <input type="hidden" id="itemBannerId" name="bannerId"/>
+                    </div>
+                </form>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-primary" id="updateItem">确定</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal">关闭</button>
+            </div>
+        </div>
+    </div>
+</div>
+
 <!--定义操作列按钮模板-->
 <script id="banner-template" type="text/x-handlebars-template">
     {{#each listResult}}
@@ -95,7 +126,10 @@
             <a class="mr-3 d-inline-block serial" data-id="{{this.bannerId}}" data-serial="{{this.bannerSerial}}"
                href="javascript:">
                 <i class="fa fa-fw fa-tags"></i>序号</a>
-            <p class="pull-right">{{this.bannerSerial}}</p>
+            <a class="mr-3 d-inline-block item" data-id="{{this.bannerId}}" data-item="{{this.bannerItem}}"
+               href="javascript:">
+                <i class="fa fa-fw fa-tags"></i>商品端</a>
+            <p class="pull-right">{{item}} {{this.bannerSerial}}</p>
         </div>
     </div>
     {{/each}}
