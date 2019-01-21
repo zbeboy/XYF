@@ -21,4 +21,14 @@ open class UsersViewController {
         model.addAttribute("username", principal.name)
         return Mono.just("backstage/setting/setting")
     }
+
+    /**
+     * 用户管理列表页
+     *
+     * @return list page
+     */
+    @GetMapping("/list")
+    fun list(): Mono<String> {
+        return Mono.just("backstage/users/users_list")
+    }
 }

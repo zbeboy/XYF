@@ -5,10 +5,7 @@ $(document).ready(function () {
     */
     var param = {
         username: '',
-        realName: '',
-        dataClassifyName: '',
-        dataClassifyId: '',
-        dataClassifyIsDel: ''
+        realName: ''
     };
 
     /*
@@ -17,9 +14,9 @@ $(document).ready(function () {
     function getAjaxUrl() {
         return {
             users: '/web/backstage/users/data',
-            add: '/web/backstage/users/add',
-            edit: '/web/backstage/users/edit',
-            query: '/web/backstage/users/query',
+            del: '/web/backstage/users/disabled',
+            lock: '/web/backstage/users/lock',
+            reset: '/web/backstage/users/reset',
             tableTime: '/web/backstage/table/USERS'
         };
     }
@@ -30,10 +27,7 @@ $(document).ready(function () {
     function getParamId() {
         return {
             username: '#search_username',
-            realName: '#search_real_name',
-            dataClassifyName: '#classifyName',
-            dataClassifyId: '#classifyId',
-            dataClassifyIsDel: '#classifyIsDel'
+            realName: '#search_real_name'
         };
     }
 
@@ -50,10 +44,6 @@ $(document).ready(function () {
     function initParam() {
         param.username = $(getParamId().username).val();
         param.realName = $(getParamId().realName).val();
-        param.dataClassifyName = $(getParamId().dataClassifyName).val();
-        param.dataClassifyId = $(getParamId().dataClassifyId).val();
-        var isDel = $('input[name="classifyIsDel"]:checked').val();
-        param.dataClassifyIsDel = _.isUndefined(isDel) ? 0 : isDel;
     }
 
     /*
@@ -62,27 +52,6 @@ $(document).ready(function () {
     var errorMsgId = {
         dataClassifyName: '#classify_name_error_msg'
     };
-
-    /**
-     * 检验成功
-     * @param validId
-     * @param errorMsgId
-     */
-    function validSuccessDom(validId, errorMsgId) {
-        $(validId).removeClass('is-invalid');
-        $(errorMsgId).text('');
-    }
-
-    /**
-     * 检验失败
-     * @param validId
-     * @param errorMsgId
-     * @param msg
-     */
-    function validErrorDom(validId, errorMsgId, msg) {
-        $(validId).addClass('is-invalid');
-        $(errorMsgId).text(msg);
-    }
 
     init();
 
@@ -201,7 +170,7 @@ $(document).ready(function () {
                                     "user": c.realName
                                 },
                                 {
-                                    "name": c.disabled === 1 ? "恢复" : "删除",
+                                    "name": c.disabled === 1 ? "恢复" : "注销",
                                     "css": c.disabled === 1 ? "recovery" : "del",
                                     "type": c.disabled === 1 ? "warning" : "danger",
                                     "id": c.username,
@@ -251,23 +220,23 @@ $(document).ready(function () {
             "<'row'<'col-sm-5'i><'col-sm-7'p>>",
         initComplete: function () {
             tableElement.delegate('.reset_password', "click", function () {
-                edit($(this).attr('data-id'));
+                reset_password($(this).attr('data-id'), $(this).attr('data-user'));
             });
 
             tableElement.delegate('.del', "click", function () {
-                classify_del($(this).attr('data-id'), $(this).attr('data-classify'));
+                user_del($(this).attr('data-id'), $(this).attr('data-user'));
             });
 
             tableElement.delegate('.recovery', "click", function () {
-                classify_recovery($(this).attr('data-id'), $(this).attr('data-classify'));
+                user_recovery($(this).attr('data-id'), $(this).attr('data-user'));
             });
 
             tableElement.delegate('.unlock', "click", function () {
-                classify_recovery($(this).attr('data-id'), $(this).attr('data-classify'));
+                user_unlocked($(this).attr('data-id'), $(this).attr('data-user'));
             });
 
             tableElement.delegate('.lock', "click", function () {
-                classify_recovery($(this).attr('data-id'), $(this).attr('data-classify'));
+                user_locked($(this).attr('data-id'), $(this).attr('data-user'));
             });
         }
     });
@@ -282,9 +251,8 @@ $(document).ready(function () {
         '</div>';
     $('#mytoolbox').append(html);
 
-    var global_button = '<button type="button" id="classify_add" class="btn btn-outline btn-primary btn-sm"><i class="fa fa-plus"></i>添加</button>' +
-        '  <button type="button" id="classify_dels" class="btn btn-outline btn-danger btn-sm"><i class="fa fa-trash-o"></i>批量删除</button>' +
-        '  <button type="button" id="classify_recoveries" class="btn btn-outline btn-warning btn-sm"><i class="fa fa-reply-all"></i>批量恢复</button>' +
+    var global_button = '<button type="button" id="user_dels" class="btn btn-outline btn-danger btn-sm"><i class="fa fa-trash-o"></i>批量注销</button>' +
+        '  <button type="button" id="user_recoveries" class="btn btn-outline btn-warning btn-sm"><i class="fa fa-reply-all"></i>批量恢复</button>' +
         '  <button type="button" id="refresh" class="btn btn-outline btn-default btn-sm"><i class="fa fa-refresh"></i>刷新</button>';
     $('#global_button').append(global_button);
 
@@ -292,10 +260,18 @@ $(document).ready(function () {
     清空参数
     */
     function cleanParam() {
-        $(getParamId().classifyName).val('');
+        $(getParamId().username).val('');
+        $(getParamId().realName).val('');
     }
 
-    $(getParamId().classifyName).keyup(function (event) {
+    $(getParamId().username).keyup(function (event) {
+        if (event.keyCode === 13) {
+            initParam();
+            myTable.ajax.reload();
+        }
+    });
+
+    $(getParamId().realName).keyup(function (event) {
         if (event.keyCode === 13) {
             initParam();
             myTable.ajax.reload();
@@ -318,35 +294,26 @@ $(document).ready(function () {
     });
 
     /*
-    添加
-    */
-    $('#classify_add').click(function () {
-        $('#modalLabel').text('添加类别');
-        $('#modalType').val('add');
-        $('#modal').modal('show');
-    });
-
-    /*
    批量注销
    */
-    $('#classify_dels').click(function () {
-        var classifyIds = [];
+    $('#user_dels').click(function () {
+        var usersIds = [];
         var ids = $('input[name="check"]:checked');
         for (var i = 0; i < ids.length; i++) {
-            classifyIds.push($(ids[i]).val());
+            usersIds.push($(ids[i]).val());
         }
 
-        if (classifyIds.length > 0) {
+        if (usersIds.length > 0) {
             var msg;
             msg = Messenger().post({
-                message: "确定删除选中的类别吗?",
+                message: "确定注销选中的用户吗?",
                 actions: {
                     retry: {
                         label: '确定',
                         phrase: 'Retrying TIME',
                         action: function () {
                             msg.cancel();
-                            dels(classifyIds);
+                            dels(usersIds);
                         }
                     },
                     cancel: {
@@ -358,31 +325,31 @@ $(document).ready(function () {
                 }
             });
         } else {
-            Messenger().post("未发现有选中的类别!");
+            Messenger().post("未发现有选中的用户!");
         }
     });
 
     /*
      批量恢复
      */
-    $('#classify_recoveries').click(function () {
-        var classifyIds = [];
+    $('#user_recoveries').click(function () {
+        var userIds = [];
         var ids = $('input[name="check"]:checked');
         for (var i = 0; i < ids.length; i++) {
-            classifyIds.push($(ids[i]).val());
+            userIds.push($(ids[i]).val());
         }
 
-        if (classifyIds.length > 0) {
+        if (userIds.length > 0) {
             var msg;
             msg = Messenger().post({
-                message: "确定恢复选中的类别吗?",
+                message: "确定恢复选中的用户吗?",
                 actions: {
                     retry: {
                         label: '确定',
                         phrase: 'Retrying TIME',
                         action: function () {
                             msg.cancel();
-                            recoveries(classifyIds);
+                            recoveries(userIds);
                         }
                     },
                     cancel: {
@@ -394,146 +361,50 @@ $(document).ready(function () {
                 }
             });
         } else {
-            Messenger().post("未发现有选中的类别!");
+            Messenger().post("未发现有选中的用户!");
         }
     });
 
     /*
-     编辑
-     */
-    function edit(classifyId) {
-        Messenger().run({
-            progressMessage: '正在查询数据...'
-        }, {
-            url: web_path + getAjaxUrl().query + '/' + classifyId,
-            success: function (data) {
-                $('#modalLabel').text('编辑类别');
-                $('#modalType').val('edit');
-                $(getParamId().dataClassifyName).val(data.classifyName);
-                $(getParamId().dataClassifyId).val(classifyId);
-                $(getParamId().dataClassifyIsDel).prop('checked', data.classifyIsDel);
-                $('#modal').modal('show');
-            },
-            error: function (xhr) {
-                if ((xhr != null ? xhr.status : void 0) === 404) {
-                    return "请求错误";
-                }
-                return true;
-            }
-        });
-    }
-
-    $('#modal').on('shown.bs.modal', function () {
-        $(getParamId().dataClassifyName).trigger('focus');
-    });
-
-    /**
-     * 保存数据
-     */
-    $('#save').click(function () {
-        initParam();
-        validClassifyName();
-    });
-
-    /**
-     * 校验类别名
-     */
-    function validClassifyName() {
-        var dataClassifyName = getParam().dataClassifyName;
-        if (_.inRange(dataClassifyName.length, 1, 30)) {
-            var data = "";
-            if ($('#modalType').val() === 'add') {
-                data = {
-                    type: 0,
-                    classifyName: dataClassifyName
-                };
-            } else {
-                data = {
-                    type: 1,
-                    classifyName: dataClassifyName,
-                    classifyId: getParam().dataClassifyId
-                };
-            }
-            Messenger().run({
-                progressMessage: '正在校验数据...'
-            }, {
-                url: web_path + getAjaxUrl().valid,
-                data: data,
-                success: function (data) {
-                    if (data.state) {
-                        validSuccessDom(getParamId().dataClassifyName, errorMsgId.dataClassifyName);
-                        sendAjax();
-                    } else {
-                        validErrorDom(getParamId().dataClassifyName, errorMsgId.dataClassifyName, data.msg);
-                    }
-                },
-                error: function (xhr) {
-                    if ((xhr != null ? xhr.status : void 0) === 404) {
-                        return "请求错误";
-                    }
-                    return true;
-                }
-            });
-        } else {
-            validErrorDom(getParamId().dataClassifyName, errorMsgId.dataClassifyName, '类别1~30个字符');
-        }
-    }
-
-    /**
-     * 发送数据到后台
-     */
-    function sendAjax() {
-        var url = "";
-        var type = "";
-        if ($('#modalType').val() === 'add') {
-            url = getAjaxUrl().add;
-            type = "post";
-        } else {
-            url = getAjaxUrl().edit;
-            type = "put";
-        }
-        Messenger().run({
-            progressMessage: '正在保存数据...'
-        }, {
-            url: web_path + url,
-            type: type,
-            data: $('#dataForm').serialize(),
-            success: function (data) {
-                if (data.state) {
-                    $('#modal').modal('hide');
-                    myTable.ajax.reload();
-                } else {
-                    Messenger().post({
-                        message: data.msg,
-                        type: 'error',
-                        showCloseButton: true
-                    });
-                }
-            },
-            error: function (xhr) {
-                if ((xhr != null ? xhr.status : void 0) === 404) {
-                    return "请求错误";
-                }
-                return true;
-            }
-        });
-    }
-
-
-    /*
-     删除
+   重置
     */
-    function classify_del(classifyId, classifyName) {
+    function reset_password(userId, realName) {
         var msg;
         msg = Messenger().post({
-            message: "确定删除类别 '" + classifyName + "' 吗?",
+            message: "确定重置用户 '" + realName + "' 吗?",
             actions: {
                 retry: {
                     label: '确定',
                     phrase: 'Retrying TIME',
                     action: function () {
                         msg.cancel();
-                        del(classifyId);
+                        reset(userId);
+                    }
+                },
+                cancel: {
+                    label: '取消',
+                    action: function () {
+                        return msg.cancel();
+                    }
+                }
+            }
+        });
+    }
+
+    /*
+     注销
+    */
+    function user_del(userId, realName) {
+        var msg;
+        msg = Messenger().post({
+            message: "确定注销用户 '" + realName + "' 吗?",
+            actions: {
+                retry: {
+                    label: '确定',
+                    phrase: 'Retrying TIME',
+                    action: function () {
+                        msg.cancel();
+                        del(userId);
                     }
                 },
                 cancel: {
@@ -549,17 +420,17 @@ $(document).ready(function () {
     /*
      恢复
      */
-    function classify_recovery(classifyId, classifyName) {
+    function user_recovery(userId, realName) {
         var msg;
         msg = Messenger().post({
-            message: "确定恢复类别 '" + classifyName + "' 吗?",
+            message: "确定恢复用户 '" + realName + "' 吗?",
             actions: {
                 retry: {
                     label: '确定',
                     phrase: 'Retrying TIME',
                     action: function () {
                         msg.cancel();
-                        recovery(classifyId);
+                        recovery(userId);
                     }
                 },
                 cancel: {
@@ -572,35 +443,162 @@ $(document).ready(function () {
         });
     }
 
-    function del(classifyId) {
-        sendUpdateDelAjax(classifyId, '删除', 1);
+    /*
+    锁定
+    */
+    function user_locked(userId, realName) {
+        var msg;
+        msg = Messenger().post({
+            message: "确定锁定用户 '" + realName + "' 吗?",
+            actions: {
+                retry: {
+                    label: '确定',
+                    phrase: 'Retrying TIME',
+                    action: function () {
+                        msg.cancel();
+                        locked(userId);
+                    }
+                },
+                cancel: {
+                    label: '取消',
+                    action: function () {
+                        return msg.cancel();
+                    }
+                }
+            }
+        });
     }
 
-    function recovery(classifyId) {
-        sendUpdateDelAjax(classifyId, '恢复', 0);
+    /*
+    解锁
+    */
+    function user_unlocked(userId, realName) {
+        var msg;
+        msg = Messenger().post({
+            message: "确定解锁用户 '" + realName + "' 吗?",
+            actions: {
+                retry: {
+                    label: '确定',
+                    phrase: 'Retrying TIME',
+                    action: function () {
+                        msg.cancel();
+                        unlocked(userId);
+                    }
+                },
+                cancel: {
+                    label: '取消',
+                    action: function () {
+                        return msg.cancel();
+                    }
+                }
+            }
+        });
     }
 
-    function dels(classifyIds) {
-        sendUpdateDelAjax(classifyIds.join(","), '批量注销', 1);
+    function reset(userId) {
+        sendUpdateResetAjax(userId);
     }
 
-    function recoveries(classifyIds) {
-        sendUpdateDelAjax(classifyIds.join(","), '批量恢复', 0);
+    function del(userId) {
+        sendUpdateDelAjax(userId, '注销', 1);
+    }
+
+    function recovery(userId) {
+        sendUpdateDelAjax(userId, '恢复', 0);
+    }
+
+    function locked(userId) {
+        sendUpdateLockedAjax(userId, '锁定', 1);
+    }
+
+    function unlocked(userId) {
+        sendUpdateLockedAjax(userId, '解锁', 0);
+    }
+
+    function dels(userIds) {
+        sendUpdateDelAjax(userIds.join(","), '批量注销', 1);
+    }
+
+    function recoveries(userIds) {
+        sendUpdateDelAjax(userIds.join(","), '批量恢复', 0);
+    }
+
+    /**
+     * 重置ajax
+     * @param userId
+     */
+    function sendUpdateResetAjax(userId) {
+        Messenger().run({
+            progressMessage: '正在重置用户....'
+        }, {
+            url: web_path + getAjaxUrl().reset + '/' + userId,
+            type: 'put',
+            success: function (data) {
+                if (data.state) {
+                    myTable.ajax.reload();
+                } else {
+                    Messenger().post({
+                        message: data.msg,
+                        type: 'error',
+                        showCloseButton: true
+                    });
+                }
+            },
+            error: function (xhr) {
+                if ((xhr != null ? xhr.status : void 0) === 404) {
+                    return "请求失败";
+                }
+                return true;
+            }
+        });
     }
 
     /**
      * 注销或恢复ajax
-     * @param classifyId
+     * @param userId
      * @param message
-     * @param classifyIsDel
+     * @param disabled
      */
-    function sendUpdateDelAjax(classifyId, message, classifyIsDel) {
+    function sendUpdateDelAjax(userId, message, disabled) {
         Messenger().run({
-            progressMessage: '正在' + message + '类别....'
+            progressMessage: '正在' + message + '用户....'
         }, {
-            url: web_path + getAjaxUrl().state,
+            url: web_path + getAjaxUrl().del,
             type: 'put',
-            data: {classifyIds: classifyId, classifyIsDel: classifyIsDel},
+            data: {userIds: userId, disabled: disabled},
+            success: function (data) {
+                if (data.state) {
+                    myTable.ajax.reload();
+                } else {
+                    Messenger().post({
+                        message: data.msg,
+                        type: 'error',
+                        showCloseButton: true
+                    });
+                }
+            },
+            error: function (xhr) {
+                if ((xhr != null ? xhr.status : void 0) === 404) {
+                    return "请求失败";
+                }
+                return true;
+            }
+        });
+    }
+
+    /**
+     * 锁定或解锁ajax
+     * @param userId
+     * @param message
+     * @param accountLocked
+     */
+    function sendUpdateLockedAjax(userId, message, accountLocked) {
+        Messenger().run({
+            progressMessage: '正在' + message + '用户....'
+        }, {
+            url: web_path + getAjaxUrl().lock,
+            type: 'put',
+            data: {userIds: userId, accountLocked: accountLocked},
             success: function (data) {
                 if (data.state) {
                     myTable.ajax.reload();
