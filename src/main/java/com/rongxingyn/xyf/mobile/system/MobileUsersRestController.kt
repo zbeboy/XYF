@@ -4,15 +4,17 @@ import com.rongxingyn.xyf.domain.tables.pojos.Authorities
 import com.rongxingyn.xyf.domain.tables.pojos.Users
 import com.rongxingyn.xyf.mobile.vo.users.LoginVo
 import com.rongxingyn.xyf.mobile.vo.users.RegisterVo
+import com.rongxingyn.xyf.mobile.vo.users.UsersDataVo
 import com.rongxingyn.xyf.security.AuthBook
 import com.rongxingyn.xyf.service.system.AuthoritiesService
 import com.rongxingyn.xyf.service.system.UsersService
 import com.rongxingyn.xyf.service.utils.BCryptUtils
+import com.rongxingyn.xyf.service.utils.UUIDUtils
 import com.rongxingyn.xyf.web.utils.AjaxUtils
 import org.apache.commons.lang3.BooleanUtils
+import org.apache.commons.lang3.StringUtils
 import org.springframework.http.HttpStatus
 import org.springframework.http.ResponseEntity
-import org.springframework.util.StringUtils
 import org.springframework.validation.BindingResult
 import org.springframework.web.bind.annotation.GetMapping
 import org.springframework.web.bind.annotation.RequestMapping
@@ -49,7 +51,9 @@ open class MobileUsersRestController {
                     if (BooleanUtils.isFalse(users.accountLocked == 1.toByte())) {
                         if (BooleanUtils.isFalse(users.credentialsExpired == 1.toByte())) {
                             if (BCryptUtils.bCryptPasswordMatches(loginVo.password!!, users.password)) {
-                                ajaxUtils.success().msg("登录成功")
+                                users.accessToken = UUIDUtils.getUUID()
+                                usersService.update(users)
+                                ajaxUtils.success().put("access_token", users.accessToken).msg("登录成功")
                             } else {
                                 ajaxUtils.fail().msg("密码错误")
                             }
@@ -82,7 +86,7 @@ open class MobileUsersRestController {
     fun register(@Valid registerVo: RegisterVo, bindingResult: BindingResult): Mono<ResponseEntity<Map<String, Any>>> {
         val ajaxUtils = AjaxUtils.of()
         if (!bindingResult.hasErrors()) {
-            val name = StringUtils.trimWhitespace(registerVo.username!!)
+            val name = StringUtils.trim(registerVo.username!!)
             val checkUsers = usersService.findByUsername(name)
             if (Objects.isNull(checkUsers)) {
                 val users = Users()
@@ -112,27 +116,36 @@ open class MobileUsersRestController {
     }
 
     /**
-     * 注册
+     * 获取用户数据
      *
-     * @param username 数据
+     * @param usersDataVo 数据
      * @return true or false
      */
     @GetMapping("/user")
-    fun user(username: String): Mono<ResponseEntity<Map<String, Any>>> {
+    fun user(@Valid usersDataVo: UsersDataVo, bindingResult: BindingResult): Mono<ResponseEntity<Map<String, Any>>> {
         val ajaxUtils = AjaxUtils.of()
-        val name = StringUtils.trimWhitespace(username)
-        val data = usersService.findByUsername(name)
-        if (Objects.nonNull(data)) {
-            val users = Users()
-            users.username = data!!.username
-            users.address = data.address
-            users.realName = data.realName
-            users.sex = data.sex
-            users.contact = data.contact
-            ajaxUtils.success().put("user", users).msg("获取数据成功")
+        if (!bindingResult.hasErrors()) {
+            val name = StringUtils.trim(usersDataVo.username!!)
+            val data = usersService.findByUsername(name)
+            if (Objects.nonNull(data)) {
+                if (StringUtils.equals(data!!.accessToken, usersDataVo.accessToken)) {
+                    val users = Users()
+                    users.username = data.username
+                    users.address = data.address
+                    users.realName = data.realName
+                    users.sex = data.sex
+                    users.contact = data.contact
+                    ajaxUtils.success().put("user", users).msg("获取数据成功")
+                } else {
+                    ajaxUtils.fail().msg("登录失效")
+                }
+            } else {
+                ajaxUtils.fail().msg("获取数据失败")
+            }
         } else {
-            ajaxUtils.fail().msg("获取数据失败")
+            ajaxUtils.fail().msg(bindingResult.fieldError!!.defaultMessage!!)
         }
+
         return Mono.just(ResponseEntity(ajaxUtils.send(), HttpStatus.OK))
     }
 }
