@@ -43,6 +43,18 @@ open class GoodsDatumServiceImpl @Autowired constructor(dslContext: DSLContext) 
                 .fetchOptional()
     }
 
+    override fun findByGoodsIsStickRelation(goodsIsStick: Byte, goodsItem: Int): Result<Record> {
+        return create.select()
+                .from(GOODS)
+                .join(CLASSIFY)
+                .on(GOODS.CLASSIFY_ID.eq(CLASSIFY.CLASSIFY_ID))
+                .join(GOODS_PICS)
+                .on(GOODS.GOODS_ID.eq(GOODS_PICS.GOODS_ID))
+                .where(GOODS.GOODS_IS_STICK.eq(goodsIsStick).and(GOODS.GOODS_IS_DEL.eq(0)).and(GOODS.GOODS_ITEM.eq(goodsItem)))
+                .orderBy(GOODS.GOODS_SERIAL.asc())
+                .fetch()
+    }
+
     override fun findByGoodsName(goodsName: String): List<Goods> {
         return goodsDao.fetchByGoodsName(goodsName)
     }
@@ -51,6 +63,25 @@ open class GoodsDatumServiceImpl @Autowired constructor(dslContext: DSLContext) 
         return create.selectFrom<GoodsRecord>(GOODS)
                 .where(GOODS.GOODS_NAME.eq(goodsName).and(GOODS.GOODS_ID.ne(goodsId)))
                 .fetch()
+    }
+
+    override fun findByGoodsItemAndClassifyIdAndGoodsName(goodsItem: Int, classifyId: Int, goodsName: String): Result<Record> {
+        val a = create.select()
+                .from(GOODS)
+                .join(CLASSIFY)
+                .on(GOODS.CLASSIFY_ID.eq(CLASSIFY.CLASSIFY_ID))
+                .join(GOODS_PICS)
+                .on(GOODS.GOODS_ID.eq(GOODS_PICS.GOODS_ID))
+                .where(GOODS.GOODS_IS_DEL.eq(0).and(GOODS.GOODS_ITEM.eq(goodsItem)))
+        if (classifyId > 0) {
+            a.and(GOODS.CLASSIFY_ID.eq(classifyId))
+        }
+
+        if (StringUtils.hasLength(goodsName)) {
+            a.and(GOODS.GOODS_NAME.like(SQLQueryUtils.likeAllParam(goodsName)))
+        }
+
+        return a.orderBy(GOODS.GOODS_SERIAL.asc()).fetch()
     }
 
     override fun findAllByPage(dataTablesUtils: DataTablesUtils<GoodsBean>): Result<Record> {
@@ -215,6 +246,17 @@ open class GoodsDatumServiceImpl @Autowired constructor(dslContext: DSLContext) 
                 }
             }
 
+            if ("goods_item".equals(orderColumnName, ignoreCase = true)) {
+                sortField = arrayOfNulls(2)
+                if (isAsc) {
+                    sortField[0] = GOODS.GOODS_ITEM.asc()
+                    sortField[1] = GOODS.GOODS_ID.asc()
+                } else {
+                    sortField[0] = GOODS.GOODS_ITEM.desc()
+                    sortField[1] = GOODS.GOODS_ID.desc()
+                }
+            }
+
             if ("goods_serial".equals(orderColumnName, ignoreCase = true)) {
                 sortField = arrayOfNulls(2)
                 if (isAsc) {
@@ -233,6 +275,17 @@ open class GoodsDatumServiceImpl @Autowired constructor(dslContext: DSLContext) 
                     sortField[1] = GOODS.GOODS_ID.asc()
                 } else {
                     sortField[0] = GOODS.GOODS_IS_DEL.desc()
+                    sortField[1] = GOODS.GOODS_ID.desc()
+                }
+            }
+
+            if ("goods_is_stick".equals(orderColumnName, ignoreCase = true)) {
+                sortField = arrayOfNulls(2)
+                if (isAsc) {
+                    sortField[0] = GOODS.GOODS_IS_STICK.asc()
+                    sortField[1] = GOODS.GOODS_ID.asc()
+                } else {
+                    sortField[0] = GOODS.GOODS_IS_STICK.desc()
                     sortField[1] = GOODS.GOODS_ID.desc()
                 }
             }

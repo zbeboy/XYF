@@ -27,6 +27,15 @@ interface GoodsDatumService {
     fun findByIdRelation(id: String): Optional<Record>
 
     /**
+     * 通过置顶查询
+     *
+     * @param goodsIsStick 是否置顶
+     * @param goodsItem 商品端
+     * @return 数据
+     */
+    fun findByGoodsIsStickRelation(goodsIsStick: Byte, goodsItem: Int): Result<Record>
+
+    /**
      * 根据商品名查询
      *
      * @param goodsName 商品名
@@ -42,6 +51,16 @@ interface GoodsDatumService {
      * @return 数据
      */
     fun findByGoodsNameNeGoodsId(goodsName: String, goodsId: String): Result<GoodsRecord>
+
+    /**
+     * 根据商品状态与渠道,类别商品名查询
+     *
+     * @param goodsItem 渠道
+     * @param classifyId 类别id
+     * @param goodsName 商品名
+     * @return 数据
+     */
+    fun findByGoodsItemAndClassifyIdAndGoodsName(goodsItem: Int, classifyId: Int, goodsName: String): Result<Record>
 
     /**
      * 分页查询
