@@ -135,6 +135,7 @@ open class MobileUsersRestController {
                     users.realName = data.realName
                     users.sex = data.sex
                     users.contact = data.contact
+                    users.accessToken = data.accessToken
                     ajaxUtils.success().put("user", users).msg("获取数据成功")
                 } else {
                     ajaxUtils.fail().msg("登录失效")
@@ -146,6 +147,151 @@ open class MobileUsersRestController {
             ajaxUtils.fail().msg(bindingResult.fieldError!!.defaultMessage!!)
         }
 
+        return Mono.just(ResponseEntity(ajaxUtils.send(), HttpStatus.OK))
+    }
+
+    /**
+     * 更新用户数据
+     *
+     * @param usersDataVo 数据
+     * @return true or false
+     */
+    @GetMapping("/user/edit/real_name")
+    fun editRealName(@Valid usersDataVo: UsersDataVo, bindingResult: BindingResult): Mono<ResponseEntity<Map<String, Any>>> {
+        val ajaxUtils = AjaxUtils.of()
+        if (!bindingResult.hasErrors()) {
+            val name = StringUtils.trim(usersDataVo.username!!)
+            val data = usersService.findByUsername(name)
+            if (Objects.nonNull(data)) {
+                if (StringUtils.equals(data!!.accessToken, usersDataVo.accessToken)) {
+                    data.realName = usersDataVo.realName
+                    usersService.update(data)
+                    ajaxUtils.success().put("user", data).msg("更新成功")
+                } else {
+                    ajaxUtils.fail().msg("登录失效")
+                }
+            } else {
+                ajaxUtils.fail().msg("获取数据失败")
+            }
+        } else {
+            ajaxUtils.fail().msg(bindingResult.fieldError!!.defaultMessage!!)
+        }
+        return Mono.just(ResponseEntity(ajaxUtils.send(), HttpStatus.OK))
+    }
+
+    /**
+     * 更新用户数据
+     *
+     * @param usersDataVo 数据
+     * @return true or false
+     */
+    @GetMapping("/user/edit/password")
+    fun editPassword(@Valid usersDataVo: UsersDataVo, bindingResult: BindingResult): Mono<ResponseEntity<Map<String, Any>>> {
+        val ajaxUtils = AjaxUtils.of()
+        if (!bindingResult.hasErrors()) {
+            val name = StringUtils.trim(usersDataVo.username!!)
+            val data = usersService.findByUsername(name)
+            if (Objects.nonNull(data)) {
+                if (StringUtils.equals(data!!.accessToken, usersDataVo.accessToken)) {
+                    data.password = BCryptUtils.bCryptPassword(usersDataVo.password!!)
+                    usersService.update(data)
+                    ajaxUtils.success().msg("更新成功")
+                } else {
+                    ajaxUtils.fail().msg("登录失效")
+                }
+            } else {
+                ajaxUtils.fail().msg("获取数据失败")
+            }
+        } else {
+            ajaxUtils.fail().msg(bindingResult.fieldError!!.defaultMessage!!)
+        }
+        return Mono.just(ResponseEntity(ajaxUtils.send(), HttpStatus.OK))
+    }
+
+    /**
+     * 更新用户数据
+     *
+     * @param usersDataVo 数据
+     * @return true or false
+     */
+    @GetMapping("/user/edit/sex")
+    fun editSex(@Valid usersDataVo: UsersDataVo, bindingResult: BindingResult): Mono<ResponseEntity<Map<String, Any>>> {
+        val ajaxUtils = AjaxUtils.of()
+        if (!bindingResult.hasErrors()) {
+            val name = StringUtils.trim(usersDataVo.username!!)
+            val data = usersService.findByUsername(name)
+            if (Objects.nonNull(data)) {
+                if (StringUtils.equals(data!!.accessToken, usersDataVo.accessToken)) {
+                    data.sex = usersDataVo.sex
+                    usersService.update(data)
+                    ajaxUtils.success().put("user", data).msg("更新成功")
+                } else {
+                    ajaxUtils.fail().msg("登录失效")
+                }
+            } else {
+                ajaxUtils.fail().msg("获取数据失败")
+            }
+        } else {
+            ajaxUtils.fail().msg(bindingResult.fieldError!!.defaultMessage!!)
+        }
+        return Mono.just(ResponseEntity(ajaxUtils.send(), HttpStatus.OK))
+    }
+
+    /**
+     * 更新用户数据
+     *
+     * @param usersDataVo 数据
+     * @return true or false
+     */
+    @GetMapping("/user/edit/contact")
+    fun editContact(@Valid usersDataVo: UsersDataVo, bindingResult: BindingResult): Mono<ResponseEntity<Map<String, Any>>> {
+        val ajaxUtils = AjaxUtils.of()
+        if (!bindingResult.hasErrors()) {
+            val name = StringUtils.trim(usersDataVo.username!!)
+            val data = usersService.findByUsername(name)
+            if (Objects.nonNull(data)) {
+                if (StringUtils.equals(data!!.accessToken, usersDataVo.accessToken)) {
+                    data.contact = usersDataVo.contact
+                    usersService.update(data)
+                    ajaxUtils.success().put("user", data).msg("更新成功")
+                } else {
+                    ajaxUtils.fail().msg("登录失效")
+                }
+            } else {
+                ajaxUtils.fail().msg("获取数据失败")
+            }
+        } else {
+            ajaxUtils.fail().msg(bindingResult.fieldError!!.defaultMessage!!)
+        }
+        return Mono.just(ResponseEntity(ajaxUtils.send(), HttpStatus.OK))
+    }
+
+    /**
+     * 更新用户数据
+     *
+     * @param usersDataVo 数据
+     * @return true or false
+     */
+    @GetMapping("/user/edit/address")
+    fun editAddress(@Valid usersDataVo: UsersDataVo, bindingResult: BindingResult): Mono<ResponseEntity<Map<String, Any>>> {
+        val ajaxUtils = AjaxUtils.of()
+        if (!bindingResult.hasErrors()) {
+            val name = StringUtils.trim(usersDataVo.username!!)
+            val data = usersService.findByUsername(name)
+            if (Objects.nonNull(data)) {
+                if (StringUtils.equals(data!!.accessToken, usersDataVo.accessToken)) {
+                    data.address = usersDataVo.address
+                    usersService.update(data)
+                    ajaxUtils.success().put("user", data).msg("更新成功")
+                } else {
+                    ajaxUtils.fail().msg("登录失效")
+                }
+            } else {
+                ajaxUtils.fail().msg("获取数据失败")
+            }
+        } else {
+            ajaxUtils.fail().msg(bindingResult.fieldError!!.defaultMessage!!)
+        }
         return Mono.just(ResponseEntity(ajaxUtils.send(), HttpStatus.OK))
     }
 }

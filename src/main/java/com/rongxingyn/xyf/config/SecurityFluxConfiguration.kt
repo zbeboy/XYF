@@ -46,7 +46,7 @@ open class SecurityFluxConfiguration {
                 .pathMatchers("/pic/**").permitAll()
                 .pathMatchers("/", "/plugin/**", "/data/**", "/user/**", Workbook.LOGIN_PAGE).permitAll()
                 .pathMatchers("/web/**").hasRole("ADMIN")
-                .pathMatchers("/mobile/login", "/mobile/register", "/mobile/user").permitAll()
+                .pathMatchers("/mobile/login", "/mobile/register", "/mobile/user/**").permitAll()
                 .pathMatchers("/mobile/backstage/**").permitAll()
                 .and()
                 .httpBasic()
