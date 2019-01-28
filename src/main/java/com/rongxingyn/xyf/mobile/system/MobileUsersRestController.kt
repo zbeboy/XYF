@@ -195,7 +195,7 @@ open class MobileUsersRestController {
                 if (StringUtils.equals(data!!.accessToken, usersDataVo.accessToken)) {
                     data.password = BCryptUtils.bCryptPassword(usersDataVo.password!!)
                     usersService.update(data)
-                    ajaxUtils.success().msg("更新成功")
+                    ajaxUtils.success().put("user", data).msg("更新成功")
                 } else {
                     ajaxUtils.fail().msg("登录失效")
                 }
