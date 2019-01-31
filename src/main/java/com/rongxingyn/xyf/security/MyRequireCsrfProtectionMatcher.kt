@@ -18,7 +18,7 @@ class MyRequireCsrfProtectionMatcher : ServerWebExchangeMatcher {
 
     override fun matches(exchange: ServerWebExchange): Mono<ServerWebExchangeMatcher.MatchResult> {
 //        return Mono.just<ServerHttpRequest>(exchange.request).map<HttpMethod> { r -> r.method }.filter { m -> ALLOWED_METHODS.contains(m) }.flatMap { m -> ServerWebExchangeMatcher.MatchResult.notMatch() }.switchIfEmpty(ServerWebExchangeMatcher.MatchResult.match())
-        return Mono.just(exchange).map<ServerHttpRequest> { r -> r.request }.filter { m -> NOT_NEED_CSRF.any { r -> r.startsWith(m.uri.path, false) } || ALLOWED_METHODS.contains(m.method) }
+        return Mono.just(exchange).map<ServerHttpRequest> { r -> r.request }.filter { m -> NOT_NEED_CSRF.any { r -> m.uri.path.startsWith(r, false) } || ALLOWED_METHODS.contains(m.method) }
                 .flatMap { _ -> ServerWebExchangeMatcher.MatchResult.notMatch() }.switchIfEmpty(ServerWebExchangeMatcher.MatchResult.match())
     }
 }

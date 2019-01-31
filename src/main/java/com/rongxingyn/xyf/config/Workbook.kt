@@ -34,5 +34,9 @@ open class Workbook {
         // 文件识别码
         const val GOODS_DATUM_FILE = "GOODS_DATUM_"
         const val GOODS_BANNER_FILE = "GOODS_BANNER_"
+        const val USER_PHOTO_FILE = "USER_PHOTO_"
+
+        // 默认头像
+        const val DEFAULT_PHOTO = DIRECTORY_SPLIT + "images" + DIRECTORY_SPLIT + "photo.jpg"
     }
 }
