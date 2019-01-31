@@ -4,6 +4,7 @@ import com.rongxingyn.xyf.filter.SecurityFluxLoginFilter
 import com.rongxingyn.xyf.security.AjaxFluxAuthenticationFailureHandler
 import com.rongxingyn.xyf.security.AjaxFluxAuthenticationSuccessHandler
 import com.rongxingyn.xyf.security.MyReactiveUserDetailsServiceImpl
+import com.rongxingyn.xyf.security.MyRequireCsrfProtectionMatcher
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.autoconfigure.security.reactive.PathRequest
 import org.springframework.context.annotation.Bean
@@ -27,6 +28,9 @@ open class SecurityFluxConfiguration {
     @Inject
     open lateinit var ajaxFluxAuthenticationFailureHandler: AjaxFluxAuthenticationFailureHandler
 
+    @Inject
+    open lateinit var myRequireCsrfProtectionMatcher: MyRequireCsrfProtectionMatcher
+
     @Autowired
     private lateinit var myReactiveUserDetailsService: MyReactiveUserDetailsServiceImpl
 
@@ -41,6 +45,9 @@ open class SecurityFluxConfiguration {
     @Bean
     open fun springSecurityFilterChain(http: ServerHttpSecurity): SecurityWebFilterChain {
         return http
+                .csrf()
+                .requireCsrfProtectionMatcher(myRequireCsrfProtectionMatcher)
+                .and()
                 .authorizeExchange()
                 .matchers(PathRequest.toStaticResources().atCommonLocations()).permitAll()
                 .pathMatchers("/pic/**").permitAll()
