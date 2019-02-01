@@ -20,12 +20,19 @@ $(document).ready(function () {
         extraSearch: ''
     };
 
+    var searchParam = {
+        goodsItem: 0,
+        goodsIsDel: 0,
+        classifyId: ''
+    };
+
     init();
 
     /**
      * 初始化数据
      */
     function init() {
+        param.extraSearch = JSON.stringify(searchParam);
         $.get(web_path + ajax_url.datas, param, function (data) {
             if (data.data.length > 0) {
                 createPage(data);
@@ -132,14 +139,11 @@ $(document).ready(function () {
     $('.classify').click(function () {
         param.pageNumber = 0;
         if ($(this).hasClass('active')) {
-            param.extraSearch = "";
+            searchParam.classifyId = '';
             init();
             $(this).removeClass('active');
         } else {
-            var searchParam = {
-                classifyId: $(this).attr('data-id')
-            };
-            param.extraSearch = JSON.stringify(searchParam);
+            searchParam.classifyId = $(this).attr('data-id');
             init();
             var cl = $('#classifies').children();
             for (var i = 0; i < cl.length; i++) {

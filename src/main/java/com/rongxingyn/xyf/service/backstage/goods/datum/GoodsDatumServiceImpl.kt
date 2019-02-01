@@ -165,6 +165,7 @@ open class GoodsDatumServiceImpl @Autowired constructor(dslContext: DSLContext) 
         if (!ObjectUtils.isEmpty(search)) {
             val goodsName = StringUtils.trimWhitespace(search!!.getString("goodsName"))
             val goodsItem = StringUtils.trimWhitespace(search.getString("goodsItem"))
+            val goodsIsDel = StringUtils.trimWhitespace(search.getString("goodsIsDel"))
             val classifyId = StringUtils.trimWhitespace(search.getString("classifyId"))
             if (StringUtils.hasLength(goodsName)) {
                 a = GOODS.GOODS_NAME.like(SQLQueryUtils.likeAllParam(goodsName))
@@ -175,6 +176,14 @@ open class GoodsDatumServiceImpl @Autowired constructor(dslContext: DSLContext) 
                     GOODS.GOODS_ITEM.eq(NumberUtils.toInt(goodsItem))
                 } else {
                     a!!.and(GOODS.GOODS_ITEM.eq(NumberUtils.toInt(goodsItem)))
+                }
+            }
+
+            if (StringUtils.hasLength(goodsIsDel)) {
+                a = if (ObjectUtils.isEmpty(a)) {
+                    GOODS.GOODS_IS_DEL.eq(NumberUtils.toByte(goodsIsDel))
+                } else {
+                    a!!.and(GOODS.GOODS_IS_DEL.eq(NumberUtils.toByte(goodsIsDel)))
                 }
             }
 
