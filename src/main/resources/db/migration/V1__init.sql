@@ -96,8 +96,8 @@ CREATE TABLE system_api(
   remark VARCHAR(500)
 );
 
-INSERT INTO users (username, password)
-VALUES ('govern', '$2a$10$wICea4jxjGeqeL99vXQBnO5dKtvT4Q2EbELrRoNZWCwuXJiLGNgE.');
+INSERT INTO users (username, password, photo)
+VALUES ('govern', '$2a$10$wICea4jxjGeqeL99vXQBnO5dKtvT4Q2EbELrRoNZWCwuXJiLGNgE.', '/images/photo.jpg');
 INSERT INTO authorities (username, authority) VALUES ('govern', 'ROLE_ADMIN');
 
 INSERT INTO channel_info(channel_id, channel_name) VALUES

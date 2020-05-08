@@ -1,11 +1,15 @@
 package com.rongxingyn.xyf.mobile.system
 
+import com.rongxingyn.xyf.config.Workbook
+import com.rongxingyn.xyf.config.XYFProperties
 import com.rongxingyn.xyf.domain.tables.pojos.Authorities
+import com.rongxingyn.xyf.domain.tables.pojos.Banner
 import com.rongxingyn.xyf.domain.tables.pojos.Users
 import com.rongxingyn.xyf.mobile.vo.users.LoginVo
 import com.rongxingyn.xyf.mobile.vo.users.RegisterVo
 import com.rongxingyn.xyf.mobile.vo.users.UsersDataVo
 import com.rongxingyn.xyf.security.AuthBook
+import com.rongxingyn.xyf.service.common.FileSystemService
 import com.rongxingyn.xyf.service.system.AuthoritiesService
 import com.rongxingyn.xyf.service.system.UsersService
 import com.rongxingyn.xyf.service.utils.BCryptUtils
@@ -14,11 +18,11 @@ import com.rongxingyn.xyf.web.utils.AjaxUtils
 import org.apache.commons.lang3.BooleanUtils
 import org.apache.commons.lang3.StringUtils
 import org.springframework.http.HttpStatus
+import org.springframework.http.MediaType
 import org.springframework.http.ResponseEntity
+import org.springframework.http.codec.multipart.FilePart
 import org.springframework.validation.BindingResult
-import org.springframework.web.bind.annotation.GetMapping
-import org.springframework.web.bind.annotation.RequestMapping
-import org.springframework.web.bind.annotation.RestController
+import org.springframework.web.bind.annotation.*
 import reactor.core.publisher.Mono
 import java.util.*
 import javax.annotation.Resource
@@ -33,6 +37,12 @@ open class MobileUsersRestController {
 
     @Resource
     open lateinit var authoritiesService: AuthoritiesService
+
+    @Resource
+    open lateinit var fileSystemService: FileSystemService
+
+    @Resource
+    open lateinit var xyfProperties: XYFProperties
 
     /**
      * 登录
@@ -100,6 +110,7 @@ open class MobileUsersRestController {
                 users.realName = registerVo.realName
                 users.sex = registerVo.sex
                 users.contact = registerVo.contact
+                users.photo = Workbook.DEFAULT_PHOTO
                 usersService.save(users)
                 val authorities = Authorities()
                 authorities.username = registerVo.username
@@ -136,6 +147,7 @@ open class MobileUsersRestController {
                     users.sex = data.sex
                     users.contact = data.contact
                     users.accessToken = data.accessToken
+                    users.photo = data.photo
                     ajaxUtils.success().put("user", users).msg("获取数据成功")
                 } else {
                     ajaxUtils.fail().msg("登录失效")
@@ -144,6 +156,42 @@ open class MobileUsersRestController {
                 ajaxUtils.fail().msg("获取数据失败")
             }
         } else {
+            ajaxUtils.fail().msg(bindingResult.fieldError!!.defaultMessage!!)
+        }
+
+        return Mono.just(ResponseEntity(ajaxUtils.send(), HttpStatus.OK))
+    }
+
+    /**
+     * 上传图片
+     *
+     * @param filePart 数据
+     * @return 文件信息
+     */
+    @PostMapping("/user/edit/photo", consumes = [MediaType.MULTIPART_FORM_DATA_VALUE])
+    fun upload(@RequestPart("file") filePart: FilePart, @Valid usersDataVo: UsersDataVo, bindingResult: BindingResult): Mono<ResponseEntity<Map<String, Any>>> {
+        val ajaxUtils = AjaxUtils.of()
+        if (!bindingResult.hasErrors()) {
+            val name = StringUtils.trim(usersDataVo.username!!)
+            val data = usersService.findByUsername(name)
+            if (Objects.nonNull(data)) {
+                if (StringUtils.equals(data!!.accessToken, usersDataVo.accessToken)) {
+                    val path = xyfProperties.getConstants().staticImages + Workbook.DIRECTORY_SPLIT
+                    val fileData = fileSystemService.upload(filePart, path, Workbook.USER_PHOTO_FILE)
+                    if (fileData.isPresent) {fileSystemService
+                        data.photo = Workbook.DIRECTORY_SPLIT + path + fileData.get().newName
+                        usersService.update(data)
+                        ajaxUtils.success().put("user", data).msg("更新成功")
+                    } else {
+                        ajaxUtils.fail().msg("上传文件失败")
+                    }
+                } else {
+                    ajaxUtils.fail().msg("登录失效")
+                }
+            } else {
+                ajaxUtils.fail().msg("获取数据失败")
+            }
+        }else {
             ajaxUtils.fail().msg(bindingResult.fieldError!!.defaultMessage!!)
         }
 

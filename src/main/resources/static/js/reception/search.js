@@ -15,7 +15,14 @@ $(document).ready(function () {
         pageSize: 6,
         sortName: 'goods_serial',
         sortOrder: 'desc',
-        extraSearch: JSON.stringify({goodsName: $('#goodsName').val()})
+        extraSearch: ''
+    };
+
+    var searchParam = {
+        goodsItem: 0,
+        goodsIsDel: 0,
+        classifyId: '',
+        goodsName: $('#goodsName').val()
     };
 
     init();
@@ -24,13 +31,16 @@ $(document).ready(function () {
      * 初始化数据
      */
     function init() {
+        param.extraSearch = JSON.stringify(searchParam);
         $.get(web_path + ajax_url.datas, param, function (data) {
-            createPage(data);
-            listData(data);
-            if (data.iTotalDisplayRecords > 0) {
-                $('footer').css('position', 'inherit');
-            } else {
-                $('footer').css('position', 'absolute');
+            if (data.data.length > 0) {
+                createPage(data);
+                listData(data);
+                if (data.iTotalDisplayRecords > 0) {
+                    $('footer').css('position', 'inherit');
+                } else {
+                    $('footer').css('position', 'absolute');
+                }
             }
         });
     }
@@ -132,10 +142,7 @@ $(document).ready(function () {
 
     $('#search').click(function () {
         param.pageNumber = 0;
-        var searchParam = {
-            goodsName: $('#goodsName').val()
-        };
-        param.extraSearch = JSON.stringify(searchParam);
+        searchParam.goodsName = $('#goodsName').val();
         init();
     });
 
