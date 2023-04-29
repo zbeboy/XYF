@@ -31,7 +31,7 @@
         <!-- webjars -->
         <webjars.bootstrap.version>4.0.0-beta.2</webjars.bootstrap.version>
         <webjars.font-awesome.version>4.7.0</webjars.font-awesome.version>
-        <webjars.handlebars.version>4.0.11-1</webjars.handlebars.version>
+        <webjars.handlebars.version>4.7.7</webjars.handlebars.version>
         <webjars.lodash.version>4.17.10</webjars.lodash.version>
         <webjars.locator.version>0.34</webjars.locator.version>
     </properties>
